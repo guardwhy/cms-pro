@@ -16,8 +16,7 @@ public class TestController {
    private TestService testService;
 
     @GetMapping("test")
-    public void test(){
-        int count = testService.count();
-        System.out.println(count);
+    public String test(){
+       return "/admin/test/index";
     }
 }
