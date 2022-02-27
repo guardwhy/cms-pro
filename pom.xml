@@ -154,6 +154,11 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarkerVersion}</version>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flywayVersion}</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
