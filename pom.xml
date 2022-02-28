@@ -71,6 +71,7 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
             <version>${servletVersion}</version>
+            <scope>provided</scope>
         </dependency>
         <!--springMvc-->
         <dependency>
@@ -145,9 +146,9 @@
         </dependency>
         <!--日志-->
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4jVersion}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
         </dependency>
         <!--freemarker-->
         <dependency>
@@ -170,13 +171,14 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
-            <version>1.6.2.RELEASE</version>
+            <version>1.8.16.RELEASE</version>
         </dependency>
         <!--kaptcha-->
         <dependency>
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptchaVersion}</version>
+            <!--过滤-->
             <exclusions>
                 <exclusion>
                     <artifactId>javax.servlet-api</artifactId>
