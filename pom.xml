@@ -186,6 +186,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombokVersion}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <resources>
