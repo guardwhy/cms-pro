@@ -47,7 +47,7 @@
                     <label class="layui-icon layui-icon-vercode" for="captcha"></label>
                     <input type="text" name="captcha" lay-verify="required|captcha" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="xszg">
                     <div class="captcha-img" style="cursor: pointer">
-                        <img id="captchaPic" src="/admin/cms/captcha.do" onclick="this.src='/admin/cms/captcha.do?random='+Math.random()">
+                        <img id="captchaPic" src="${adminPath}/captcha.do" onclick="this.src='${adminPath}/captcha.do?random='+Math.random()">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -60,9 +60,9 @@
         </div>
     </div>
 </div>
-<script src="/common/js/jq.js" charset="utf-8"></script>
-<script src="/admin/layui/layui.js" charset="utf-8"></script>
-<script src="/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
+<script src="${basePath}/common/js/jq.js" charset="utf-8"></script>
+<script src="${basePath}/admin/layui/layui.js" charset="utf-8"></script>
+<script src="${basePath}/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
 <script>
     layui.use(['form'], function () {
         var form = layui.form,

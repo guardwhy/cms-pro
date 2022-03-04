@@ -217,6 +217,12 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiroVersion}</version>
         </dependency>
+        <!--commons集成包-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commonsLang3Version}</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
