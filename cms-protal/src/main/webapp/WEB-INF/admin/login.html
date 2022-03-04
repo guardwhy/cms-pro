@@ -94,9 +94,20 @@
                 layer.msg('验证码不能为空');
                 return false;
             }
-            layer.msg('登录成功', function () {
+
+            // ajax 响应
+            $.ajax({
+                url:"${adminPath}/login.do",
+                method:"post",
+                data:{},
+                success:function (data) {
+
+                }
+            })
+
+            /*layer.msg('登录成功', function () {
                 window.location = '/index.html';
-            });
+            });*/
             return false;
         });
     });
