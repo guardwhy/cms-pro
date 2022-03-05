@@ -11,9 +11,9 @@
     <modules>
         <module>cms-service</module>
         <module>cms-dao</module>
+        <module>cms-protal</module>
         <module>cms-context</module>
         <module>cms-core</module>
-        <module>cms-protal</module>
     </modules>
 
     <properties>
