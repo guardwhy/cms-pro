@@ -63,35 +63,11 @@
 <script src="${basePath}/common/js/jq.js" charset="utf-8"></script>
 <script src="${basePath}/admin/layui/layui.js" charset="utf-8"></script>
 <script src="${basePath}/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
+<script src="${basePath}/admin/js/core.js" charset="utf-8"></script>
 <script>
-    let core={
-        http:function(option){
-            let opt={},options ={
-                url:"",
-                method:"post",
-                contentType:"application/x-www-form-urlencoded",
-                dataType:"json",
-                success:function(res){
-                    if(res==="密码错误"){
-                       console.log("用户密码错误！！！");
-                    }
-                }
-            };
-            Object.assign(opt,options,option);
-            $.ajax(opt);
-        }
-    };
-
-    layui.use('form', function(){
-        var form = layui.form;
-        //监听提交
-        form.on('submit(login)', function(data){
-            core.http({
-                url:"${adminPath}/login.do",
-                data:{}
-            });
-            return false;
-        });
+    core.http({
+        url:"${adminPath}/login.do",
+        data:{}
     });
 </script>
 </body>
