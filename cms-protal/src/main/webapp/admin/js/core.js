@@ -1,22 +1,22 @@
 let core={
     http:function(option){
-        let opt={load:true},options ={
+        let opt={load:true},loadHandler,options ={
             url:"",
             method:"post",
             contentType:"application/x-www-form-urlencoded",
             dataType:"json",
-            // 发送请求之前执行
-            beforeSend:function (){
-                // 判断登录状态
-                this.load && LayUtil.layer.init(function (inner, layer){
-                    layer.load()
-                })
+            beforeSend:function(){
+                this.load &&  (loadHandler = LayUtil.layer.init(function(inner,layer){
+                    inner.loading({shade:1})
+                }))
             },
             success:function(res){
-                if(res==="密码错误"){
-                    console.log("用户密码错误！！！");
+                if(res.restCode===200){
+                    loadHandler.closeLoading();
+                    console.log("密码错误了!")
                 }
             }
+
         };
         Object.assign(opt,options,option);
         $.ajax(opt);
@@ -50,8 +50,15 @@ LayUtil.prototype = {
                     }
                 })
                 return this;
+            },
+            // 显示loading加载
+            loading:function (config={}){
+                this.layer.load(config);
+            },
+            closeLoading:function (){
+                this.layer.closeAll('loading');
             }
-        }
+        },
         LayUtil.layer = new Inner();
     })(LayUtil)
 }

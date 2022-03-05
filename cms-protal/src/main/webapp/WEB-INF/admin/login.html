@@ -65,10 +65,20 @@
 <script src="${basePath}/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
 <script src="${basePath}/admin/js/core.js" charset="utf-8"></script>
 <script>
-    core.http({
-        url:"${adminPath}/login.do",
-        data:{}
+    layui.use(['form','layer'], function(){
+        let form = layui.form,layer=layui.layer;
+
+        form.on('submit(login)', function(data){
+
+            core.http({
+                url:"${adminPath}/login.do",
+                data:{}
+            });
+
+            return false;
+        });
     });
+
 </script>
 </body>
 </html>
