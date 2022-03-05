@@ -19,7 +19,6 @@ import java.io.IOException;
 @Controller
 @Slf4j
 public class LoginController {
-
     // 注入Producer
     @Autowired
     private Producer captchaProducer;

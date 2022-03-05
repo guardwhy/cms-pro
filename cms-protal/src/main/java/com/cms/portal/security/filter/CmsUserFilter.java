@@ -1,8 +1,7 @@
 package com.cms.portal.security.filter;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.shiro.web.filter.authc.UserFilter;
 
 /**
@@ -11,9 +10,8 @@ import org.apache.shiro.web.filter.authc.UserFilter;
  * 自定义User用户登录拦截器
  */
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class CmsUserFilter extends UserFilter {
     private String  adminLoginUrl;
     private String adminPrefix;

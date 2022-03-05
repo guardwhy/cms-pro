@@ -24,9 +24,9 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
     @Override
     // 响应登录JSON
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
-       response.setCharacterEncoding("utf-8");
-       response.setContentType("application/json;charset=UTF-8");
-       response.getWriter().write(JSON.toJSONString("密码错误！！！"));
-       return true;
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString("密码错误"));
+        return false;
     }
 }
