@@ -37,7 +37,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
-                    <input type="text" name="username"  placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" >
+                    <input type="text" name="username"  lay-verify="username"  placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" >
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>
@@ -54,7 +54,7 @@
                     <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="login">登 入</button>
+                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="go">登 入</button>
                 </div>
             </form>
         </div>
@@ -65,13 +65,12 @@
 <script src="${basePath}/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
 <script src="${basePath}/admin/js/core.js" charset="utf-8"></script>
 <script>
-    layui.use(['form','layer'], function(){
-        let form = layui.form,layer=layui.layer;
-        //监听提交
-        form.on('submit(login)', function(data){
-            core.throttle(submit,{id:1});
-            return false;
-        });
+
+    LayUtil.form.init(function (inner, form){
+        // 提交
+        inner.submit(function (data){
+            core.throttle(submit, {id:1});
+        })
     });
 
     // 提交按钮

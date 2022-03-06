@@ -79,7 +79,45 @@ LayUtil.prototype = {
             closeLoading:function (){
                 this.layer.closeAll('loading');
             }
-        },
+        }
         LayUtil.layer = new Inner();
+    })(LayUtil),
+    // from表单
+    form:(function (LayUtil){
+        function Inner(){
+
+        }
+        Inner.prototype = {
+            construct: Inner,
+            // 项目初始化自动封装
+            init: function (callback) {
+                let that = this;
+                layui.use('form', function () {
+                    that.form = layui.form;
+                    // 自动化完成渲染
+                    that.form.render();
+                    if (callback instanceof Function) {
+                        callback(that, that.form);
+                    }
+                });
+                return this;
+            },
+            // 提交表单
+            submit:function (callback, name, type="submit"){
+                this.form.on(type+"("+(name === undefined? 'go':name) + ")", function (obj){
+                    if(callback instanceof Function){
+                        callback(obj);
+                        return false;
+                    }
+                    return true;
+                })
+            },
+            // 自定义验证
+            verify:function (validator){
+                this.form.verify(validator);
+            }
+        }
+        // 绑定到静态方法
+        LayUtil.form = new Inner();
     })(LayUtil)
 }
