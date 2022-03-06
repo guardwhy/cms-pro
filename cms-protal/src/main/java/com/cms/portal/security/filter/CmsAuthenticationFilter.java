@@ -25,6 +25,8 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
     @Override
     // 响应登录JSON
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+        // 睡眠3000s
+        Thread.sleep(3000);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(Result.success("登录成功!!!")));

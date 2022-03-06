@@ -1,5 +1,17 @@
 let core={
+    // 设置限流工具类
+    throttle:function (method, args, context){
+        // 清空tId
+        clearTimeout(method.tId);
+        // 设置秒值
+       method.tId =  setTimeout(function (){
+            method.call(context, args);
+        }, 200)
+    },
     http:function(option){
+        // 输出相关结果
+        console.log(this.cancel);
+        this.cancel && this.cancel.abort();
         let opt={load:true},loadHandler,options ={
             url:"",
             method:"post",
@@ -7,19 +19,28 @@ let core={
             dataType:"json",
             beforeSend:function(){
                 this.load &&  (loadHandler = LayUtil.layer.init(function(inner,layer){
-                    inner.loading({shade:1})
+                    // 遮罩
+                    inner.loading(0, {shade:0.1})
                 }))
             },
             success:function(res){
-                if(res.restCode===200){
+                if(res.restCode===CONSTANT.HTTP.SUCCESS){
                     loadHandler.closeLoading();
-                    console.log("密码错误了!")
                 }
             }
 
         };
         Object.assign(opt,options,option);
-        $.ajax(opt);
+        this.cancel = $.ajax(opt);
+    }
+};
+
+// 定义常量
+const CONSTANT = {
+    // http相关
+    HTTP:{
+        SUCCESS:200,
+        ERROR:500
     }
 };
 
