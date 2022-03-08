@@ -5,7 +5,6 @@ import com.cms.context.utils.UtilsHttp;
 import com.cms.context.utils.UtilsShiro;
 import com.cms.service.api.CommonService;
 import com.google.code.kaptcha.Producer;
-import freemarker.template.utility.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -37,15 +37,15 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
-                    <input type="text" name="username"  lay-verify="username"  placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" >
+                    <input type="text" name="username"  lay-verify="required" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" value="admin">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>
-                    <input type="password" name="password"  placeholder="密码" autocomplete="off" class="layui-input" >
+                    <input type="password" name="password"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input" value="a123456">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-vercode" for="captcha"></label>
-                    <input type="text" name="captcha"  placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha">
+                    <input type="text" name="captcha"   lay-verify="required" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha">
                     <div class="captcha-img" style="cursor: pointer;">
                         <img id="captchaPic" src="${adminPath}/captcha.do" onclick="this.src='${adminPath}/captcha.do?random='+Math.random()">
                     </div>
@@ -69,7 +69,8 @@
     LayUtil.form.init(function (inner, form){
         // 提交
         inner.submit(function (data){
-            core.throttle(submit, {id:1});
+            console.log(data);
+            core.throttle(submit, data.field);
         })
     });
 
