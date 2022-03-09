@@ -229,6 +229,17 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjsonVersion}</version>
         </dependency>
+        <!--mapStruct-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+            <version>${mapstructVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstructVersion}</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
