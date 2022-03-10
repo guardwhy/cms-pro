@@ -1,6 +1,7 @@
 package com.cms.service.dto;
 
 import com.cms.core.foundation.BaseDto;
+import com.cms.dao.enums.UserStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class CmsUserDto extends BaseDto<Integer> {
     private String username;
-    private Boolean status;
+    private UserStatusEnum status;
     private Boolean admin;
 
     /***

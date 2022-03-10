@@ -1,11 +1,9 @@
 package com.cms.portal.security.realm;
 
+import com.cms.dao.enums.UserStatusEnum;
 import com.cms.service.api.CmsUserService;
 import com.cms.service.dto.CmsUserDto;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -39,6 +37,24 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
         // 检验用户状态 禁用！！
+        verifyStatus(cmsUserDto.getStatus());
+        // 查询用户主表的信息
         return null;
+    }
+
+    /***
+     * 检验状态
+     * @param userStatusEnum
+     */
+    private void verifyStatus(UserStatusEnum userStatusEnum){
+        if(UserStatusEnum.DISABLED.equals(userStatusEnum)){
+            throw new DisabledAccountException("该账户已经被禁用,请联系管理员！！");
+        }
+        if(UserStatusEnum.LOCKED.equals(userStatusEnum)){
+            throw new DisabledAccountException("该账号已被锁定，请联系管理员!!!");
+        }
+        if(UserStatusEnum.UNACTIVATED.equals(userStatusEnum)){
+            throw new DisabledAccountException("该账号未被激活,请联系管理员!!!");
+        }
     }
 }
