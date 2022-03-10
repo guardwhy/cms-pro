@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+实体类的映射文件: namespace 指定接口的类全名
+-->
+<mapper namespace="com.cms.dao.mapper.CmsUserMapper">
+    <!--SQL描述-->
+    <sql id="baseColumn">
+        id,
+        username,
+        status,
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserEntity">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="getByUsername"  resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user where username = #{username} and deleted = 1
+    </select>
+</mapper>

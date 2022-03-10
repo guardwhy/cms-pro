@@ -1,9 +1,8 @@
 package com.cms.dao.entity;
 
+import com.cms.core.foundation.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 /**
  * @author guardwhy
@@ -11,15 +10,10 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class CmsUserPrimaryEntity {
-    private LocalDateTime createTime;
-    private LocalDateTime updateTime;
-    private Integer id;
+public class CmsUserPrimaryEntity extends BaseEntity<Integer> {
     private String username;
     private String password;
     private String salt;
     private String email;
     private Integer loginCount;
-    private Boolean status;
-    private Boolean deleted;
 }

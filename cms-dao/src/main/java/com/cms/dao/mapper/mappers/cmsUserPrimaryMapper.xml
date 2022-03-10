@@ -22,7 +22,8 @@
         <result property="deleted" column="deleted"/>
     </resultMap>
 
-    <select id="getByUsername" resultMap="baseResultMap">
+    <select id="getByUsername"  resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_user_primary where username = #{username}
     </select>
+
 </mapper>

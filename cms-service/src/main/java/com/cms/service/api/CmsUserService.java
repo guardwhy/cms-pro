@@ -1,6 +1,6 @@
 package com.cms.service.api;
 
-import com.cms.service.dto.CmsUserPrimaryDto;
+import com.cms.service.dto.CmsUserDto;
 
 /**
  * @author guardwhy
@@ -13,5 +13,5 @@ public interface CmsUserService {
      * @param username
      * @return
      */
-    CmsUserPrimaryDto selectByUsername(String username);
+    CmsUserDto selectByUsername(String username);
 }
