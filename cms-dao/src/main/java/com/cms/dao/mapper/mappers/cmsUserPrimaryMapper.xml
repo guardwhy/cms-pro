@@ -7,9 +7,7 @@
         username,
         password,
         salt,
-        email,
-        status,
-        deleted
+        email
     </sql>
 
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserPrimaryEntity">
