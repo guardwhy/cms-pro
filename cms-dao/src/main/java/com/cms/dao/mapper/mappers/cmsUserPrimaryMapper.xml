@@ -19,7 +19,7 @@
     </resultMap>
 
     <select id="selectById"  resultMap="baseResultMap">
-        select <include refid="baseColumn"/> from cms_user_primary where username = #{username}
+        select <include refid="baseColumn"/> from cms_user_primary where id = #{id}
     </select>
 
 </mapper>

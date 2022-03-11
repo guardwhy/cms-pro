@@ -43,10 +43,12 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
         verifyStatus(cmsUserDto.getStatus());
         //查询用户主表信息
         CmsUserPrimaryDto cmsUserPrimaryDto = cmsUserPrimaryService.getById(cmsUserDto.getId());
+        // 密码对比
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(cmsUserDto, cmsUserPrimaryDto.getPassword(),
                 ByteSource.Util.bytes(cmsUserPrimaryDto.getSalt()), getName());
         // 清理认证信息
         super.clearCachedAuthenticationInfo(simpleAuthenticationInfo.getPrincipals());
+        // 返回密码校验
         return simpleAuthenticationInfo;
     }
 
