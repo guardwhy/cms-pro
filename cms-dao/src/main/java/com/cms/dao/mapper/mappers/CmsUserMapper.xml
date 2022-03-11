@@ -10,7 +10,7 @@
     <sql id="baseColumn">
         id,
         username,
-        status,
+        status
     </sql>
 
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserEntity">

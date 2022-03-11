@@ -12,10 +12,12 @@ import lombok.Setter;
 @Setter
 public class CmsUserEntity extends BaseEntity<Integer> {
     private String username;
-    private Boolean status;
+    private Integer status;
     private Boolean admin;
     /**
      * 超级管理员
      */
     private Boolean administrator;
+
 }
+

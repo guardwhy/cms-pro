@@ -15,8 +15,7 @@ public class CmsUserDto extends BaseDto<Integer> {
     private String username;
     private UserStatusEnum status;
     private Boolean admin;
-
-    /***
+    /**
      * 超级管理员
      */
     private Boolean administrator;

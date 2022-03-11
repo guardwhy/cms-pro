@@ -1,8 +1,10 @@
 package com.cms.portal.security.realm;
 
 import com.cms.dao.enums.UserStatusEnum;
+import com.cms.service.api.CmsUserPrimaryService;
 import com.cms.service.api.CmsUserService;
 import com.cms.service.dto.CmsUserDto;
+import com.cms.service.dto.CmsUserPrimaryDto;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -20,6 +22,10 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
     // cmsUserService
     @Autowired
     private CmsUserService cmsUserService;
+
+    @Autowired
+    private CmsUserPrimaryService cmsUserPrimaryService;
+
     @Override
     // 用户执行认证【登录】
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -38,6 +44,10 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
         }
         // 检验用户状态 禁用！！
         verifyStatus(cmsUserDto.getStatus());
+
+        //查询用户主表信息
+        CmsUserPrimaryDto cmsUserPrimaryDto = cmsUserPrimaryService.getById(cmsUserDto.getId());
+
         // 查询用户主表的信息
         return null;
     }

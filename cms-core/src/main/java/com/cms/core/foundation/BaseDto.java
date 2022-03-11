@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * @author guardwhy
  * @date 2022/3/10 11:03
  */
-public class BaseDto<PK extends Serializable> implements Serializable{
+public class BaseDto<PK extends Serializable> implements Serializable {
     private PK id;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
