@@ -65,7 +65,14 @@
 <script src="${basePath}/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
 <script src="${basePath}/admin/js/core.js" charset="utf-8"></script>
 <script>
-    /*输入框响应*/
+    // 粒子线条背景
+    $(document).ready(function(){
+        $('.layui-container').particleground({
+            dotColor:'#5cbdaa',
+            lineColor:'#5cbdaa'
+        });
+    });
+    // 输入框响应
     $('input[name = "username"]').focus();
 
     LayUtil.form.init(function (inner, form){
@@ -82,7 +89,7 @@
             data:data
         }, function (res){
             // 判断code码
-            if(res.restCode == CONSTANT.HTTP.SUCCESS){
+            if(res.restCode === CONSTANT.HTTP.SUCCESS){
                 // 定时器处理
                 setTimeout(function (){
                     // 请求成功后，跳转

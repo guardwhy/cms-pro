@@ -42,10 +42,6 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(Result.success("登录成功!!!")));
-        // 返回结果
-        return false;
-        /*
         // 拿到验证码
         String captcha = WebUtils.getCleanParam(request, "captcha");
         // 二次登陆，跳过验证码的检验
@@ -53,21 +49,19 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
             response.getWriter().write(JSON.toJSONString(Result.failed(captcha)));
             return false;
         }
-
         // 拿到subject
         Subject subject = UtilsShiro.getSubject();
         // 拿到token值
         AuthenticationToken token = this.createToken(request, response);
-        try {
+        try{
+            // 执行登录操作
             subject.login(token);
-            response.getWriter().write(JSON.toJSONString(Result.success("登入成功")));
-        } catch (UnknownAccountException | IncorrectCredentialsException e) {
-            response.getWriter().write(JSON.toJSONString(Result.failed("用户名和密码错误！！")));
+            response.getWriter().write(JSON.toJSONString(Result.success("登录成功")));
+        }catch(UnknownAccountException | IncorrectCredentialsException e){
+            response.getWriter().write(JSON.toJSONString(Result.failed("用户名或密码错误,请重新输入!")));
         }catch (DisabledAccountException e){
             response.getWriter().write(JSON.toJSONString(Result.failed(e.getMessage())));
         }
-        response.getWriter().write(JSON.toJSONString(Result.success("登录成功!!!")));
         return false;
-    */
     }
 }

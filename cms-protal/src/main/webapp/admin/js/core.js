@@ -29,7 +29,7 @@ let core={
                 if(this.load && loadHandler){
                     let time = 0;
                     // ajax执行的时间
-                    if(new Date().getTime() - loadTime < 500){
+                    if(new Date().getTime()-loadTime<500){
                         time = 500;
                     }
                     // 定时任务
@@ -37,7 +37,6 @@ let core={
                         loadHandler.closeLoading();
                     }, time)
                 }
-
                 // 判断请求接口
                 switch(res.restCode){
                     case CONSTANT.HTTP.SUCCESS:
@@ -46,11 +45,9 @@ let core={
                     case CONSTANT.HTTP.ERROR:
                         break;
                 }
-
                 // 处理自定义的问题
                 (callback instanceof Function) && callback(res);
             }
-
         };
         Object.assign(opt,options,option);
         this.cancel = $.ajax(opt);
@@ -76,9 +73,7 @@ const CONSTANT = {
 
 // layui工具类
 function LayUtil(){
-    this.run = function (){
 
-    }
 }
 
 LayUtil.prototype = {
@@ -86,7 +81,6 @@ LayUtil.prototype = {
     // 弹窗
     layer:(function (LayUtil){
         function Inner(){
-
         }
 
         Inner.prototype={
@@ -117,7 +111,6 @@ LayUtil.prototype = {
         }
         LayUtil.layer = new Inner();
     })(LayUtil),
-
     // from表单
     form:(function (LayUtil){
         function Inner(){
