@@ -65,11 +65,12 @@
 <script src="${basePath}/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
 <script src="${basePath}/admin/js/core.js" charset="utf-8"></script>
 <script>
+    /*输入框响应*/
+    $('input[name = "username"]').focus();
 
     LayUtil.form.init(function (inner, form){
         // 提交
         inner.submit(function (data){
-            console.log(data);
             core.throttle(submit, data.field);
         })
     });
@@ -79,6 +80,15 @@
         core.http({
             url:"${adminPath}/login.do",
             data:data
+        }, function (res){
+            // 判断code码
+            if(res.restCode == CONSTANT.HTTP.SUCCESS){
+                // 定时器处理
+                setTimeout(function (){
+                    // 请求成功后，跳转
+                    location.href = "${adminPath}/index.do";
+                }, 600)
+            }
         });
     }
 </script>

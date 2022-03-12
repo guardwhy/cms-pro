@@ -42,6 +42,10 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(Result.success("登录成功!!!")));
+        // 返回结果
+        return false;
+        /*
         // 拿到验证码
         String captcha = WebUtils.getCleanParam(request, "captcha");
         // 二次登陆，跳过验证码的检验
@@ -64,5 +68,6 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         }
         response.getWriter().write(JSON.toJSONString(Result.success("登录成功!!!")));
         return false;
+    */
     }
 }
