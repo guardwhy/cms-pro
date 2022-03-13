@@ -40,7 +40,7 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
         //校验用户状态 禁用
-        verifyStatus(cmsUserDto.getStatus());
+        verifyStatus(null);
         //查询用户主表信息
         CmsUserPrimaryDto cmsUserPrimaryDto = cmsUserPrimaryService.getById(cmsUserDto.getId());
         // 密码对比

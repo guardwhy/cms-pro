@@ -1,5 +1,6 @@
 package com.cms.service.api;
 
+import com.cms.core.foundation.BaseService;
 import com.cms.service.dto.CmsUserDto;
 
 /**
@@ -7,7 +8,7 @@ import com.cms.service.dto.CmsUserDto;
  * @date 2022/3/8 10:59
  * 根据dto来进行查找
  */
-public interface CmsUserService {
+public interface CmsUserService extends BaseService<CmsUserDto, Integer> {
     /***
      * 根据用户名查找
      * @param username

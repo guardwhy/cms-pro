@@ -6,7 +6,7 @@
 实体类的映射文件: namespace 指定接口的类全名
 -->
 <mapper namespace="com.cms.dao.mapper.CmsUserMapper">
-    <!--SQL描述-->
+    <!--查询操作-->
     <sql id="baseColumn">
         id,
         username,
@@ -22,4 +22,22 @@
     <select id="getByUsername"  resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_user where username = #{username} and deleted = 1
     </select>
+
+    <!--更新操作-->
+    <sql id="updateField">
+        update_time = #{updateTime}
+        <if test="sessionId!=null and sessionId!=''">
+            session_id = #{sessionId}
+        </if>
+        <if test="lastLoginIp!=null and lastLoginIp!=''">
+            last_login_ip = #{lastLoginIp}
+        </if>
+    </sql>
+    <update id="update">
+        update cms_user
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"/>
+        </trim>
+        where id = #{id}
+    </update>
 </mapper>

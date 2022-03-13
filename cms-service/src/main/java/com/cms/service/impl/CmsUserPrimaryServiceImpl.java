@@ -18,7 +18,17 @@ public class CmsUserPrimaryServiceImpl implements CmsUserPrimaryService {
     private CmsUserPrimaryMapper cmsUserPrimaryMapper;
 
     @Override
+    public void save(CmsUserPrimaryDto dto) {
+
+    }
+
+    @Override
     public CmsUserPrimaryDto getById(Integer id) {
         return CmsUserPrimaryConverter.CONVERTER.entityToDto(cmsUserPrimaryMapper.selectById(id));
+    }
+
+    @Override
+    public void update(CmsUserPrimaryDto dto) {
+
     }
 }

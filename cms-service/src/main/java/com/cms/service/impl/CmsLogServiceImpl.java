@@ -5,11 +5,13 @@ import com.cms.service.api.CmsLogService;
 import com.cms.service.converter.CmsLogConverter;
 import com.cms.service.dto.CmsLogDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author guardwhy
  * @date 2022/3/13 10:32
  */
+@Service
 public class CmsLogServiceImpl implements CmsLogService {
     // 注入cmsLogMapper
     @Autowired
@@ -24,5 +26,10 @@ public class CmsLogServiceImpl implements CmsLogService {
     @Override
     public CmsLogDto getById(Integer id) {
         return null;
+    }
+
+    @Override
+    public void update(CmsLogDto dto) {
+
     }
 }

@@ -8,5 +8,4 @@ import com.cms.service.dto.CmsLogDto;
  * @date 2022/3/13 10:29
  */
 public interface CmsLogService extends BaseService<CmsLogDto,Integer> {
-
 }

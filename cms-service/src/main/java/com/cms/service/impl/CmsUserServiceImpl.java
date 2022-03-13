@@ -20,4 +20,19 @@ public class CmsUserServiceImpl implements CmsUserService {
     public CmsUserDto selectByUsername(String username) {
         return CmsUserConverter.CONVERTER.entityToDto(cmsUserMapper.getByUsername(username));
     }
+
+    @Override
+    public void save(CmsUserDto dto) {
+        cmsUserMapper.update(CmsUserConverter.CONVERTER.dtoToEntity(dto));
+    }
+
+    @Override
+    public CmsUserDto getById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public void update(CmsUserDto dto) {
+
+    }
 }

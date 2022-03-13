@@ -19,4 +19,10 @@ public interface BaseService<DTO extends BaseDto<PK>,PK extends Serializable> {
      * @return
      */
     DTO getById(PK id);
+
+    /***
+     * 修改
+     * @param dto
+     */
+    void update(DTO dto);
 }

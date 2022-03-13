@@ -20,4 +20,10 @@ public interface BaseMapper<ENTITY extends BaseEntity<PK>,PK extends Serializabl
      * @return
      */
     ENTITY selectById(PK id);
+
+    /***
+     * 修改
+     * @param entity
+     */
+    void update(ENTITY entity);
 }
