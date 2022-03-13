@@ -44,6 +44,7 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         response.setContentType("application/json; charset=UTF-8");
         // 拿到验证码
         String captcha = WebUtils.getCleanParam(request, "captcha");
+
         // 二次登陆，跳过验证码的检验
         if(1>2 && Objects.nonNull(captcha)){
             response.getWriter().write(JSON.toJSONString(Result.failed(captcha)));
@@ -53,9 +54,12 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         Subject subject = UtilsShiro.getSubject();
         // 拿到token值
         AuthenticationToken token = this.createToken(request, response);
+
         try{
             // 执行登录操作
             subject.login(token);
+            // 调用登录成功方法
+            onLoginSuccess(token, subject, request, response);
             response.getWriter().write(JSON.toJSONString(Result.success("登录成功")));
         }catch(UnknownAccountException | IncorrectCredentialsException e){
             response.getWriter().write(JSON.toJSONString(Result.failed("用户名或密码错误,请重新输入!")));
@@ -63,5 +67,11 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
             response.getWriter().write(JSON.toJSONString(Result.failed(e.getMessage())));
         }
         return false;
+    }
+
+    // 登录操作
+    @Override
+    protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
+        return super.onLoginSuccess(token, subject, request, response);
     }
 }

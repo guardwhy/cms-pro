@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+实体类的映射文件: namespace 指定接口的类全名
+-->
+<mapper namespace="com.cms.dao.mapper.CmsLogMapper">
+    <!--插入数据-->
+    <insert id="save">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into cms_log(
+        create_time,
+        user_id,
+        username,
+        login_ip,
+        url,
+        content
+        ) values(
+        #{create_time},
+        #{user_id},
+        #{username},
+        #{login_ip},
+        #{url},
+        #{content}
+        )
+
+    </insert>
+</mapper>

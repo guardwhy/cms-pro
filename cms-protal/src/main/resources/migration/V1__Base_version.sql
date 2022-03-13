@@ -1,5 +1,5 @@
 -- ----------------------------
---  Table structure for cms_user_primary 用户主表
+--  Table structure for cms_user_primary 用户主表  密码: a1234567
 -- ----------------------------
 CREATE TABLE cms_user_primary
 (
@@ -64,3 +64,19 @@ INSERT INTO cms_user(id, create_time, update_time, group_id, username, email, ra
                      session_id, last_login_ip, last_login_time)
 VALUES (2, '2019-06-14 11:30:58', null, 1, 'administrator', 'def@126.com', 1, 1, 0, '2019-06-14 11:30:58', '127.0.0.1',
         0, 0, 0, 0, null, '', '', null);
+
+-- ----------------------------
+--  Table structure for cms_log  日志表
+-- ----------------------------
+CREATE TABLE cms_log
+(
+    create_time timestamp    not null default CURRENT_TIMESTAMP,
+    update_time timestamp    not null default '0000-00-00 00:00:00',
+    id          int(11)      NOT NULL AUTO_INCREMENT primary key,
+    user_id     int(11)      not null comment '用户id',
+    username varchar(25) not null comment '用户名称',
+    login_ip    varchar(30)           default '' comment 'ip地址',
+    url         varchar(100)          default '' comment 'URL地址',
+    content     varchar(100) null comment '日志内容'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
