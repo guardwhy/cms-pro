@@ -69,7 +69,7 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
 
         try{
             // 执行登录操作
-            // subject.login(token);
+            subject.login(token);
             // 调用登录成功方法
             onLoginSuccess(token, subject, request, response);
             response.getWriter().write(JSON.toJSONString(Result.success("登录成功")));
@@ -77,6 +77,13 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
             response.getWriter().write(JSON.toJSONString(Result.failed("用户名或密码错误,请重新输入!")));
         }catch (DisabledAccountException e){
             response.getWriter().write(JSON.toJSONString(Result.failed(e.getMessage())));
+        } catch (Exception e){
+            // 用户有可能已经登录,其他错误
+            if(subject.isAuthenticated()){
+                response.getWriter().write(JSON.toJSONString(Result.success("登录成功")));
+            }else {
+                response.getWriter().write(JSON.toJSONString(Result.failed("网络连接失败,请重新登录")));
+            }
         }
         return false;
     }
@@ -97,6 +104,6 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         cmsUserService.update(cmsUserDto);
         // 保存操作
         cmsLogService.save(CmsLogDto.of(cmsUserDto.getId(), cmsUserDto.getUsername(), ip, url, "用户后台系统登录！！！"));
-        return super.onLoginSuccess(token, subject, request, response);
+        return false;
     }
 }

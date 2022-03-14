@@ -10,6 +10,17 @@ import java.util.Objects;
  * @date 2022/3/11 13:28
  */
 public class EnumConverter {
+
+    /***
+     * 用于将dto中枚举转换为entity中的integer类型
+     * @param Enumeration
+     * @param <E>
+     * @return
+     */
+    public static <E extends BaseEnum> Integer toInteger(E Enumeration){
+        return (Enumeration != null) ? Enumeration.getOrdinal() : null;
+    }
+
     /**
      * 用于将entity中int类型转换为UserStatusEnum枚举类型
      * @param status

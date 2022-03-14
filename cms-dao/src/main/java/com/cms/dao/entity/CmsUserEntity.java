@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Setter
 public class CmsUserEntity extends BaseEntity<Integer> {
     private String username;
-    // private Integer status;
+    private Integer status;
     private Boolean admin;
     private String lastLoginIp;
     private Serializable sessionId;

@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 public class CmsUserDto extends BaseDto<Integer> {
     private String username;
-    // private UserStatusEnum status;
+    private UserStatusEnum status;
     private Boolean admin;
     private String lastLoginIp;
     private Serializable sessionId;

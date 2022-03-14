@@ -19,13 +19,12 @@
         url,
         content
         ) values(
-        #{create_time},
-        #{user_id},
+        #{createTime},
+        #{userId},
         #{username},
-        #{login_ip},
+        #{loginIp},
         #{url},
         #{content}
         )
-
     </insert>
 </mapper>
