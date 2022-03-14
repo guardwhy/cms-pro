@@ -18,7 +18,7 @@ public class CmsUserDto extends BaseDto<Integer> {
     private UserStatusEnum status;
     private Boolean admin;
     private String lastLoginIp;
-    private Serializable sessionId;
+    private String sessionId;
     /**
      * 超级管理员
      */

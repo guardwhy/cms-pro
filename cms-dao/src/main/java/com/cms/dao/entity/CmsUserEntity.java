@@ -17,7 +17,7 @@ public class CmsUserEntity extends BaseEntity<Integer> {
     private Integer status;
     private Boolean admin;
     private String lastLoginIp;
-    private Serializable sessionId;
+    private String sessionId;
     /**
      * 超级管理员
      */

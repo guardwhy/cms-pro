@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Objects;
 
 /**
@@ -54,12 +56,15 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=UTF-8");
+        // 拿到打印流
+        PrintWriter writer =  response.getWriter();
         // 拿到验证码
         String captcha =  commonService.verifyImageCaptcha(WebUtils.getCleanParam(request, "captcha"));
 
         // 二次登陆，跳过验证码的检验
         if(1>2 && Objects.nonNull(captcha)){
-            response.getWriter().write(JSON.toJSONString(Result.failed(captcha)));
+            writer.write(JSON.toJSONString(Result.failed()));
+            writer.close();
             return false;
         }
         // 拿到subject
@@ -72,19 +77,21 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
             subject.login(token);
             // 调用登录成功方法
             onLoginSuccess(token, subject, request, response);
-            response.getWriter().write(JSON.toJSONString(Result.success("登录成功")));
+            writer.write(JSON.toJSONString(Result.success("登录成功")));
         }catch(UnknownAccountException | IncorrectCredentialsException e){
-            response.getWriter().write(JSON.toJSONString(Result.failed("用户名或密码错误,请重新输入!")));
+            writer.write(JSON.toJSONString(Result.failed("用户名或密码错误,请重新输入!")));
         }catch (DisabledAccountException e){
-            response.getWriter().write(JSON.toJSONString(Result.failed(e.getMessage())));
+            writer.write(JSON.toJSONString(Result.failed(e.getMessage())));
         } catch (Exception e){
             // 用户有可能已经登录,其他错误
             if(subject.isAuthenticated()){
-                response.getWriter().write(JSON.toJSONString(Result.success("登录成功")));
+                writer.write(JSON.toJSONString(Result.success("登录成功")));
             }else {
-                response.getWriter().write(JSON.toJSONString(Result.failed("网络连接失败,请重新登录")));
+                writer.write(JSON.toJSONString(Result.failed("网络连接失败,请重新登录")));
             }
         }
+        // 关闭流
+        writer.close();
         return false;
     }
 
@@ -99,7 +106,7 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         CmsUserDto cmsUserDto = (CmsUserDto) subject.getPrincipal();
         // 设置IP和Session
         cmsUserDto.setLastLoginIp(ip);
-        cmsUserDto.setSessionId(UtilsShiro.getSession().getId());
+        cmsUserDto.setSessionId(UtilsShiro.getSession().getId().toString());
         // 更新操作
         cmsUserService.update(cmsUserDto);
         // 保存操作

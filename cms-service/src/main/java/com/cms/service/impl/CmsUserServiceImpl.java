@@ -33,6 +33,6 @@ public class CmsUserServiceImpl implements CmsUserService {
 
     @Override
     public void update(CmsUserDto dto) {
-
+        cmsUserMapper.update(CmsUserConverter.CONVERTER.dtoToEntity(dto));
     }
 }

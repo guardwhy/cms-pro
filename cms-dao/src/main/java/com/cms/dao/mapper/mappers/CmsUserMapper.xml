@@ -6,11 +6,21 @@
 实体类的映射文件: namespace 指定接口的类全名
 -->
 <mapper namespace="com.cms.dao.mapper.CmsUserMapper">
-    <!--查询操作-->
+    <!--数据库查询语句-->
     <sql id="baseColumn">
         id,
         username,
         status
+    </sql>
+
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="sessionId!=null and sessionId!=''">
+            session_id = #{sessionId},
+        </if>
+        <if test="lastLoginIp!=null and lastLoginIp!=''">
+            last_login_ip = #{lastLoginIp},
+        </if>
     </sql>
 
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserEntity">
@@ -19,20 +29,7 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <select id="getByUsername"  resultMap="baseResultMap">
-        select <include refid="baseColumn"/> from cms_user where username = #{username} and deleted = 1
-    </select>
-
-    <!--更新操作-->
-    <sql id="updateField">
-        update_time = #{updateTime}
-        <if test="sessionId!=null and sessionId!=''">
-            session_id = #{sessionId}
-        </if>
-        <if test="lastLoginIp!=null and lastLoginIp!=''">
-            last_login_ip = #{lastLoginIp}
-        </if>
-    </sql>
+    <!--根据Id修改操作-->
     <update id="update">
         update cms_user
         <trim prefix="set" suffixOverrides=",">
@@ -40,4 +37,9 @@
         </trim>
         where id = #{id}
     </update>
+
+    <!--根据id查询操作-->
+    <select id="getByUsername"  resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user where username = #{username} and deleted = 1
+    </select>
 </mapper>
