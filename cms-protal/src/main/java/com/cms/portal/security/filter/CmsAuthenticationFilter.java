@@ -104,6 +104,7 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         // 获取用户的请求路径
         String url = httpServletRequest.getRequestURI();
+        System.out.println("111111");
         // 获取IP地址
         String ip = UtilsHttp.getRemoteAddress();
         // 调用线程池
