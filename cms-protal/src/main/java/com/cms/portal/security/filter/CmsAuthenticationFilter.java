@@ -18,12 +18,12 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.Objects;
 
 /**
@@ -44,6 +44,10 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
 
     @Autowired
     private CmsUserService cmsUserService;
+
+    // 注入线程池
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Override
     // 判断是前台登录或者是后台登录请求
@@ -85,11 +89,9 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
             writer.write(JSON.toJSONString(Result.failed(e.getMessage())));
         } catch (Exception e){
             // 用户有可能已经登录,其他错误
-            if(subject.isAuthenticated()){
-                writer.write(JSON.toJSONString(Result.success("登录成功")));
-            }else {
-                writer.write(JSON.toJSONString(Result.failed(ConstantsPool.EXCEPTION_NETWORK_ERROR)));
-            }
+          writer.write(JSON.toJSONString(subject.isAuthenticated()
+                  ?Result.success("登录成功!!!")
+                  :Result.failed(ConstantsPool.EXCEPTION_NETWORK_ERROR)));
         }
         // 关闭流
         writer.close();
@@ -104,14 +106,17 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         String url = httpServletRequest.getRequestURI();
         // 获取IP地址
         String ip = UtilsHttp.getRemoteAddress();
-        CmsUserDto cmsUserDto = (CmsUserDto) subject.getPrincipal();
-        // 设置IP和Session
-        cmsUserDto.setLastLoginIp(ip);
-        cmsUserDto.setSessionId(UtilsShiro.getSession().getId().toString());
-        // 更新操作
-        cmsUserService.update(cmsUserDto);
-        // 保存操作
-        cmsLogService.save(CmsLogDto.of(cmsUserDto.getId(), cmsUserDto.getUsername(), ip, url, "用户后台系统登录！！！"));
+        // 调用线程池
+        threadPoolTaskExecutor.execute(()->{
+            CmsUserDto cmsUserDto = (CmsUserDto) subject.getPrincipal();
+            // 设置IP和Session
+            cmsUserDto.setLastLoginIp(ip);
+            cmsUserDto.setSessionId(UtilsShiro.getSession().getId().toString());
+            // 更新操作
+            cmsUserService.update(cmsUserDto);
+            // 保存操作
+            cmsLogService.save(CmsLogDto.of(cmsUserDto.getId(), cmsUserDto.getUsername(), ip, url, "用户后台系统登录！！！"));
+        });
         return false;
     }
 }

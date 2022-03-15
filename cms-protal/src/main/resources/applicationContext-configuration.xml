@@ -22,4 +22,20 @@
             </bean>
         </property>
     </bean>
+
+    <!--使用spring的线程池-->
+    <bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!--线程池维护线程的最小数量 核心线程数-->
+        <property name="corePoolSize" value="5"/>
+        <!--线程池维护线程的最大数量-->
+        <property name="maxPoolSize" value="8"/>
+        <!--队列最大长度-->
+        <property name="queueCapacity" value="50"/>
+        <!--线程名前缀-->
+        <property name="threadNamePrefix" value="customThreadPoolTask"/>
+        <!--程池对拒绝任务(无线程可用)的处理策略-->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$DiscardPolicy"/>
+        </property>
+    </bean>
 </beans>
