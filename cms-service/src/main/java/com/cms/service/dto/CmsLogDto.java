@@ -4,8 +4,6 @@ import com.cms.core.foundation.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 /**
  * @author guardwhy
  * @date 2022/3/13 9:10
@@ -25,7 +23,6 @@ public class CmsLogDto extends BaseDto<Integer> {
         cmsLogDto.setLoginIp(loginIp);
         cmsLogDto.setUserId(userId);
         cmsLogDto.setUsername(username);
-        cmsLogDto.setCreateTime(LocalDateTime.now());
         cmsLogDto.setUrl(url);
         return cmsLogDto;
     }

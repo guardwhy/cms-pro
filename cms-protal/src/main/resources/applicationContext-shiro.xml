@@ -74,7 +74,7 @@
             <value>
                 /login.jspx = authc
                 **.jspx = anon
-                **.jhtml = anon
+                **.shtml = anon
                 /member/** = user
                 /admin/cms/captcha.do = anon
                 /admin/cms/content/** = anon

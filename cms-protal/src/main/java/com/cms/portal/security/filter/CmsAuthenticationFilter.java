@@ -1,6 +1,7 @@
 package com.cms.portal.security.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.cms.context.constant.ConstantsPool;
 import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsHttp;
 import com.cms.context.utils.UtilsShiro;
@@ -87,7 +88,7 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
             if(subject.isAuthenticated()){
                 writer.write(JSON.toJSONString(Result.success("登录成功")));
             }else {
-                writer.write(JSON.toJSONString(Result.failed("网络连接失败,请重新登录")));
+                writer.write(JSON.toJSONString(Result.failed(ConstantsPool.EXCEPTION_NETWORK_ERROR)));
             }
         }
         // 关闭流

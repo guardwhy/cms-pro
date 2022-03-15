@@ -30,6 +30,13 @@
                 <property name="lazyLoadTriggerMethods" value=""/>
             </bean>
         </property>
+
+        <!--mybatis插件-->
+        <property name="plugins">
+            <array>
+                <bean id="baseInterceptor" class="com.cms.context.interceptor.BaseInterceptor"/>
+            </array>
+        </property>
     </bean>
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driver}"/>
