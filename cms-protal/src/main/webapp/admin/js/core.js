@@ -4,7 +4,7 @@ let core={
         // 清空tId
         clearTimeout(method.tId);
         // 设置秒值
-       method.tId =  setTimeout(function (){
+        method.tId =  setTimeout(function (){
             method.call(context, args);
         }, 200)
     },
@@ -12,43 +12,43 @@ let core={
         this.cancel && this.cancel.abort();
         let opt={load:true},loadHandler,loadTime,
             options ={
-            url:"",
-            method:"post",
-            contentType:"application/x-www-form-urlencoded",
-            dataType:"json",
-            beforeSend:function(){
-                // 发送请求的当前时间
-                this.load &&  ((loadTime = new Date().getTime()) && (loadHandler = LayUtil.layer.init(function(inner,layer){
-                    // 遮罩
-                    inner.loading(0,{shade:0.1})
-                })))
-            },
-            // 自定义操作
-            success:function(res){
-                // 处理Loading加载
-                if(this.load && loadHandler){
-                    let time = 0;
-                    // ajax执行的时间
-                    if(new Date().getTime()-loadTime<500){
-                        time = 500;
+                url:"",
+                method:"post",
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                beforeSend:function(){
+                    // 发送请求的当前时间
+                    this.load &&  ((loadTime = new Date().getTime()) && (loadHandler = LayUtil.layer.init(function(inner,layer){
+                        // 遮罩
+                        inner.loading(0,{shade:0.1})
+                    })))
+                },
+                // 自定义操作
+                success:function(res){
+                    // 处理Loading加载
+                    if(this.load && loadHandler){
+                        let time = 0;
+                        // ajax执行的时间
+                        if(new Date().getTime()-loadTime<500){
+                            time = 500;
+                        }
+                        // 定时任务
+                        setTimeout(function(){
+                            loadHandler.closeLoading();
+                        }, time)
                     }
-                    // 定时任务
-                    setTimeout(function(){
-                        loadHandler.closeLoading();
-                    }, time)
+                    // 判断请求接口
+                    switch(res.restCode){
+                        case CONSTANT.HTTP.SUCCESS:
+                            core.prompt.msg(res.restInfo,{shade: 0.3, time:1200}, null);
+                            break;
+                        case CONSTANT.HTTP.ERROR:
+                            break;
+                    }
+                    // 处理自定义的问题
+                    (callback instanceof Function) && callback(res);
                 }
-                // 判断请求接口
-                switch(res.restCode){
-                    case CONSTANT.HTTP.SUCCESS:
-                        core.prompt.msg(res.restInfo,{shade: 0.3, time:1200}, null);
-                        break;
-                    case CONSTANT.HTTP.ERROR:
-                        break;
-                }
-                // 处理自定义的问题
-                (callback instanceof Function) && callback(res);
-            }
-        };
+            };
         Object.assign(opt,options,option);
         this.cancel = $.ajax(opt);
     },

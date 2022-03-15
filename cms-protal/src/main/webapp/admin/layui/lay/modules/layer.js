@@ -162,7 +162,7 @@
                 type: 3,
                 icon: icon || 0,
                 resize: false,
-                shade: 0.01
+                shade: 0.1
             }, options));
         },
 
