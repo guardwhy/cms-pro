@@ -12,4 +12,7 @@ public class ConstantsPool {
      * 异常相关信息
      */
     public static final String EXCEPTION_NETWORK_ERROR = "网络繁忙,请稍后重试";
+
+    // 验证码常量
+    public static final String IMAGE_CAPTCHA_SUFFIX = "image_captcha";
 }
