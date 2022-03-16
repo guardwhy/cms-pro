@@ -29,7 +29,7 @@
         <mybatisTypehandlersJsr310Version>1.0.1</mybatisTypehandlersJsr310Version>
         <servletVersion>9.0.4</servletVersion>
         <aspectjweaverVersion>1.7.3</aspectjweaverVersion>
-        <logbackVersion>1.1.2</logbackVersion>
+        <logbackVersion>1.2.3</logbackVersion>
         <mysqlVersion>5.1.46</mysqlVersion>
         <guavaVersion>20.0</guavaVersion>
         <commonsLang3Version>3.5</commonsLang3Version>
@@ -146,9 +146,9 @@
         </dependency>
         <!--日志-->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.25</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logbackVersion}</version>
         </dependency>
         <!--freemarker-->
         <dependency>
