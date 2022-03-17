@@ -132,6 +132,12 @@
             <artifactId>mybatis-typehandlers-jsr310</artifactId>
             <version>${mybatisTypehandlersJsr310Version}</version>
         </dependency>
+        <!--mybatis与ehcache整合-->
+        <dependency>
+            <groupId>org.mybatis.caches</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>${mybatisEhcacheVersion}</version>
+        </dependency>
         <!--mysql-->
         <dependency>
             <groupId>mysql</groupId>

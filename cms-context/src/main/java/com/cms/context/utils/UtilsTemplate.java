@@ -18,4 +18,14 @@ public class UtilsTemplate {
     public static String adminTemplate(String template){
         return "admin/" + template;
     }
+
+    /***
+     * 后台模板方法
+     * @param dir
+     * @param template
+     * @return
+     */
+    public static String adminTemplate(String dir, String template){
+        return "admin/" + dir + "/" + template;
+    }
 }
