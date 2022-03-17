@@ -6,5 +6,5 @@
 实体类的映射文件: namespace 指定接口的类全名
 -->
 <mapper namespace="com.cms.dao.mapper.CmsSiteMapper">
-
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 </mapper>
