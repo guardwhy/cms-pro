@@ -1,38 +1,18 @@
+<#--导入main.ftl-->
 <#import "/layout/backend/main.ftl" as main>
-
+<#--导入form.ftl-->
+<#import "/layout/backend/form.ftl" as form>
 <@main.layout>
-    <form class="layui-form" method="post">
-        <div class="layui-form-item">
-            <div class="layui-inline cms-inline-50">
-                <label class="layui-form-label layui-col-md6" style="width:197px;">站点名称</label>
-                <div class="layui-input-block layui-col-md6 cms-inline-block">
-                    <input type="text" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline cms-inline-50">
-                <label class="layui-form-label layui-col-md6" style="width:197px;">站点名称</label>
-                <div class="layui-input-block layui-col-md6 cms-inline-block">
-                    <input type="text" class="layui-input">
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-inline cms-inline-50">
-                <label class="layui-form-label layui-col-md6" style="width:197px;"></label>
-                <div class="layui-input-block layui-col-md6 cms-inline-block">
-
-                </div>
-            </div>
-            <div class="layui-inline cms-inline-50">
-                <label class="layui-form-label layui-col-md6" style="width:197px;"></label>
-                <div class="layui-input-block layui-col-md6 cms-inline-block">
-                    <p class="cms-flex-end cms-pt50">
-                        <button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
-                        <button class="layui-btn layui-btn-sm layui-btn-normal">提交</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </form>
+    <@form.form>
+        <@form.item>
+            <@form.inline label="站点名称1">
+                <input type="text" class="layui-input">
+            </@form.inline>
+            <@form.inline label="站点名称2">
+                <input type="text" class="layui-input">
+            </@form.inline>
+        </@form.item>
+        <#--提交按钮-->
+        <@form.submit></@form.submit>
+    </@form.form>
 </@main.layout>

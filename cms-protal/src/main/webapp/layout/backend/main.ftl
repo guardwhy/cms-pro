@@ -16,7 +16,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-body">
-                        <div class="layui-row">
+                        <div class="layui-row" style="margin:20px 0;">
                             <#nested>
                         </div>
                     </div>
