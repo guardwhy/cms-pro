@@ -8,4 +8,9 @@ import com.cms.service.dto.CmsSiteDto;
  * @date 2022/3/17 13:33
  */
 public interface CmsSiteService extends BaseService<CmsSiteDto, Integer> {
+    /***
+     * 获取当前站点的信息
+     * @return
+     */
+    CmsSiteDto get();
 }

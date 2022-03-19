@@ -7,4 +7,23 @@
 -->
 <mapper namespace="com.cms.dao.mapper.CmsSiteMapper">
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!--SQL-->
+    <sql id="baseColumn">
+        id,
+        site_name,
+        keywords,
+        description
+    </sql>
+    
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
+        <id property="id" column="id"/>
+        <result property="siteName" column="siteName"/>
+        <result property="keywords" column="keywords"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_site where id = #{id}
+    </select>
 </mapper>
