@@ -8,6 +8,7 @@
         <script src="${basePath}/common/js/jq.js"></script>
         <script src="${basePath}/admin/layui/layui.js" charset="utf-8"></script>
         <script src="${basePath}/admin/js/core.js"></script>
+        <link rel="stylesheet" href="${basePath}/admin/css/admin.css" media="all">
     </head>
     <body>
     <div>
