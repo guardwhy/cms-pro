@@ -168,6 +168,12 @@
             <artifactId>flyway-core</artifactId>
             <version>${flywayVersion}</version>
         </dependency>
+        <!--hibernate validator-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${validatorVersion}</version>
+        </dependency>
         <!--redis整合-->
         <dependency>
             <groupId>redis.clients</groupId>

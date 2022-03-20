@@ -3,6 +3,7 @@ package com.cms.service.dto;
 import com.cms.core.foundation.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @author guardwhy
@@ -11,7 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CmsSiteDto extends BaseDto<Integer> {
+    @NotBlank(message = "请输入站点名称")
     private String siteName; // 网络名称
+    @NotBlank(message = "请输入站点关键字")
     private String keywords; // 站点关键字
+    @NotBlank(message = "请输入站点描述")
     private String description; // 站点描述
 }

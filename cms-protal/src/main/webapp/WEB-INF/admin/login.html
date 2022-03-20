@@ -54,7 +54,7 @@
                     <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="go">登 入</button>
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="go">登 入</button>
                 </div>
             </form>
         </div>
@@ -66,12 +66,12 @@
 <script src="${basePath}/admin/js/core.js" charset="utf-8"></script>
 <script>
     // 粒子线条背景
-    $(document).ready(function(){
+    /*$(document).ready(function(){
         $('.layui-container').particleground({
             dotColor:'#5cbdaa',
             lineColor:'#5cbdaa'
         });
-    });
+    });*/
     // 输入框响应
     $('input[name = "username"]').focus();
 
