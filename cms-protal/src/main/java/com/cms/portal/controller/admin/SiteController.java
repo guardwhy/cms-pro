@@ -2,13 +2,13 @@ package com.cms.portal.controller.admin;
 
 import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
+import com.cms.core.annotation.DoValid;
 import com.cms.service.api.CmsSiteService;
 import com.cms.service.dto.CmsSiteDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,14 +36,8 @@ public class SiteController {
 
     @PostMapping("edit.do")
     @ResponseBody
+    @DoValid
     public Result doEdit(@Valid CmsSiteDto cmsSiteDto, BindingResult result){
-        // 条件判断
-        if(result.hasErrors()){
-            for(ObjectError error : result.getAllErrors()){
-                System.out.println(error.getDefaultMessage());
-            }
-        }
-
         return Result.success();
     }
 }
