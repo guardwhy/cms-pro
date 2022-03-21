@@ -15,6 +15,19 @@
         keywords,
         description
     </sql>
+
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="siteName!=null and siteName!=''">
+            site_name = #{siteName},
+        </if>
+        <if test="keywords!=null and keywords!=''">
+            keywords = #{keywords},
+        </if>
+        <if test="description != null and description!=''">
+            description = #{description},
+        </if>
+    </sql>
     
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
         <id property="id" column="id"/>
@@ -22,6 +35,14 @@
         <result property="keywords" column="keywords"/>
         <result property="description" column="description"/>
     </resultMap>
+
+    <update id="update">
+        update cms_site
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"/>
+        </trim>
+        where id = #{id}
+    </update>
 
     <select id="selectById" resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_site where id = #{id}

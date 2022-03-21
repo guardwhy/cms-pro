@@ -11,7 +11,7 @@
     </appender>
     <!--文件-->
     <appender name="cms" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>d:/cms.log</File>
+        <File>E:/workspace/log/cms.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>/home/sui/log/cms.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
@@ -22,9 +22,9 @@
         </encoder>
     </appender>
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>d:/error.log</File>
+        <File>E:/workspace/log/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>d:/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>E:/workspace/log/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
@@ -46,7 +46,7 @@
     <!--  mybatis log 日志 -->
     <logger name="com.cms.dao.mapper" level="DEBUG"/>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="console"/>
         <appender-ref ref="error"/>
     </root>

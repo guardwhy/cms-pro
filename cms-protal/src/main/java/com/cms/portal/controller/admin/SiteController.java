@@ -38,6 +38,10 @@ public class SiteController {
     @ResponseBody
     @DoValid
     public Result doEdit(@Valid CmsSiteDto cmsSiteDto, BindingResult result){
+        /**
+         * 调用业务层
+         */
+        cmsSiteService.update(cmsSiteDto);
         return Result.success();
     }
 }

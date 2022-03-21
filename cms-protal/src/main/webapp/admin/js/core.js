@@ -10,7 +10,8 @@ let core={
     },
     http:function(option, callback){
         this.cancel && this.cancel.abort();
-        let opt={load:true},loadHandler,loadTime,
+        //load: 加载loading autoComplete：自动完成
+        let opt={load:true, autocomplete: true},loadHandler,loadTime,
             options ={
                 url:"",
                 method:"post",
@@ -37,26 +38,46 @@ let core={
                             loadHandler.closeLoading();
                         }, time)
                     }
-                    // 判断请求接口
-                    switch(res.restCode){
-                        case CONSTANT.HTTP.SUCCESS:
-                            core.prompt.msg(res.restInfo,{shade: 0.3, time:1200}, null);
-                            break;
-                        case CONSTANT.HTTP.ERROR:
-                            break;
-                    }
-                    // 处理自定义的问题
-                    (callback instanceof Function) && callback(res);
+                    // autoComplete本身
+                    let that = this;
+                    // 延时设置
+                    setTimeout(function () {
+                        // 判断请求接口
+                        switch(res.restCode){
+                            case CONSTANT.HTTP.ERROR:
+                                core.prompt.alert(res.restInfo);
+                                break;
+                            case CONSTANT.HTTP.SUCCESS:
+                                if(that.autocomplete){
+                                    core.prompt.msg(res.restInfo,{shade:0.3, time: 1200});
+                                }
+                                break;
+                        }
+                        // 处理自定义的问题
+                        (callback instanceof Function) && callback(res);
+
+                    }, 600)
                 }
             };
         Object.assign(opt,options,option);
         this.cancel = $.ajax(opt);
     },
     prompt:{
-        // 通用信息框
+        // 警告弹窗
+        alert:function (content, opt){
+            core.prompt.msg(content, $.extend({},{
+                icon:5,
+                shift:6,
+                shade:0.3,
+                time:1500,
+                area:'auto',
+                shadeClose:true
+            },opt));
+        },
+        // 信息框提示
         msg:function (content, option, callback){
             LayUtil.layer.init(function (inner){
-                inner.msg(content, option, callback);
+                inner.msg(content, option, callback)
             })
         }
     }

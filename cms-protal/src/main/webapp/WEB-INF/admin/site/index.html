@@ -29,9 +29,7 @@
         inner.submit(function (data){
             core.http({
                 url:"${adminPath}/site/edit.do",
-                data:{}
-            }, function (res){
-                console.log(res);
+                data:data.field
             })
         })
     })

@@ -29,7 +29,7 @@ public class CmsSiteServiceImpl implements CmsSiteService {
 
     @Override
     public void update(CmsSiteDto dto) {
-
+        cmsSiteMapper.update(CmsSiteConverter.CONVERTER.dtoToEntity(dto));
     }
 
     @Override
