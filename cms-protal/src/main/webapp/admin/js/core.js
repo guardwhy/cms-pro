@@ -97,6 +97,16 @@ function LayUtil(){
 
 }
 
+//树形表格属性
+LayUtil.treeTableOption={
+    treeColIndex: 1,
+    treeSpid: -1,
+    treeIdName: 'authorityId',
+    treePidName: 'parentId',
+    elem: '#treeTable',
+    page: false
+}
+
 LayUtil.prototype = {
     construct:LayUtil,
     // 弹窗
@@ -169,5 +179,28 @@ LayUtil.prototype = {
         }
         // 绑定到静态方法
         LayUtil.form = new Inner();
+    })(LayUtil),
+
+    // 树形表格
+    treeTable:(function(LayUtil){
+        function Inner(){}
+        Inner.prototype={
+            construct:Inner,
+            init:function(config,callback){
+                // 直接覆盖
+                let that = this, option = $.extend({},LayUtil.treeTableOption,config);
+                // 插件引入
+                layui.extend({
+                    treetable:'{/}'+ BASE_PATH +'/admin/layui/lay/modules/treetable'
+                }).use('treetable',function(){
+                    that.treetable = layui.treetable;
+                    // 开始渲染
+                    that.treetable.render(option);
+                    (callback instanceof Function) && callback(that,that.treetable);
+                });
+                return this;
+            }
+        }
+        LayUtil.treeTable = new Inner();
     })(LayUtil)
 }

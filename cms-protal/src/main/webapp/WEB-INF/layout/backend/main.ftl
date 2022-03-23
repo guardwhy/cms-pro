@@ -9,6 +9,10 @@
         <script src="${basePath}/admin/layui/layui.js" charset="utf-8"></script>
         <script src="${basePath}/admin/js/core.js"></script>
         <link rel="stylesheet" href="${basePath}/admin/css/admin.css" media="all">
+        <!--渲染模板-->
+        <script type="application/javascript">
+            let BASE_PATH = "${basePath!''}";
+        </script>
     </head>
     <body>
     <div>

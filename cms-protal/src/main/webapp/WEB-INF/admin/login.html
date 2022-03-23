@@ -37,15 +37,15 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
-                    <input type="text" name="username"  lay-verify="required" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" value="admin">
+                    <input type="text" name="username" lay-verify="required"  placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" value="admin">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>
-                    <input type="password" name="password"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input" value="a1234567">
+                    <input type="password" name="password" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input" value="a1234567">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-vercode" for="captcha"></label>
-                    <input type="text" name="captcha"   lay-verify="required" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="1234">
+                    <input type="text" name="captcha"  lay-verify="required" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="1234">
                     <div class="captcha-img" style="cursor: pointer;">
                         <img id="captchaPic" src="${adminPath}/captcha.do" onclick="this.src='${adminPath}/captcha.do?random='+Math.random()">
                     </div>
@@ -64,37 +64,32 @@
 <script src="${basePath}/admin/layui/layui.js" charset="utf-8"></script>
 <script src="${basePath}/admin/js/jquery.particleground.min.js" charset="utf-8"></script>
 <script src="${basePath}/admin/js/core.js" charset="utf-8"></script>
+
 <script>
     // 粒子线条背景
-    /*$(document).ready(function(){
-        $('.layui-container').particleground({
-            dotColor:'#5cbdaa',
-            lineColor:'#5cbdaa'
-        });
-    });*/
-    // 输入框响应
-    $('input[name = "username"]').focus();
+    // $(document).ready(function(){
+    //     $('.layui-container').particleground({
+    //         dotColor:'#5cbdaa',
+    //         lineColor:'#5cbdaa'
+    //     });
+    // });
+    $('input[name="username"]').focus();
 
-    LayUtil.form.init(function (inner, form){
-        // 提交
-        inner.submit(function (data){
-            core.throttle(submit, data.field);
+    LayUtil.form.init(function(inner,form){
+        inner.submit(function(data){
+            core.throttle(submit,data.field);
         })
     });
 
-    // 提交按钮
-    function submit(data){
+    function submit(data) {
         core.http({
             url:"${adminPath}/login.do",
             data:data
-        }, function (res){
-            // 判断code码
-            if(res.restCode === CONSTANT.HTTP.SUCCESS){
-                // 定时器处理
-                setTimeout(function (){
-                    // 请求成功后，跳转
+        },function(res){
+            if(res.restCode===CONSTANT.HTTP.SUCCESS){
+                setTimeout(function(){
                     location.href = "${adminPath}/index.do";
-                }, 600)
+                },600)
             }
         });
     }
