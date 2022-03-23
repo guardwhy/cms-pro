@@ -14,6 +14,7 @@ public class CmsPermissionEntity extends BaseEntity<Integer> {
     private Integer parentId; // 父id
     private Boolean menu; // 是否菜单
     private String icon; // 菜单图标
+    private String url; // 链接地址
     private String name; // 权限名称
     private String action; // 权限码
     private Integer priority; // 排序

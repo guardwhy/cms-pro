@@ -6,4 +6,51 @@
 实体类的映射文件: namespace 指定接口的类全名
 -->
 <mapper namespace="com.cms.dao.mapper.CmsPermissionMapper">
+    <!--SQL-->
+    <sql id="key">
+        <if test="parentId!=null">
+            parent_id,
+        </if>
+        <if test="menu!=null">
+            is_menu,
+        </if>
+        <if test="icon!=null and icon!=''">
+            icon,
+        </if>
+        <if test="url!=null and url!=''">
+            url,
+        </if>
+        <if test="action!=null and action!=''">
+            action,
+        </if>
+        priority,
+        name,
+        create_time
+    </sql>
+
+    <sql id="value">
+        <if test="parentId!=null">
+            #{parentId},
+        </if>
+        <if test="menu!=null">
+            #{menu},
+        </if>
+        <if test="icon!=null and icon!=''">
+            #{icon},
+        </if>
+        <if test="url!=null and url!=''">
+            #{url},
+        </if>
+        <if test="action!=null and action!=''">
+            #{action},
+        </if>
+        #{priority},
+        #{name},
+        #{createTime}
+    </sql>
+
+    <!--添加权限验证-->
+    <insert id="save">
+        insert into cms_permission (<include refid="key"/>) values (<include refid="value"/>)
+    </insert>
 </mapper>

@@ -16,7 +16,7 @@
         <@form.radio list=permissionType name="menu" value="1"></@form.radio>
       </@form.inline>
       <@form.inline label="菜单url">
-        <input name="parentId" class="layui-input" type="text">
+        <input name="url" class="layui-input" type="text">
       </@form.inline>
     </@form.item>
     <@form.item>
@@ -38,7 +38,9 @@
 
 <#--layutil初始化-->
 <script>
-  LayUtil.form.init(function (){
-
+  LayUtil.form.init(function (form){
+    form.submit(function (data){
+      core.http({url:"add.do", data:data.field})
+    })
   })
 </script>
