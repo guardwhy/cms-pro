@@ -102,14 +102,15 @@ INSERT INTO cms_site (id, site_name, keywords, description) VALUES (1, 'cms官�
 -- ----------------------------
 CREATE TABLE cms_permission
 (
-    create_time timestamp    not null default CURRENT_TIMESTAMP, # 创建时间
-    update_time timestamp    not null default '0000-00-00 00:00:00', # 修改时间
+    create_time timestamp    not null default CURRENT_TIMESTAMP,
+    update_time timestamp    not null default '0000-00-00 00:00:00',
     id          int(11)      NOT NULL AUTO_INCREMENT primary key,
     parent_id   int(11)      default 0 comment '父级id',
     is_menu     tinyint(1)   default 0 comment '是否菜单 0:否 1:是',
     icon        varchar(30)  default '' comment '菜单图标',
     name varchar(25) not null comment '权限名称',
     url         varchar(50) not null comment '链接地址',
-    action      varchar(100)  default '' comment '权限码'
+    action      varchar(100)  default '' comment '权限码',
+    priority    int(11) NOT NULL comment '排序'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

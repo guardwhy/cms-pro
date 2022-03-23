@@ -16,4 +16,5 @@ public class CmsPermissionDto extends BaseDto<Integer> {
     private String icon; // 菜单图标
     private String name; // 权限名称
     private String action; // 权限码
+    private Integer priority; // 排序
 }

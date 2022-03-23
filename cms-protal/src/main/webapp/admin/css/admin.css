@@ -1,3 +1,14 @@
+@media screen and (min-width:1059px) and (max-width:1200px) {
+    .cms-inline-50 {
+        width: 48%;
+    }
+    .cms-inline-50 .cms-inline-block {
+        width: 50%;
+    }
+    .cms-inline-100 .cms-inline-block {
+        width: 73.4%;
+    }
+}
 @media screen and (min-width: 1201px) and (max-width: 1366px) {
     .cms-inline-50 {
         width: 48%;
@@ -42,15 +53,32 @@
         width: 78.1%;
     }
 }
+/*layui自带属性覆盖*/
 .layui-input-block{
     margin-left: 0;
 }
+/*必填label*/
+.cms-label-required:before{
+    content: "*";
+    color: #f56c6c;
+    margin-right: 4px;
+}
+/*flex布局*/
 .cms-flex-end{
     display:flex;
     flex-direction: row;
     align-content: flex-end;
     justify-content: flex-end;
 }
+/*padding顶部30像素*/
 .cms-pt50{
     padding-top: 30px;
+}
+/*默认样式*/
+.cms-inline-50 {
+    width: 48%;
+}
+/*默认样式*/
+.cms-inline-100{
+    width: 100%;
 }
