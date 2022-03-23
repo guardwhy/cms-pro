@@ -26,26 +26,20 @@
                     }
                 }, title: '类型'
             },
-            {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
-        ]]
+            {templet: '#rightTemplate', align: 'center', title: '操作'}
+        ]],
+        toolbar: '#toolbar'
     });
+</script>
 
-
-
-    <#--layui.use(['treetable'], function () {-->
-    <#--    var treetable = layui.treetable;-->
-    <#--    treetable.render({-->
-    <#--        treeColIndex: 1,-->
-    <#--        treeSpid: -1,-->
-    <#--        treeIdName: 'authorityId',-->
-    <#--        treePidName: 'parentId',-->
-    <#--        elem: '#munu-table',-->
-    <#--        url: '${basePath}/admin/js/menus.json',-->
-    <#--        page: false,-->
-    <#--        done: function () {-->
-    <#--            layer.closeAll('loading');-->
-    <#--        }-->
-    <#--    });-->
-
-    <#--})-->
+<#--右侧-->
+<script type="text/html" id="rightTemplate">
+    <a class="layui-btn layui-bg-blue layui-btn-xs" lay-event="add">添加</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<#--顶部-->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-sm layui-bg-blue" href="add.do"><i class="layui-icon layui-icon-add-1"></i>添加</a>
+    <a class="layui-btn layui-btn-sm" onclick="javascript:window.location.reload()"><i class="layui-icon layui-icon-refresh-3"></i>刷新</a>
 </script>
