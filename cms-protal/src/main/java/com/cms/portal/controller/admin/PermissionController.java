@@ -2,8 +2,10 @@ package com.cms.portal.controller.admin;
 
 import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
+import com.cms.dao.enums.PermissionTypeEnum;
 import com.cms.service.dto.CmsPermissionDto;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,11 @@ public class PermissionController {
     }
 
     @GetMapping("add.do")
-    public String toAdd(){
+    public String toAdd(Model model){
+        // 获取权限类型枚举值
+        PermissionTypeEnum[] values = PermissionTypeEnum.values();
+        // 自动实例化一个Model对象用于向视图中传值
+        model.addAttribute("permissionType", PermissionTypeEnum.values());
         return UtilsTemplate.adminTemplate("permission", "add");
     }
 
