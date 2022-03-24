@@ -4,7 +4,7 @@
   <@form.form>
     <@form.item>
       <@form.inline label="上级菜单">
-        <input name="parentId" class="layui-input" type="text">
+        <ul id="tree"></ul>
       </@form.inline>
       <@form.inline label="权限名称" required=true>
         <input name="name" class="layui-input" type="text">
@@ -36,8 +36,58 @@
   </@form.form>
 </@main.layout>
 
-<#--layutil初始化-->
+<#--导入CSS-->
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree_select_tree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+
+
 <script>
+  // 下拉树选项
+  let selectTreeOption = {
+    elem: "#tree",
+    url: "${adminPath}/permission/selectTree.do",
+    dataType: "json",
+    async: false,
+    method: 'post',
+    ficon: ["1", "-1"],
+    dataStyle: "layuiStyle",
+    initLevel: 1,
+    width: "100%",
+    dot: false,
+    checkbar: false,
+    formatter: {
+      title: function (data) {
+        let s = data.name;
+        if (data.children) {
+          s += ' <span style=\'color:blue\'>(' + data.children.length + ')</span>';
+        }
+        return s;
+      }
+    },
+    response: {
+      statusCode: 200,
+      statusName: "restCode",
+      treeId: "id",
+      message: "restCode",
+      rootName: "data",
+      title: 'name'
+    },
+  };
+
+  // 引入dtree
+  layui.extend({
+    dtree:'{/}' + BASE_PATH + "/admin/layui/lay/modules/selectTree"
+  }).use('dtree', function (){
+    // 获取dtree
+    let dtree = layui.dtree;
+    dtree.renderSelect(selectTreeOption);
+    // 获取dtree的id值
+    dtree.on("node('tree')", function (obj){
+      console.log(obj.param.nodeId)
+    })
+  });
+
+  <#--layutil初始化-->
   LayUtil.form.init(function (form){
     form.submit(function (data){
       core.http({url:"add.do", data:data.field})
