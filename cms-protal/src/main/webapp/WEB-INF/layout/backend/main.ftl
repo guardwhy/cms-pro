@@ -19,6 +19,13 @@
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
+                    <#--判断goBack是否存在-->
+                    <#if goBack??>
+                        <#--渲染视图-->
+                        <div class="layui-card-header">
+                            <a href="javascript:window.history.go(-1)" class="cms-go-back"></a>
+                        </div>
+                    </#if>
                     <div class="layui-card-body">
                         <div class="layui-row" style="margin:20px 0;">
                             <#nested>

@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Map;
  */
 @Slf4j
 public class CmsViewResolver extends FreeMarkerView {
-    // 设置登录前置路径
+    // 设置后台路径
     private static final String ADMIN_PATH = "/admin/cms/";
 
     @Override
@@ -25,10 +27,19 @@ public class CmsViewResolver extends FreeMarkerView {
         // getRequestURI()返回除去host (域名或者ip)部分的路径
         String servletPath = request.getServletPath();
 
+        // 添加页面和修改页面
+        List<String> includeGoBackList = Arrays.asList("add.do", "edit.do");
         // 默认是后台请求路径
         if(requestURL.contains(ADMIN_PATH)){
-            model.put("adminPath", contextPath+servletPath);
+            model.put("adminPath", contextPath + servletPath);
         }
+
+        // 判断回退按钮
+        includeGoBackList.forEach(x->{
+            if(requestURL.contains(x)){
+                model.put("goBack", true);
+            }
+        });
         model.put("basePath", contextPath);
     }
 }

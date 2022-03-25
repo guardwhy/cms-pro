@@ -4,7 +4,7 @@
   <@form.form>
     <@form.item>
       <@form.inline label="上级菜单">
-        <ul id="tree"></ul>
+        <ul id="selectTree"></ul>
       </@form.inline>
       <@form.inline label="权限名称" required=true>
         <input name="name" class="layui-input" type="text">
@@ -43,47 +43,14 @@
 
 <script>
   // 下拉树选项
-  let selectTreeOption = {
-    elem: "#tree",
+  LayUtil.selectTree.init({
     url: "${adminPath}/permission/selectTree.do",
-    dataType: "json",
-    async: false,
-    method: 'post',
-    ficon: ["1", "-1"],
-    dataStyle: "layuiStyle",
-    initLevel: 1,
-    width: "100%",
-    dot: false,
-    checkbar: false,
-    formatter: {
-      title: function (data) {
-        let s = data.name;
-        if (data.children) {
-          s += ' <span style=\'color:blue\'>(' + data.children.length + ')</span>';
-        }
-        return s;
-      }
-    },
-    response: {
-      statusCode: 200,
-      statusName: "restCode",
-      treeId: "id",
-      message: "restCode",
-      rootName: "data",
-      title: 'name'
-    },
-  };
-
-  // 引入dtree
-  layui.extend({
-    dtree:'{/}' + BASE_PATH + "/admin/layui/lay/modules/selectTree"
-  }).use('dtree', function (){
-    // 获取dtree
-    let dtree = layui.dtree;
-    dtree.renderSelect(selectTreeOption);
+    selectTips:"上级菜单"
+  },function (inner, dtree){
     // 获取dtree的id值
-    dtree.on("node('tree')", function (obj){
-      console.log(obj.param.nodeId)
+    dtree.on("node('selectTree')", function (obj){
+      // 将内容放到此处
+      $('input[name="parentId"]').val(obj.param.nodeId);
     })
   });
 
