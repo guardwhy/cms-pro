@@ -1,6 +1,7 @@
 package com.cms.core.foundation;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author guardwhy
@@ -26,4 +27,10 @@ public interface BaseMapper<ENTITY extends BaseEntity<PK>,PK extends Serializabl
      * @param entity
      */
     void update(ENTITY entity);
+
+    /***
+     * 查询所有
+     * @return
+     */
+     List<ENTITY> selectAll();
 }

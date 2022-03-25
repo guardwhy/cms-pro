@@ -120,4 +120,15 @@ public class PermissionController {
         permissionList.add(cmsPermissionDto4);
         return permissionList;
     }
+
+    /***
+     * 首页权限数据
+     * @param cmsPermissionDto
+     * @return
+     */
+    @GetMapping("list.do")
+    @ResponseBody
+    public Result doList(CmsPermissionDto cmsPermissionDto){
+        return Result.success((ArrayList)cmsPermissionService.getList(cmsPermissionDto));
+    }
 }

@@ -49,8 +49,32 @@
         #{createTime}
     </sql>
 
+    <!--查询所有权限信息-->
+    <sql id="baseField">
+        id,
+        name,
+        url,
+        parent_id,
+        action,
+        priority
+    </sql>
+    
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
+        <id property="id" column="id"/>
+        <result property="priority" column="priority"/>
+        <result property="url" column="url"/>
+        <result property="action" column="action"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
     <!--添加权限验证-->
     <insert id="save">
         insert into cms_permission (<include refid="key"/>) values (<include refid="value"/>)
     </insert>
+
+    <!--查询所有的权限信息-->
+    <select id="selectAll" resultMap="baseResultMap">
+        select <include refid="baseField"/> from cms_permission
+    </select>
 </mapper>

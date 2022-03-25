@@ -104,7 +104,7 @@ function LayUtil(){
 //树形表格属性
 LayUtil.treeTableOption={
     treeColIndex: 1,
-    treeSpid: -1,
+    treeSpid: 0,
     treeIdName: 'authorityId',
     treePidName: 'parentId',
     elem: '#treeTable',

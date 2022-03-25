@@ -5,6 +5,8 @@ import com.cms.service.dto.CmsPermissionDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author guardwhy
  * @date 2022/3/21 20:39
@@ -16,4 +18,5 @@ public interface CmsPermissionConverter {
     // dto和entity相互转换
     CmsPermissionEntity dtoToEntity(CmsPermissionDto dto);
     CmsPermissionDto entityToDto(CmsPermissionEntity entity);
+    List<CmsPermissionDto> entityToDto(List<CmsPermissionEntity> entity);
 }
