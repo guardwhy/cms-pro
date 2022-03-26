@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author guardwhy
@@ -40,9 +41,11 @@ public class PermissionController {
     }
 
     @GetMapping("add.do")
-    public String toAdd(Model model){
-        // 获取权限类型枚举值
-        PermissionTypeEnum[] values = PermissionTypeEnum.values();
+    public String toAdd(Model model,Integer parentId){
+        // 条件判断
+        if(Objects.nonNull(parentId)){
+            model.addAttribute("parentId", parentId);
+        }
         // 自动实例化一个Model对象用于向视图中传值
         model.addAttribute("permissionType", PermissionTypeEnum.values());
         return UtilsTemplate.adminTemplate("permission", "add");

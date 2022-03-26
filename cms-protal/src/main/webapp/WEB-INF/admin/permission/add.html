@@ -2,6 +2,7 @@
 <#import "/layout/backend/form.ftl" as form>
 <@main.layout>
   <@form.form>
+    <input name="parentId" class="layui-input" type="hidden" <#if parentId??>value="${parentId}"</#if>>
     <@form.item>
       <@form.inline label="上级菜单">
         <ul id="selectTree"></ul>
@@ -45,10 +46,11 @@
   // 下拉树选项
   LayUtil.selectTree.init({
     url: "${adminPath}/permission/selectTree.do",
+    <#if parentId??>selectInitVal: "${parentId}",</#if>
     selectTips:"上级菜单"
-  },function (inner, dtree){
+  },function(inner,dtree){
     // 获取dtree的id值
-    dtree.on("node('selectTree')", function (obj){
+    dtree.on("node('selectTree')",function(obj){
       // 将内容放到此处
       $('input[name="parentId"]').val(obj.param.nodeId);
     })
