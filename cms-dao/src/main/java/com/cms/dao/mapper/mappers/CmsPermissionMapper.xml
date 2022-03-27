@@ -55,6 +55,7 @@
         name,
         url,
         parent_id,
+        is_menu,
         action,
         priority
     </sql>
@@ -66,6 +67,7 @@
         <result property="action" column="action"/>
         <result property="parentId" column="parent_id"/>
         <result property="name" column="name"/>
+        <result property="menu" column="is_menu"/>
     </resultMap>
 
     <!--添加权限验证-->
@@ -76,5 +78,10 @@
     <!--查询所有的权限信息-->
     <select id="selectAll" resultMap="baseResultMap">
         select <include refid="baseField"/> from cms_permission
+    </select>
+
+    <!--通过id查询结果-->
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseField"/> from cms_permission where id = #{id}
     </select>
 </mapper>

@@ -249,40 +249,6 @@ LayUtil.prototype = {
         };
         LayUtil.treeTable = new Inner();
     })(LayUtil),
-
-    /*// 树形表格
-    treeTable:(function(LayUtil){
-        function Inner(){}
-        Inner.prototype={
-            construct:Inner,
-            init:function(config,callback){
-                // 直接覆盖
-                let that = this, option = $.extend({},LayUtil.treeTableOption,config);
-                // 插件引入
-                layui.extend({
-                    treetable:'{/}'+ BASE_PATH +'/admin/layui/lay/modules/treetable'
-                    // 将table引入进来
-                }).use(['treetable', 'table'],function(){
-                    that.treetable = layui.treetable;
-                    // 开始渲染
-                    that.treetable.render(option);
-                    // 使用table
-                    that.table = layui.table;
-                    (callback instanceof Function) && callback(that,that.treetable, that.table);
-                });
-                return this;
-            },
-            rightTool:function (filter, callback){
-                // 监听右侧
-                this.table.on('tool('+filter+')', function (obj){
-                    // 执行回调
-                    (callback instanceof Function) && callback(obj)
-                });
-            }
-        }
-        LayUtil.treeTable = new Inner();
-    })(LayUtil),*/
-
     // 下拉树形
     selectTree:(function (LayUtil){
         function Inner(){}

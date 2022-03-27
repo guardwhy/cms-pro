@@ -61,9 +61,14 @@ public class PermissionController {
         return Result.success();
     }
 
+
+    /***
+     * 修改时显示树形菜单数据
+     * @return
+     */
     @PostMapping("selectTree.do")
     @ResponseBody
-    public Result doSelectTree(){
+    public Result doSelectTree(Integer excludeId){
         List<CmsPermissionDto> cmsPermissionDtos = buildData();
         // 存放所有数据
         Map<Integer, CmsPermissionDto> permissionMap = Maps.newHashMap();
@@ -73,6 +78,10 @@ public class PermissionController {
         cmsPermissionDtos.forEach(x->{
             // 拿到id值
             Integer id = x.getId();
+            //如果当前id 等于 排除的id跳过
+            if (Objects.nonNull(excludeId) && id.compareTo(excludeId) ==0){
+                return;
+            }
             // 放入Map集合中
             permissionMap.put(id, x);
             // 获取当前dto的父类id
@@ -82,6 +91,10 @@ public class PermissionController {
                 permissionList.add(x);
             }else{
                 CmsPermissionDto cmsPermissionDto = permissionMap.get(parentId);
+                // 条件判断
+                if(Objects.isNull(cmsPermissionDto) && Objects.nonNull(excludeId) && parentId.compareTo(excludeId)==0){
+                    return;
+                }
                 List<CmsPermissionDto> children = cmsPermissionDto.getChildren();
                 if(CollectionUtils.isEmpty(children)){
                     children = Lists.newArrayList();
@@ -94,36 +107,6 @@ public class PermissionController {
         return Result.success((ArrayList)permissionList);
     }
 
-    public List<CmsPermissionDto> buildData(){
-        List<CmsPermissionDto> permissionList = Lists.newArrayList();
-        //4条数据
-        CmsPermissionDto cmsPermissionDto1 = new CmsPermissionDto();
-        CmsPermissionDto cmsPermissionDto2 = new CmsPermissionDto();
-        CmsPermissionDto cmsPermissionDto3 = new CmsPermissionDto();
-        CmsPermissionDto cmsPermissionDto4 = new CmsPermissionDto();
-
-        cmsPermissionDto1.setId(1);
-        cmsPermissionDto2.setId(2);
-        cmsPermissionDto3.setId(3);
-        cmsPermissionDto4.setId(4);
-
-        cmsPermissionDto1.setName("测试1");
-        cmsPermissionDto2.setName("测试2");
-        cmsPermissionDto3.setName("测试3");
-        cmsPermissionDto4.setName("测试4");
-
-        cmsPermissionDto1.setParentId(0);
-        cmsPermissionDto2.setParentId(1);
-        cmsPermissionDto3.setParentId(2);
-        cmsPermissionDto4.setParentId(3);
-
-        permissionList.add(cmsPermissionDto1);
-        permissionList.add(cmsPermissionDto2);
-        permissionList.add(cmsPermissionDto3);
-        permissionList.add(cmsPermissionDto4);
-        return permissionList;
-    }
-
     /***
      * 首页权限数据
      * @param cmsPermissionDto
@@ -134,4 +117,54 @@ public class PermissionController {
     public Result doList(CmsPermissionDto cmsPermissionDto){
         return Result.success((ArrayList)cmsPermissionService.getList(cmsPermissionDto));
     }
+
+    /***
+     * 修改权限页面数据回显
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("edit.do")
+    public String toEdit(Integer id, Model model){
+        model.addAttribute("data", cmsPermissionService.getById(id));
+        model.addAttribute("permissionType", PermissionTypeEnum.values());
+        return UtilsTemplate.adminTemplate("permission", "edit");
+    }
+
+    public List<CmsPermissionDto> buildData(){
+        List<CmsPermissionDto> permissionList = Lists.newArrayList();
+        //4条数据
+        CmsPermissionDto cmsPermissionDto1 = new CmsPermissionDto();
+        CmsPermissionDto cmsPermissionDto2 = new CmsPermissionDto();
+        CmsPermissionDto cmsPermissionDto3 = new CmsPermissionDto();
+        CmsPermissionDto cmsPermissionDto4 = new CmsPermissionDto();
+        CmsPermissionDto cmsPermissionDto5 = new CmsPermissionDto();
+
+        cmsPermissionDto1.setId(1);
+        cmsPermissionDto2.setId(2);
+        cmsPermissionDto3.setId(3);
+        cmsPermissionDto4.setId(4);
+        cmsPermissionDto5.setId(5);
+
+        cmsPermissionDto1.setName("测试1");
+        cmsPermissionDto2.setName("测试2");
+        cmsPermissionDto3.setName("测试3");
+        cmsPermissionDto4.setName("测试4");
+        cmsPermissionDto5.setName("测试5");
+
+        cmsPermissionDto1.setParentId(0);
+        cmsPermissionDto2.setParentId(1);
+        cmsPermissionDto3.setParentId(2);
+        cmsPermissionDto4.setParentId(3);
+        cmsPermissionDto5.setParentId(0);
+
+        permissionList.add(cmsPermissionDto1);
+        permissionList.add(cmsPermissionDto2);
+        permissionList.add(cmsPermissionDto3);
+        permissionList.add(cmsPermissionDto4);
+        permissionList.add(cmsPermissionDto5);
+        return permissionList;
+    }
+
+
 }

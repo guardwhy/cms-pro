@@ -1,0 +1,67 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+  <@form.form>
+    <input name="id" class="layui-input" type="hidden" value="${data.id!}">
+    <input name="parentId" class="layui-input" type="hidden" value="${data.parentId!}">
+    <@form.item>
+      <@form.inline label="上级菜单">
+        <ul id="selectTree"></ul>
+      </@form.inline>
+      <@form.inline label="权限名称" required=true>
+        <input name="name" class="layui-input" type="text" value="${data.name!}">
+      </@form.inline>
+    </@form.item>
+    <@form.item>
+      <@form.inline label="权限类型" required=true>
+      <#--默认值-->
+        <@form.radio list=permissionType name="menu" value="${data.menu?string('1','0')}"></@form.radio>
+      </@form.inline>
+      <@form.inline label="菜单url">
+        <input name="url" class="layui-input" type="text" value="${data.url!}">
+      </@form.inline>
+    </@form.item>
+    <@form.item>
+      <@form.inline label="权限标识">
+        <input name="action" class="layui-input" type="text" value="${data.action!}">
+      </@form.inline>
+      <@form.inline label="菜单图标">
+        <input name="icon" class="layui-input" type="text" value="${data.icon!}">
+      </@form.inline>
+    </@form.item>
+    <@form.item>
+      <@form.inline label="排序" required=true>
+        <input name="priority" class="layui-input" type="number" value="${data.priority!}">
+      </@form.inline>
+    </@form.item>
+    <@form.submit></@form.submit>
+  </@form.form>
+</@main.layout>
+
+<#--导入CSS-->
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree_select_tree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+
+
+<script>
+  // 下拉树选项
+  LayUtil.selectTree.init({
+    url: "${adminPath}/permission/selectTree.do",
+    selectInitVal: "${data.parentId!}",
+    selectTips:"上级菜单",
+    request:{excludeId:"${data.id!}"}
+  },function(inner,dtree){
+    // 获取dtree的id值
+    dtree.on("node('selectTree')",function(obj){
+      // 将内容放到此处
+      $('input[name="parentId"]').val(obj.param.nodeId);
+    })
+  });
+
+  <#--layutil初始化-->
+  LayUtil.form.init(function (form){
+    form.submit(function (data){
+      core.http({url:"add.do", data:data.field})
+    })
+  })
+</script>

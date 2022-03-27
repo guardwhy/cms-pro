@@ -2,8 +2,8 @@
 <@main.layout>
     <table id="treeTable" class="layui-table" lay-filter="treeTable"></table>
 </@main.layout>
-<#--导入css-->
 <link rel="stylesheet" href="${basePath}/admin/layui/css/modules/treetable.css" media="all">
+
 <script>
     LayUtil.treeTable.init({
         url: '${adminPath}/permission/list.do',
@@ -25,29 +25,27 @@
             {templet: '#rightTemplate', align: 'center', title: '操作'}
         ]],
         toolbar:'#toolbar'
-    }, function (inner){
-        // 实现右侧的添加，编辑，删除等操作
-        inner.rightTool("treeTable", function (obj){
-            switch (obj.event){
+    },function(inner){
+        inner.rightTool("treeTable",function(obj){
+            switch(obj.event){
                 case "add":
                     window.location.href = "${adminPath}/permission/add.do?parentId="+obj.data.id;
                     break;
                 case "edit":
+                    window.location.href = "${adminPath}/permission/edit.do?id="+obj.data.id;
                     break;
                 case "del":
                     break;
             }
         })
     });
-</script>
 
-<#--右侧-->
+</script>
 <script type="text/html" id="rightTemplate">
     <a class="layui-btn layui-bg-blue layui-btn-xs" lay-event="add">添加</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<#--顶部-->
 <script type="text/html" id="toolbar">
     <a class="layui-btn layui-btn-sm layui-bg-blue" href="${adminPath}/permission/add.do"><i class="layui-icon layui-icon-add-1"></i>添加</a>
     <a class="layui-btn layui-btn-sm" onclick="javascript:window.location.reload()"><i class="layui-icon layui-icon-refresh-3"></i>刷新</a>

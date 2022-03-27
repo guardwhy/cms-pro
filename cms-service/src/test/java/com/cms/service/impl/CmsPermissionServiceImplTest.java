@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author guardwhy
@@ -43,6 +44,44 @@ public class CmsPermissionServiceImplTest {
                 List<CmsPermissionDto> children = cmsPermissionDto.getChildren();
                 if(CollectionUtils.isEmpty(children)){
                      children = Lists.newArrayList();
+                }
+                // 子类添加操作
+                children.add(x);
+                cmsPermissionDto.setChildren(children);
+            }
+        });
+        log.info("success");
+    }
+
+    @Test
+    public void edit(){
+        List<CmsPermissionDto> cmsPermissionDtos = buildData();
+        // 存放所有数据
+        Map<Integer, CmsPermissionDto> permissionMap = Maps.newHashMap();
+        // 只存放parentId = 0的数据
+        List<CmsPermissionDto> permissionList = Lists.newArrayList();
+        // 在修改的时候Id为3的要排除掉
+        Integer excludeId = 3;
+        // 循环数据，进行处理
+        cmsPermissionDtos.forEach(x->{
+            // 拿到id值
+            Integer id = x.getId();
+            // 放入Map集合中
+            permissionMap.put(id, x);
+            // 获取当前dto的父类id
+            Integer parentId = x.getParentId();
+            // 判断当前是否是顶级菜单
+            if(parentId == 0){
+                permissionList.add(x);
+            }else{
+                CmsPermissionDto cmsPermissionDto = permissionMap.get(parentId);
+                // 条件判断
+                if(Objects.isNull(cmsPermissionDto) && parentId.compareTo(excludeId) == 0){
+                    return;
+                }
+                List<CmsPermissionDto> children = cmsPermissionDto.getChildren();
+                if(CollectionUtils.isEmpty(children)){
+                    children = Lists.newArrayList();
                 }
                 // 子类添加操作
                 children.add(x);
