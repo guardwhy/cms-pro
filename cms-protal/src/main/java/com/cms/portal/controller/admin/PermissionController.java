@@ -64,7 +64,6 @@ public class PermissionController {
         return Result.success();
     }
 
-
     /***
      * 修改时显示树形菜单数据
      * @return
