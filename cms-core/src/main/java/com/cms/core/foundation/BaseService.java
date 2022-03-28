@@ -25,4 +25,10 @@ public interface BaseService<DTO extends BaseDto<PK>,PK extends Serializable> {
      * @param dto
      */
     void update(DTO dto);
+
+    /***
+     * 根据主键id删除
+     * @param id
+     */
+    void deleteById(PK id);
 }

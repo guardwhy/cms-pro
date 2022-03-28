@@ -35,4 +35,9 @@ public class CmsUserServiceImpl implements CmsUserService {
     public void update(CmsUserDto dto) {
         cmsUserMapper.update(CmsUserConverter.CONVERTER.dtoToEntity(dto));
     }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
 }

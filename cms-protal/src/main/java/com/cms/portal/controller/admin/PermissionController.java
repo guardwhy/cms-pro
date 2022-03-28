@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ import java.util.Objects;
  * @date 2022/3/21 21:13
  */
 @Controller
+@Validated
 @RequestMapping("permission")
 public class PermissionController {
     // 注入权限表cmsPermissionService
@@ -138,7 +141,9 @@ public class PermissionController {
      */
     @PostMapping("delete.do")
     @ResponseBody
-    public Result doDelete(Integer id){
+    public Result doDelete(@NotNull (message = "请传递id") Integer id){
+        // 根据id删除
+        cmsPermissionService.deleteById(id);
         return Result.success();
     }
 

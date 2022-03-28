@@ -106,13 +106,13 @@ let core={
     /**
      * 业务相关
      */
+    //业务相关
     business:{
-        delete:function (data, callback){
-            let config = {url:"delete.do", goBack: false, data:{id:data.id}};
-            // 调用是否删除按钮
-            core.prompt.confirm("确认执行该操作?", {icon: 3, title:'提示'},function (){
-                // 自动调用ajax请求
-                core.http(config, callback);
+        //删除
+        delete:function(data,callback){
+            let config = {url:"delete.do",goBack:false,data:{id:data.id}};
+            core.prompt.confirm("确认执行该操作?",{icon:3,title:'提示'},function(){
+                core.http(config,callback);
             })
         }
     }
@@ -180,7 +180,6 @@ LayUtil.prototype = {
     layer:(function (LayUtil){
         function Inner(){
         }
-
         Inner.prototype={
             construct:Inner,
             // 项目初始化自动封装
@@ -204,7 +203,8 @@ LayUtil.prototype = {
             },
             // 登录成功后响应
             msg:function (content, option, callback){
-                console.log(layer.msg(content, option, callback));
+                // console.log(layer.msg(content, option, callback));
+                return layer.msg(content, option, callback);
             },
             // 询问框: 内容，配置，回调函数
             confirm:function (content, option, callback){
@@ -259,6 +259,7 @@ LayUtil.prototype = {
         // 绑定到静态方法
         LayUtil.form = new Inner();
     })(LayUtil),
+
     // 树形表格
     treeTable:(function(LayUtil){
         function Inner(){}
@@ -277,37 +278,61 @@ LayUtil.prototype = {
                     that.treetable.render(option);
                     // 拿到table
                     that.table = layui.table;
-                    // 调用工具栏右侧进行监听
+                    (callback instanceof Function) && callback(that,that.treetable,that.table);
+                });
+                return this;
+            },
+            //右侧工具栏
+            rightTool:function(filter,callback){
+                // 监听右侧
+                this.table.on('tool('+filter+')',function(obj){
+                    // 执行回调
+                    (callback instanceof Function) && callback(obj)
+                });
+            }
+        };
+        LayUtil.treeTable = new Inner();
+    })(LayUtil),
+
+    //树形表格
+    /*treeTable:(function(LayUtil){
+        function Inner(){}
+        Inner.prototype={
+            construct:Inner,
+            init:function(config,callback){
+                let that = this, option = $.extend({},LayUtil.treeTableOption,config);
+                layui.extend({
+                    treetable:'{/}'+ BASE_PATH +'/admin/layui/lay/modules/treetable'
+                }).use(['treetable','table'],function(){
+                    that.treetable = layui.treetable;
+                    that.treetable.render(option);
+                    that.table = layui.table;
                     that.rightTool(function(obj){
-                        // 拿到表单数据进行判断
                         if(obj.event!==undefined && obj.event==="del"){
                             that.delete(obj.data,$.extend({},LayUtil.treeTableOption,config))
                         }
-                    })
+                    });
                     (callback instanceof Function) && callback(that,that.treetable,that.table);
                 });
                 return this;
             },
             //右侧工具栏
             rightTool:function(callback,filter='treeTable'){
-                // 监听右侧
                 this.table.on('tool('+filter+')',function(obj){
-                    // 执行回调
                     (callback instanceof Function) && callback(obj)
                 });
             },
-            // 表格单条删除操作
-            delete:function (data, option){
+            //表格单条删除操作
+            delete:function(data,option){
                 let that = this;
-                // 重新加载
-                core.business.delete(data,function (){
-                    // 重新加载option参数
+                core.business.delete(data,function(){
                     that.treetable.render(option);
-                })
+                });
             }
         };
         LayUtil.treeTable = new Inner();
-    })(LayUtil),
+    })(LayUtil),*/
+
     // 下拉树形
     selectTree:(function (LayUtil){
         function Inner(){}

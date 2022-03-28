@@ -15,13 +15,6 @@ public interface BaseMapper<ENTITY extends BaseEntity<PK>,PK extends Serializabl
      */
     void save(ENTITY entity);
 
-    /**
-     * 根据id查找
-     * @param id
-     * @return
-     */
-    ENTITY selectById(PK id);
-
     /***
      * 修改
      * @param entity
@@ -33,4 +26,17 @@ public interface BaseMapper<ENTITY extends BaseEntity<PK>,PK extends Serializabl
      * @return
      */
      List<ENTITY> selectAll();
+
+    /**
+     * 根据id查找
+     * @param id
+     * @return
+     */
+    ENTITY selectById(PK id);
+
+    /***
+     * 根据id进行删除
+     * @param id
+     */
+    void deleteById(PK id);
 }

@@ -31,4 +31,9 @@ public class CmsUserPrimaryServiceImpl implements CmsUserPrimaryService {
     public void update(CmsUserPrimaryDto dto) {
 
     }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
 }

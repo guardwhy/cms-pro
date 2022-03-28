@@ -33,6 +33,11 @@ public class CmsSiteServiceImpl implements CmsSiteService {
     }
 
     @Override
+    public void deleteById(Integer id) {
+
+    }
+
+    @Override
     public CmsSiteDto get() {
         return CmsSiteConverter.CONVERTER.entityToDto(cmsSiteMapper.selectById(1));
     }

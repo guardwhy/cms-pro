@@ -15,13 +15,18 @@ import java.util.List;
  */
 @Service
 public class CmsPermissionServiceImpl implements CmsPermissionService {
-    // 注入权限cmsPermissionMapper
+
     @Autowired
+    // 注入权限cmsPermissionMapper
     private CmsPermissionMapper cmsPermissionMapper;
 
+    /***
+     * 添加操作
+     * @param dto
+     */
     @Override
     public void save(CmsPermissionDto dto) {
-
+        cmsPermissionMapper.save(CmsPermissionConverter.CONVERTER.dtoToEntity(dto));
     }
 
     /***
@@ -47,5 +52,14 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
     @Override
     public List<CmsPermissionDto> getList(CmsPermissionDto cmsPermissionDto) {
         return CmsPermissionConverter.CONVERTER.entityToDto(cmsPermissionMapper.selectAll());
+    }
+
+    /***
+     * 根据主键id删除
+     * @param id
+     */
+    @Override
+    public void deleteById(Integer id) {
+        cmsPermissionMapper.deleteById(id);
     }
 }

@@ -84,4 +84,12 @@
     <select id="selectById" resultMap="baseResultMap">
         select <include refid="baseField"/> from cms_permission where id = #{id}
     </select>
+
+    <!--根据id删除权限-->
+    <select id="selectByParentId" resultMap="baseResultMap">
+        select <include refid="baseField"/> from cms_permission where parent_id = #{parentId}
+    </select>
+    <delete id="deleteById">
+        delete from cms_permission where id = #{id}
+    </delete>
 </mapper>

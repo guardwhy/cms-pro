@@ -32,4 +32,9 @@ public class CmsLogServiceImpl implements CmsLogService {
     public void update(CmsLogDto dto) {
 
     }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
 }
