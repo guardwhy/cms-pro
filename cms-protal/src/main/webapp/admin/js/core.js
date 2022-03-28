@@ -8,6 +8,10 @@ let core={
             method.call(context, args);
         }, 200)
     },
+
+    /**
+     * http请求方法
+     */
     http:function(option, callback){
         this.cancel && this.cancel.abort();
         //load: 加载loading autoComplete：自动完成, goBack自动回退
@@ -49,9 +53,12 @@ let core={
                                 break;
                             case CONSTANT.HTTP.SUCCESS:
                                 if(that.autocomplete){
-                                    handler=function(){
-                                        // 回退刷新
-                                        window.location.href = document.referrer;
+                                    // 执行del操作时候，无需回跳
+                                    if(that.goBack){
+                                        handler=function(){
+                                            // 回退刷新
+                                            window.location.href = document.referrer;
+                                        }
                                     }
                                     core.prompt.msg(res.restInfo,{shade:0.3, time: 1200}, handler);
                                 }
@@ -66,6 +73,9 @@ let core={
         Object.assign(opt,options,option);
         this.cancel = $.ajax(opt);
     },
+    /**
+     * 提示相关
+     */
     prompt:{
         // 警告弹窗
         alert:function (content, opt){
@@ -82,6 +92,27 @@ let core={
         msg:function (content, option, callback){
             LayUtil.layer.init(function (inner){
                 inner.msg(content, option, callback)
+            })
+        },
+        // 询问
+        confirm:function (content, option, callback){
+            LayUtil.layer.init(function (inner){
+                LayUtil.layer.init(function (inner){
+                    inner.confirm(content, option, callback);
+                })
+            })
+        }
+    },
+    /**
+     * 业务相关
+     */
+    business:{
+        delete:function (data, callback){
+            let config = {url:"delete.do", goBack: false, data:{id:data.id}};
+            // 调用是否删除按钮
+            core.prompt.confirm("确认执行该操作?", {icon: 3, title:'提示'},function (){
+                // 自动调用ajax请求
+                core.http(config, callback);
             })
         }
     }
@@ -174,6 +205,18 @@ LayUtil.prototype = {
             // 登录成功后响应
             msg:function (content, option, callback){
                 console.log(layer.msg(content, option, callback));
+            },
+            // 询问框: 内容，配置，回调函数
+            confirm:function (content, option, callback){
+                let that = this;
+                this.layer.confirm(content,option,function (index){
+                    that.layer.close(index);
+                    // 条件判断
+                    if(callback instanceof Function){
+                        // 调用回调函数
+                        callback();
+                    }
+                })
             }
         }
         LayUtil.layer = new Inner();
@@ -234,17 +277,33 @@ LayUtil.prototype = {
                     that.treetable.render(option);
                     // 拿到table
                     that.table = layui.table;
+                    // 调用工具栏右侧进行监听
+                    that.rightTool(function(obj){
+                        // 拿到表单数据进行判断
+                        if(obj.event!==undefined && obj.event==="del"){
+                            that.delete(obj.data,$.extend({},LayUtil.treeTableOption,config))
+                        }
+                    })
                     (callback instanceof Function) && callback(that,that.treetable,that.table);
                 });
                 return this;
             },
             //右侧工具栏
-            rightTool:function(filter,callback){
+            rightTool:function(callback,filter='treeTable'){
                 // 监听右侧
                 this.table.on('tool('+filter+')',function(obj){
                     // 执行回调
                     (callback instanceof Function) && callback(obj)
                 });
+            },
+            // 表格单条删除操作
+            delete:function (data, option){
+                let that = this;
+                // 重新加载
+                core.business.delete(data,function (){
+                    // 重新加载option参数
+                    that.treetable.render(option);
+                })
             }
         };
         LayUtil.treeTable = new Inner();

@@ -131,6 +131,17 @@ public class PermissionController {
         return UtilsTemplate.adminTemplate("permission", "edit");
     }
 
+    /***
+     * 根据id删除用户权限
+     * @param id
+     * @return
+     */
+    @PostMapping("delete.do")
+    @ResponseBody
+    public Result doDelete(Integer id){
+        return Result.success();
+    }
+
     public List<CmsPermissionDto> buildData(){
         List<CmsPermissionDto> permissionList = Lists.newArrayList();
         //4条数据
@@ -165,6 +176,4 @@ public class PermissionController {
         permissionList.add(cmsPermissionDto5);
         return permissionList;
     }
-
-
 }
