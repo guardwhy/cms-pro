@@ -1,7 +1,9 @@
 package com.cms.context.advice;
 
 
+import com.cms.context.constant.ConstantsPool;
 import com.cms.context.foundation.Result;
+import com.cms.context.utils.UtilsHttp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +21,11 @@ import java.util.Set;
 @ControllerAdvice
 @Slf4j
 public class UnificationExceptionHandler {
-
+    /***
+     * 方法参数异常处理
+     * @param exception
+     * @return
+     */
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
     public Result<String> constraintViolationExceptionHandler(ConstraintViolationException exception){
@@ -28,8 +34,8 @@ public class UnificationExceptionHandler {
         // 遍历操作
         for(ConstraintViolation<?> item:constraintViolations){
             log.info(item.getPropertyPath().toString()+item.getMessage());
-            return Result.failed(item.getMessage());
+            return UtilsHttp.responseExceptionHandler(item.getMessage(),"/error.do");
         }
-        return Result.failed("操作失败");
+        return UtilsHttp.responseExceptionHandler(ConstantsPool.EXCEPTION_NETWORK_ERROR, "/error.do");
     }
 }

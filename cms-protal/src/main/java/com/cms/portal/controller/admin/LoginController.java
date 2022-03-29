@@ -1,6 +1,7 @@
 package com.cms.portal.controller.admin;
 
 import com.cms.context.utils.UtilsShiro;
+import com.cms.context.utils.UtilsTemplate;
 import com.google.code.kaptcha.Producer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.subject.Subject;
@@ -68,5 +69,14 @@ public class LoginController {
         }catch (IOException e){
             log.error("验证码生成失败");
         }
+    }
+
+    /***
+     * 异常操作
+     * @return
+     */
+    @GetMapping("error.do")
+    public String toError(){
+        return UtilsTemplate.adminTemplate("error");
     }
 }

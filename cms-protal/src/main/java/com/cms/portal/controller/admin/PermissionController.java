@@ -127,7 +127,7 @@ public class PermissionController {
      * @return
      */
     @GetMapping("edit.do")
-    public String toEdit(Integer id, Model model){
+    public String toEdit(@NotNull(message = "请输入id")Integer id, Model model){
         model.addAttribute("data", cmsPermissionService.getById(id));
         model.addAttribute("permissionType", PermissionTypeEnum.values());
         return UtilsTemplate.adminTemplate("permission", "edit");
