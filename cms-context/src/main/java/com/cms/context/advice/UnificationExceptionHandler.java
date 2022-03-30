@@ -4,6 +4,7 @@ package com.cms.context.advice;
 import com.cms.context.constant.ConstantsPool;
 import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsHttp;
+import com.cms.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,5 +38,16 @@ public class UnificationExceptionHandler {
             return UtilsHttp.responseExceptionHandler(item.getMessage(),"/error.do");
         }
         return UtilsHttp.responseExceptionHandler(ConstantsPool.EXCEPTION_NETWORK_ERROR, "/error.do");
+    }
+
+    /***
+     * 处理businessException自定义异常
+     * @param exception  BusinessException
+     * @return Result
+     */
+    @ExceptionHandler(BusinessException.class)
+    @ResponseBody
+    public Result<String> businessExceptionHandler(BusinessException exception){
+        return Result.failed(exception.getMsg());
     }
 }

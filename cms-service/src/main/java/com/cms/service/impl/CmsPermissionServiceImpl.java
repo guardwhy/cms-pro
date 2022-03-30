@@ -1,9 +1,12 @@
 package com.cms.service.impl;
 
+import com.cms.core.exception.BusinessException;
+import com.cms.dao.entity.CmsPermissionEntity;
 import com.cms.dao.mapper.CmsPermissionMapper;
 import com.cms.service.api.CmsPermissionService;
 import com.cms.service.converter.CmsPermissionConverter;
 import com.cms.service.dto.CmsPermissionDto;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +63,13 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
      */
     @Override
     public void deleteById(Integer id) {
+        // 通过id拿到cmsPermissionMapper
+        List<CmsPermissionEntity> cmsPermissionEntities = cmsPermissionMapper.selectByParentId(id);
+        // 条件判断
+        if(!CollectionUtils.isEmpty(cmsPermissionEntities)){
+            throw new BusinessException("不能删除带有子类的权限");
+        }
+        // 删除id
         cmsPermissionMapper.deleteById(id);
     }
 }
