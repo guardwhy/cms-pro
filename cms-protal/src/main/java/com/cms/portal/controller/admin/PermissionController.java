@@ -20,11 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author guardwhy
@@ -71,7 +69,7 @@ public class PermissionController {
     @PostMapping("selectTree.do")
     @ResponseBody
     public Result doSelectTree(Integer excludeId){
-        List<CmsPermissionDto> cmsPermissionDtos = buildData();
+        List<CmsPermissionDto> cmsPermissionDtos = cmsPermissionService.getList(null);
         // 存放所有数据
         Map<Integer, CmsPermissionDto> permissionMap = Maps.newHashMap();
         // 只存放parentId = 0的数据
@@ -103,9 +101,12 @@ public class PermissionController {
                 }
                 // 子类添加操作
                 children.add(x);
+                children.sort(Comparator.comparing(CmsPermissionDto::getPriority));
                 cmsPermissionDto.setChildren(children);
             }
         });
+        // 默认从小到大进行排序
+        permissionList.sort(Comparator.comparing(CmsPermissionDto::getPriority));
         return Result.success((ArrayList)permissionList);
     }
 
@@ -118,6 +119,19 @@ public class PermissionController {
     @ResponseBody
     public Result doList(CmsPermissionDto cmsPermissionDto){
         return Result.success((ArrayList)cmsPermissionService.getList(cmsPermissionDto));
+    }
+
+    /***
+     * 根据id删除用户权限
+     * @param id
+     * @return
+     */
+    @PostMapping("delete.do")
+    @ResponseBody
+    public Result doDelete(@NotNull (message = "请传递id") Integer id){
+        // 根据id删除
+        cmsPermissionService.deleteById(id);
+        return Result.success();
     }
 
     /***
@@ -134,50 +148,17 @@ public class PermissionController {
     }
 
     /***
-     * 根据id删除用户权限
-     * @param id
+     * 修改权限
+     * @param cmsPermissionDto
+     * @param result
      * @return
      */
-    @PostMapping("delete.do")
+    @PostMapping("edit.do")
     @ResponseBody
-    public Result doDelete(@NotNull (message = "请传递id") Integer id){
-        // 根据id删除
-        cmsPermissionService.deleteById(id);
+    @DoLog(content = "修改权限")
+    @DoValid
+    public Result<String> doEdit(@Valid CmsPermissionDto cmsPermissionDto, BindingResult result){
+        cmsPermissionService.update(cmsPermissionDto);
         return Result.success();
-    }
-
-    public List<CmsPermissionDto> buildData(){
-        List<CmsPermissionDto> permissionList = Lists.newArrayList();
-        //4条数据
-        CmsPermissionDto cmsPermissionDto1 = new CmsPermissionDto();
-        CmsPermissionDto cmsPermissionDto2 = new CmsPermissionDto();
-        CmsPermissionDto cmsPermissionDto3 = new CmsPermissionDto();
-        CmsPermissionDto cmsPermissionDto4 = new CmsPermissionDto();
-        CmsPermissionDto cmsPermissionDto5 = new CmsPermissionDto();
-
-        cmsPermissionDto1.setId(1);
-        cmsPermissionDto2.setId(2);
-        cmsPermissionDto3.setId(3);
-        cmsPermissionDto4.setId(4);
-        cmsPermissionDto5.setId(5);
-
-        cmsPermissionDto1.setName("测试1");
-        cmsPermissionDto2.setName("测试2");
-        cmsPermissionDto3.setName("测试3");
-        cmsPermissionDto4.setName("测试4");
-        cmsPermissionDto5.setName("测试5");
-
-        cmsPermissionDto1.setParentId(0);
-        cmsPermissionDto2.setParentId(1);
-        cmsPermissionDto3.setParentId(2);
-        cmsPermissionDto4.setParentId(3);
-        cmsPermissionDto5.setParentId(0);
-
-        permissionList.add(cmsPermissionDto1);
-        permissionList.add(cmsPermissionDto2);
-        permissionList.add(cmsPermissionDto3);
-        permissionList.add(cmsPermissionDto4);
-        permissionList.add(cmsPermissionDto5);
-        return permissionList;
     }
 }

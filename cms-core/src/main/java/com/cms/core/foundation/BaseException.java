@@ -22,6 +22,10 @@ public class BaseException extends RuntimeException{
      * @param msg           错误信息
      */
     public BaseException(Integer code,String msg){
+        /**
+         * 屏蔽栈信息
+         */
+        super(msg,null, false, false);
         this.code = code;
         this.msg = msg;
     }

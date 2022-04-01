@@ -42,11 +42,6 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
         return CmsPermissionConverter.CONVERTER.entityToDto(cmsPermissionMapper.selectById(id));
     }
 
-    @Override
-    public void update(CmsPermissionDto dto) {
-
-    }
-
     /***
      * 查询所有的权限表信息
      * @param cmsPermissionDto
@@ -71,5 +66,14 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
         }
         // 删除id
         cmsPermissionMapper.deleteById(id);
+    }
+
+    /***
+     * 根据id修改权限表
+     * @param dto
+     */
+    @Override
+    public void update(CmsPermissionDto dto) {
+        cmsPermissionMapper.update(CmsPermissionConverter.CONVERTER.dtoToEntity(dto));
     }
 }

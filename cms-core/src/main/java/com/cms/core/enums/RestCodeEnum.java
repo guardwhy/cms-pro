@@ -22,11 +22,11 @@ public enum RestCodeEnum implements BaseEnum {
 
     @Override
     public int getOrdinal() {
-        return 0;
+        return ordinal;
     }
 
     @Override
     public String getLabel() {
-        return null;
+        return label;
     }
 }
