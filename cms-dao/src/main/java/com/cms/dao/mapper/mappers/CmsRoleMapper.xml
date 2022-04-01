@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.mapper.CmsRoleMapper">
+    <!--SQL-->
+    <sql id="key">
+        <if test="parentId!=null">
+            parent_id,
+        </if>
+        <if test="menu!=null">
+            is_menu,
+        </if>
+        <if test="icon!=null and icon!=''">
+            icon,
+        </if>
+        <if test="url!=null and url!=''">
+            url,
+        </if>
+        <if test="action!=null and action!=''">
+            action,
+        </if>
+        priority,
+        name,
+        create_time
+    </sql>
+
+    <sql id="value">
+        <if test="parentId!=null">
+            #{parentId},
+        </if>
+        <if test="menu!=null">
+            #{menu},
+        </if>
+        <if test="icon!=null and icon!=''">
+            #{icon},
+        </if>
+        <if test="url!=null and url!=''">
+            #{url},
+        </if>
+        <if test="action!=null and action!=''">
+            #{action},
+        </if>
+        #{priority},
+        #{name},
+        #{createTime}
+    </sql>
+
+    <!--查询所有权限信息-->
+    <sql id="baseField">
+        id,
+        name,
+        url,
+        parent_id,
+        is_menu,
+        action,
+        icon,
+        priority
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
+        <id property="id" column="id"/>
+        <result property="priority" column="priority"/>
+        <result property="url" column="url"/>
+        <result property="action" column="action"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="menu" column="is_menu"/>
+    </resultMap>
+
+    <!--修改SQL-->
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="parentId!=null">
+            parent_id = #{parentId},
+        </if>
+        <if test="menu!=null">
+            is_menu = #{menu},
+        </if>
+        <if test="icon!=null and icon!=''">
+            icon = #{icon},
+        </if>
+        <if test="url!=null and url!=''">
+            url = #{url},
+        </if>
+        <if test="name!=null and name!=''">
+            name = #{name},
+        </if>
+        <if test="action!=null and action!=''">
+            action = #{action},
+        </if>
+        <if test="priority!=null">
+            priority = #{priority},
+        </if>
+    </sql>
+
+    <!--添加权限验证-->
+    <insert id="save">
+        insert into cms_permission (<include refid="key"/>) values (<include refid="value"/>)
+    </insert>
+
+    <!--根据id删除权限-->
+    <select id="selectByParentId" resultMap="baseResultMap">
+        select <include refid="baseField"/> from cms_permission where parent_id = #{parentId}
+    </select>
+    <delete id="deleteById">
+        delete from cms_permission where id = #{id}
+    </delete>
+
+    <!--根据id修改权限表-->
+    <update id="update">
+        update cms_permission
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"/>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!--通过id查询结果-->
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseField"/> from cms_permission where id = #{id}
+    </select>
+    <!--查询所有的权限信息,根据父id查询数据-->
+    <select id="selectAll" resultMap="baseResultMap">
+        select <include refid="baseField"/> from cms_permission order by parent_id asc
+    </select>
+</mapper>
