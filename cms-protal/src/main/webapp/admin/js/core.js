@@ -417,6 +417,18 @@ LayUtil.prototype = {
             init:function(config){
                 // 获取到作用域，合并属性
                 let that = this,option = $.extend({},LayUtil.treeOption,config);
+
+                // 复选框的配置
+                if (option.checkbar!==undefined && option.checkbar) {
+                    // 自定扩展的二级非最后一级图标，从1开始
+                    option.nodeIconArray = {
+                        "1": {
+                            "open": "dtree-icon-wenjianjiazhankai",
+                            "close": "dtree-icon-weibiaoti5"
+                        }
+                    };
+                    option.icon = ["1", "8"];
+                }
                 // 插件引入
                 layui.extend({
                     dtree: '{/}' + BASE_PATH + '/admin/layui/lay/modules/dtree'

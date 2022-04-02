@@ -9,6 +9,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author guardwhy
@@ -29,4 +30,6 @@ public class CmsPermissionDto extends BaseDto<Integer> {
     @Max(value = 99999,message = "排序最大只能到99999")
     private Integer priority; // 排序
     private List<CmsPermissionDto> children;
+    // 菜单
+    private List<Map<String,String>> checkArr;
 }
