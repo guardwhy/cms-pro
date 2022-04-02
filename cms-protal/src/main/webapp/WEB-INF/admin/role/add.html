@@ -30,50 +30,16 @@
     LayUtil.form.init(function(){
 
     })
+    // 初始化tree
+    /*LayUtil.tree.init({
+        url:"${adminPath}/role/permission.do",
+        method:"post",
+        checkbar:true
+    });*/
 
-    let treeOption = {
-        elem: "#tree",
-        url: "",
-        dataType: "json",
-        async: false,
-        method: 'get',
-        dataStyle: "layuiStyle",
-        initLevel: 1,
-        data: "",
-        dot: false,
-        checkbar: false,
-        contentType:'application/json;charset=UTF-8',
-        nodeIconArray: {"1": {"open": "dtree-icon-wenjianjiazhankai", "close": "dtree-icon-weibiaoti5"}},
-        icon: ["1", "7"],
-        formatter: {
-            title: function (data) {
-                let s = data.name;
-                if (data.children) {
-                    s += ' <span style=\'color:blue\'>(' + data.children.length + ')</span>';
-                }
-                return s;
-            }
-        },
-        response: {
-            statusCode: 200,
-            statusName: "restCode",
-            treeId: "id",
-            message: "restCode",
-            rootName: "data",
-            title: 'name'
-        },
-    };
-
-    let config = $.extend({},treeOption,{
+    LayUtil.tree.init({
         url:"${adminPath}/role/permission.do",
         method: "post",
         checkbar:true
-    });
-
-    layui.extend({
-        dtree: '{/}' + BASE_PATH + '/admin/layui/lay/modules/dtree'
-    }).use('dtree', function () {
-        let dtree = layui.dtree;
-        dtree.render(config);
     });
 </script>
