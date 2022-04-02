@@ -1,0 +1,79 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree_tree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+<@main.layout>
+    <@form.form>
+        <@form.item>
+            <@form.inline label="名称" required=true>
+                <input name="name" class="layui-input" type="text" lay-verify="required" maxlength="15">
+            </@form.inline>
+            <@form.inline label="排序" required=true>
+                <input name="priority" class="layui-input" type="number" lay-verify="required" value="1">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="拥有所有权限" required=true>
+                <input name="all" class="layui-input" type="radio" lay-filter="permissionFilter" value="1" title="是">
+                <input name="all" class="layui-input" type="radio" lay-filter="permissionFilter" value="0" checked title="否">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="用户权限">
+                <div id="tree"></div>
+            </@form.inline>
+        </@form.item>
+        <@form.submit></@form.submit>
+    </@form.form>
+</@main.layout>
+<script>
+    LayUtil.form.init(function(){
+
+    })
+
+    let treeOption = {
+        elem: "#tree",
+        url: "",
+        dataType: "json",
+        async: false,
+        method: 'get',
+        dataStyle: "layuiStyle",
+        initLevel: 1,
+        data: "",
+        dot: false,
+        checkbar: false,
+        contentType:'application/json;charset=UTF-8',
+        nodeIconArray: {"1": {"open": "dtree-icon-wenjianjiazhankai", "close": "dtree-icon-weibiaoti5"}},
+        icon: ["1", "7"],
+        formatter: {
+            title: function (data) {
+                let s = data.name;
+                if (data.children) {
+                    s += ' <span style=\'color:blue\'>(' + data.children.length + ')</span>';
+                }
+                return s;
+            }
+        },
+        response: {
+            statusCode: 200,
+            statusName: "restCode",
+            treeId: "id",
+            message: "restCode",
+            rootName: "data",
+            title: 'name'
+        },
+    };
+
+    let config = $.extend({},treeOption,{
+        url:"${adminPath}/role/permission.do",
+        method: "post",
+        checkbar:true
+    });
+
+    layui.extend({
+        dtree: '{/}' + BASE_PATH + '/admin/layui/lay/modules/dtree'
+    }).use('dtree', function () {
+        let dtree = layui.dtree;
+        dtree.render(config);
+    });
+</script>

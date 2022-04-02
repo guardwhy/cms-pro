@@ -171,6 +171,35 @@ LayUtil.selectTreeOption = {
     },
 };
 
+//layui的表格固定配置
+LayUtil.dataGridOption = {
+    id: "dataGrid",
+    elem: '#dataGrid',
+    method: 'post',
+    page: true,
+    url:'',
+    limit: 10,
+    request: {
+        pageName: 'pageCurrent', //页码的参数名称，默认：page
+        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+    },
+    response: {
+        statusName: 'restCode', //数据状态的字段名称，默认：code
+        statusCode: 200, //成功的状态码，默认：0
+        msgName: 'restCode', //状态信息的字段名称，默认：msg
+        countName: 'pageCount', //数据总数的字段名称，默认：count
+        rootName: 'data'
+    },
+    parseData: function (res) {
+        // 下面字符串是对上面字符串的解释
+        return {
+            "restCode": res.restCode,
+            "pageCount": res.data ? res.data.pageCount : undefined,
+            "data": res.data ? res.data.content : undefined
+        }
+    }
+};
+
 LayUtil.prototype = {
     construct:LayUtil,
     // 弹窗
@@ -306,7 +335,21 @@ LayUtil.prototype = {
         };
         LayUtil.treeTable = new Inner();
     })(LayUtil),
-
+    //数据表格
+    dataGrid:(function(LayUtil){
+        function Inner(){}
+        Inner.prototype={
+            construct:Inner,
+            init:function(option,callback){
+                let config = $.extend({},LayUtil.dataGridOption,option),that = this;
+                layui.use('table',function(){
+                    that.table = layui.table;
+                    that.table.render(config);
+                })
+            }
+        };
+        LayUtil.dataGrid = new Inner();
+    })(LayUtil),
     // 下拉树形
     selectTree:(function (LayUtil){
         function Inner(){}
