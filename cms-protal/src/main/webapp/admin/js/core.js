@@ -417,7 +417,7 @@ LayUtil.prototype = {
             init:function(config){
                 // 获取到作用域，合并属性
                 let that = this,option = $.extend({},LayUtil.treeOption,config);
-
+                this.id = option.elem;
                 // 复选框的配置
                 if (option.checkbar!==undefined && option.checkbar) {
                     // 自定扩展的二级非最后一级图标，从1开始
@@ -438,6 +438,21 @@ LayUtil.prototype = {
                     that.dtree.render(option);
                 });
                 return this;
+            },
+            // 获取选中的
+            getChecked:function (obj,name){
+                // 显示结果
+                let arr = this.dtree.getCheckbarNodesParam(this.id.replace("#", ""));
+                if(arr instanceof Array){
+                    // 判断obj是否为数组，然后在进行遍历
+                    if(obj!== undefined && name!== undefined){
+                        for(let i=0,length=arr.length; i<length; i++){
+                            obj[name+ "[" +i+ "]" ] = arr[i].nodeId;
+                        }
+                        return obj;
+                    }
+                }
+                console.log(arr);
             }
         };
         // 绑定静态方法

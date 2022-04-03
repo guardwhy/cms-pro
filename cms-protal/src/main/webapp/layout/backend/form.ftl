@@ -36,7 +36,7 @@
             <div class="layui-input-block layui-col-md6 cms-inline-block">
                 <p class="cms-flex-end cms-pt50">
                     <button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
-                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="go">提交</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-submit lay-filter="go">提交</button>
                 </p>
             </div>
         </div>

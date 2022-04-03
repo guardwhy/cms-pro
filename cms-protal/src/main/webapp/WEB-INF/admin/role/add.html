@@ -27,11 +27,15 @@
     </@form.form>
 </@main.layout>
 <script>
-    LayUtil.form.init(function(){
-
-    })
+    LayUtil.form.init(function(inner){
+        // 调用from表单
+        inner.submit(function (data){
+            dtreeInner.getChecked(data.field, "permission");
+            console.log(data.field);
+        })
+    });
     // 初始化tree
-    LayUtil.tree.init({
+    let dtreeInner =  LayUtil.tree.init({
         url:"${adminPath}/role/permission.do",
         method: "post",
         checkbar:true
