@@ -16,4 +16,11 @@ public interface CmsPermissionService extends BaseService<CmsPermissionDto, Inte
      * @return
      */
     List<CmsPermissionDto> getList(CmsPermissionDto cmsPermissionDto);
+
+    /***
+     * 获取权限树形结构
+     * @param excludeId 排除的父类id和id
+     * @return list
+     */
+    List<CmsPermissionDto> getTree(Integer excludeId);
 }

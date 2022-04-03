@@ -1,6 +1,6 @@
 package com.cms.service.dto;
 
-import com.cms.core.foundation.BaseDto;
+import com.cms.core.foundation.TreeDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
@@ -8,8 +8,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author guardwhy
@@ -17,7 +15,7 @@ import java.util.Map;
  */
 @Setter
 @Getter
-public class CmsPermissionDto extends BaseDto<Integer> {
+public class CmsPermissionDto extends TreeDto<CmsPermissionDto,Integer> {
     private Integer parentId; // 父id
     private Boolean menu; // 是否菜单
     private String icon; // 菜单图标
@@ -29,7 +27,4 @@ public class CmsPermissionDto extends BaseDto<Integer> {
     @Min(value = 0,message = "排序最小只能到0")
     @Max(value = 99999,message = "排序最大只能到99999")
     private Integer priority; // 排序
-    private List<CmsPermissionDto> children;
-    // 菜单
-    private List<Map<String,String>> checkArr;
 }
