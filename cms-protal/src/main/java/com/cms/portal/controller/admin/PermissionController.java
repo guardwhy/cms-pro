@@ -54,7 +54,7 @@ public class PermissionController {
     @DoLog(content = "添加权限")
     @DoValid
     public Result<String> doAdd(CmsPermissionDto cmsPermissionDto, BindingResult result){
-        // cmsPermissionService.save(cmsPermissionDto);
+        cmsPermissionService.save(cmsPermissionDto);
         // 返回成功
         return Result.success();
     }

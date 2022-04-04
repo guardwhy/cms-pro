@@ -8,6 +8,7 @@ import com.cms.service.converter.CmsRoleConverter;
 import com.cms.service.dto.CmsRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -31,12 +32,14 @@ public class CmsRoleServiceImpl implements CmsRoleService {
      * @param dto
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(CmsRoleDto dto) {
         // 拿到用户entity
         CmsRoleEntity cmsRoleEntity = CmsRoleConverter.CONVERTER.dtoToEntity(dto);
         // 保存操作
         cmsRoleMapper.save(cmsRoleEntity);
-        if(dto.getAll()){
+        // 如果没有全部获取，则需要进行取反
+        if(!dto.getAll()){
             List<Integer> permission = dto.getPermission();
             if(CollectionUtils.isEmpty(permission)){
                 cmsRolePermissionMapper.batchInsert(permission, cmsRoleEntity.getId());

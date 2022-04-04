@@ -23,15 +23,15 @@ import java.util.Optional;
  * 日志拦截器
  */
 public class LogInterceptor extends HandlerInterceptorAdapter {
-    // 注入CmsLogService
+
     @Autowired
     private CmsLogService cmsLogService;
     // 注入线程池
+    @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         // 拿到handlerMethod
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         // 获取注解日志
@@ -51,7 +51,6 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 cmsLogService.save(CmsLogDto.of(cmsUserDto.getId(), cmsUserDto.getUsername(), ip, url, content));
             });
         });
-
         super.postHandle(request, response, handler, modelAndView);
     }
 }

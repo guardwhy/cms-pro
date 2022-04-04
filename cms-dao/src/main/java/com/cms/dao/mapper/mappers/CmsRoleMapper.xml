@@ -1,10 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cms.dao.mapper.CmsRoleMapper">
 
-    <!--key-SQL-->
+    <sql id="baseField">
+        id,
+        name,
+        url,
+        parent_id,
+        is_menu,
+        action,
+        icon,
+        priority
+    </sql>
+
     <sql id="key">
         <if test="name!=null and name!=''">
             name,
@@ -21,7 +29,6 @@
         create_time
     </sql>
 
-    <!--value-sql -->
     <sql id="value">
         <if test="name!=null and name!=''">
             #{name},
@@ -38,29 +45,6 @@
         #{createTime}
     </sql>
 
-    <!--查询所有权限信息-->
-    <sql id="baseField">
-        id,
-        name,
-        url,
-        parent_id,
-        is_menu,
-        action,
-        icon,
-        priority
-    </sql>
-
-    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
-        <id property="id" column="id"/>
-        <result property="priority" column="priority"/>
-        <result property="url" column="url"/>
-        <result property="action" column="action"/>
-        <result property="parentId" column="parent_id"/>
-        <result property="name" column="name"/>
-        <result property="menu" column="is_menu"/>
-    </resultMap>
-
-    <!--修改SQL-->
     <sql id="updateField">
         update_time = #{updateTime},
         <if test="parentId!=null">
@@ -86,21 +70,27 @@
         </if>
     </sql>
 
-    <!--添加权限验证-->
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
+        <id property="id" column="id"/>
+        <result property="priority" column="priority"/>
+        <result property="url" column="url"/>
+        <result property="action" column="action"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="menu" column="is_menu"/>
+    </resultMap>
+
     <insert id="save">
-        <!--在id后面插入id-->
         <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
             select last_insert_id()
         </selectKey>
         insert into cms_role (<include refid="key"/>) values (<include refid="value"/>)
     </insert>
 
-    <!--根据id删除权限-->
     <delete id="deleteById">
         delete from cms_permission where id = #{id}
     </delete>
 
-    <!--根据id修改权限表-->
     <update id="update">
         update cms_permission
         <trim prefix="set" suffixOverrides=",">
@@ -109,12 +99,16 @@
         where id = #{id}
     </update>
 
-    <!--通过id查询结果-->
-    <select id="selectById" resultMap="baseResultMap">
-        select <include refid="baseField"/> from cms_permission where id = #{id}
-    </select>
-    <!--查询所有的权限信息,根据父id查询数据-->
     <select id="selectAll" resultMap="baseResultMap">
-        select <include refid="baseField"/> from cms_permission order by parent_id asc
+        select
+        <include refid="baseField"/>
+        from cms_permission order by parent_id asc
     </select>
+
+    <select id="selectById" resultMap="baseResultMap">
+        select
+        <include refid="baseField"/>
+        from cms_permission where id = #{id}
+    </select>
+
 </mapper>

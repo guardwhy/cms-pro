@@ -18,8 +18,8 @@
     </sql>
 
     <sql id="key">
-        #{role_id},
-        #{permission_id},
+        role_id,
+        permission_id
     </sql>
 
     <sql id="updateField">
@@ -57,7 +57,6 @@
         <result property="menu" column="is_menu"/>
     </resultMap>
 
-    <!--批量添加用户权限-->
     <insert id="batchInsert">
         insert into cms_role_permission (<include refid="key"/>) values
         <foreach collection="permissionList" item="item" separator=",">

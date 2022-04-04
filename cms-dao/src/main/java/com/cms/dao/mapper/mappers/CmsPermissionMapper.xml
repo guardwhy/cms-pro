@@ -6,7 +6,17 @@
 实体类的映射文件: namespace 指定接口的类全名
 -->
 <mapper namespace="com.cms.dao.mapper.CmsPermissionMapper">
-    <!--SQL-->
+    <sql id="baseField">
+        id,
+        name,
+        url,
+        parent_id,
+        is_menu,
+        action,
+        icon,
+        priority
+    </sql>
+
     <sql id="key">
         <if test="parentId!=null">
             parent_id,
@@ -49,29 +59,6 @@
         #{createTime}
     </sql>
 
-    <!--查询所有权限信息-->
-    <sql id="baseField">
-        id,
-        name,
-        url,
-        parent_id,
-        is_menu,
-        action,
-        icon,
-        priority
-    </sql>
-    
-    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
-        <id property="id" column="id"/>
-        <result property="priority" column="priority"/>
-        <result property="url" column="url"/>
-        <result property="action" column="action"/>
-        <result property="parentId" column="parent_id"/>
-        <result property="name" column="name"/>
-        <result property="menu" column="is_menu"/>
-    </resultMap>
-
-    <!--修改SQL-->
     <sql id="updateField">
         update_time = #{updateTime},
         <if test="parentId!=null">
@@ -97,20 +84,24 @@
         </if>
     </sql>
 
-    <!--添加权限验证-->
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
+        <id property="id" column="id"/>
+        <result property="priority" column="priority"/>
+        <result property="url" column="url"/>
+        <result property="action" column="action"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="menu" column="is_menu"/>
+    </resultMap>
+
     <insert id="save">
         insert into cms_permission (<include refid="key"/>) values (<include refid="value"/>)
     </insert>
 
-    <!--根据id删除权限-->
-    <select id="selectByParentId" resultMap="baseResultMap">
-        select <include refid="baseField"/> from cms_permission where parent_id = #{parentId}
-    </select>
     <delete id="deleteById">
         delete from cms_permission where id = #{id}
     </delete>
 
-    <!--根据id修改权限表-->
     <update id="update">
         update cms_permission
         <trim prefix="set" suffixOverrides=",">
@@ -119,12 +110,21 @@
         where id = #{id}
     </update>
 
-    <!--通过id查询结果-->
-    <select id="selectById" resultMap="baseResultMap">
-        select <include refid="baseField"/> from cms_permission where id = #{id}
-    </select>
-    <!--查询所有的权限信息,根据父id查询数据-->
     <select id="selectAll" resultMap="baseResultMap">
-        select <include refid="baseField"/> from cms_permission order by parent_id asc
+        select
+        <include refid="baseField"/>
+        from cms_permission order by parent_id asc
+    </select>
+
+    <select id="selectById" resultMap="baseResultMap">
+        select
+        <include refid="baseField"/>
+        from cms_permission where id = #{id}
+    </select>
+
+    <select id="selectByParentId" resultMap="baseResultMap">
+        select
+        <include refid="baseField"/>
+        from cms_permission where parent_id = #{parentId}
     </select>
 </mapper>
