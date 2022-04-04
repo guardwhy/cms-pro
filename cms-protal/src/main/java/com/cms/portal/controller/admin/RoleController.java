@@ -3,7 +3,9 @@ package com.cms.portal.controller.admin;
 import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
 import com.cms.context.utils.UtilsTree;
+import com.cms.core.annotation.DoLog;
 import com.cms.service.api.CmsPermissionService;
+import com.cms.service.api.CmsRoleService;
 import com.cms.service.dto.CmsPermissionDto;
 import com.cms.service.dto.CmsRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,12 @@ import java.util.List;
 @Controller
 @RequestMapping("role")
 public class RoleController {
-
     // 调用cmsPermissionService
     @Autowired
     private CmsPermissionService cmsPermissionService;
+    // 调用角色cmsRoleService
+    @Autowired
+    private CmsRoleService cmsRoleService;
 
     /***
      * 拿到角色index
@@ -63,5 +67,13 @@ public class RoleController {
         List<CmsPermissionDto> permissionList =cmsPermissionService.getTree(null);
         UtilsTree.recursion(permissionList);
         return Result.success((ArrayList) permissionList);
+    }
+
+    @PostMapping("add.do")
+    @ResponseBody
+    @DoLog(content = "添加角色")
+    public Result doAdd(CmsRoleDto cmsRoleDto){
+        cmsRoleService.save(cmsRoleDto);
+        return Result.success();
     }
 }

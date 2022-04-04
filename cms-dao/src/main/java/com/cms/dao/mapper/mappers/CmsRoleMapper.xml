@@ -3,46 +3,38 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cms.dao.mapper.CmsRoleMapper">
-    <!--SQL-->
+
+    <!--key-SQL-->
     <sql id="key">
-        <if test="parentId!=null">
-            parent_id,
+        <if test="name!=null and name!=''">
+            name,
         </if>
-        <if test="menu!=null">
-            is_menu,
+        <if test="priority!=null">
+            priority,
         </if>
-        <if test="icon!=null and icon!=''">
-            icon,
+        <if test="all!=null">
+            is_all,
         </if>
-        <if test="url!=null and url!=''">
-            url,
+        <if test="status!=null">
+            status,
         </if>
-        <if test="action!=null and action!=''">
-            action,
-        </if>
-        priority,
-        name,
         create_time
     </sql>
 
+    <!--value-sql -->
     <sql id="value">
-        <if test="parentId!=null">
-            #{parentId},
+        <if test="name!=null and name!=''">
+            #{name},
         </if>
-        <if test="menu!=null">
-            #{menu},
+        <if test="priority!=null">
+            #{priority},
         </if>
-        <if test="icon!=null and icon!=''">
-            #{icon},
+        <if test="all!=null">
+            #{all},
         </if>
-        <if test="url!=null and url!=''">
-            #{url},
+        <if test="status!=null">
+            #{status},
         </if>
-        <if test="action!=null and action!=''">
-            #{action},
-        </if>
-        #{priority},
-        #{name},
         #{createTime}
     </sql>
 
@@ -96,13 +88,14 @@
 
     <!--添加权限验证-->
     <insert id="save">
-        insert into cms_permission (<include refid="key"/>) values (<include refid="value"/>)
+        <!--在id后面插入id-->
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into cms_role (<include refid="key"/>) values (<include refid="value"/>)
     </insert>
 
     <!--根据id删除权限-->
-    <select id="selectByParentId" resultMap="baseResultMap">
-        select <include refid="baseField"/> from cms_permission where parent_id = #{parentId}
-    </select>
     <delete id="deleteById">
         delete from cms_permission where id = #{id}
     </delete>

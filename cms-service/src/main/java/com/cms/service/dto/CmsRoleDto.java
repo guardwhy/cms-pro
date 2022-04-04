@@ -4,6 +4,8 @@ import com.cms.core.foundation.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author guardwhy
  * @date 2022/4/1 21:36
@@ -16,4 +18,5 @@ public class CmsRoleDto extends BaseDto<Integer> {
     private Integer priority; // 排列顺序
     private Boolean all; // 是否所有权限
     private Boolean status; // 状态
+    private List<Integer> permission;
 }
