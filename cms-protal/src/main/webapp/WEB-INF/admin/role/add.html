@@ -22,7 +22,7 @@
                 <input name="status" class="layui-input" type="radio" value="1"  title="禁用">
             </@form.inline>
         </@form.item>
-        <@form.item>
+        <@form.item class="permission">
             <@form.inline label="用户权限">
                 <div id="tree"></div>
             </@form.inline>
@@ -38,6 +38,10 @@
                 dtreeInner.getChecked(data.field,"permission");
             }
             core.http({url:"add.do",data:data.field})
+        });
+        // 对radio进行监听
+        inner.radio("permissionFilter", function (obj){
+            (obj.value==="1")?$(".permission").hide():$(".permission").show();
         })
     });
 

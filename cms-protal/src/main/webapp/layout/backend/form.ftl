@@ -6,8 +6,8 @@
 </#macro>
 
 <#--通用form中的每一项一行item-->
-<#macro item>
-    <div class="layui-form-item">
+<#macro item class="">
+    <div class="layui-form-item ${class}">
         <#nested>
     </div>
 </#macro>
@@ -43,7 +43,7 @@
     </div>
 </#macro>
 
-<#--单选框-->
+<#--单选框 -->
 <#macro radio list name value="">
     <#list list as item>
         <input type="radio" name="${name}" title="${item.label}" <#if value=="${item.getOrdinal()}">checked</#if> value="${item.getOrdinal()}">

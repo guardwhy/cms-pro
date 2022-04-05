@@ -302,7 +302,7 @@ LayUtil.prototype = {
                 });
                 return this;
             },
-            // 提交表单
+            // 提交表单,事件监听
             submit:function (callback, name, type="submit"){
                 this.form.on(type+"("+(name === undefined? 'go':name) + ")", function (obj){
                     if(callback instanceof Function){
@@ -315,6 +315,10 @@ LayUtil.prototype = {
             // 自定义验证
             verify:function (validator){
                 this.form.verify(validator);
+            },
+            // radio 事件监听
+            radio:function (name, callback){
+                this.submit(callback, name, "radio");
             }
         }
         // 绑定到静态方法
