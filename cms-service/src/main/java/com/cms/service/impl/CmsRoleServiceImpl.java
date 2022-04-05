@@ -6,11 +6,10 @@ import com.cms.dao.mapper.CmsRolePermissionMapper;
 import com.cms.service.api.CmsRoleService;
 import com.cms.service.converter.CmsRoleConverter;
 import com.cms.service.dto.CmsRoleDto;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class CmsRoleServiceImpl implements CmsRoleService {
         // 如果没有全部获取，则需要进行取反
         if(!dto.getAll()){
             List<Integer> permission = dto.getPermission();
-            if(CollectionUtils.isEmpty(permission)){
+            if(CollectionUtils.isNotEmpty(permission)){
                 cmsRolePermissionMapper.batchInsert(permission, cmsRoleEntity.getId());
             }
         }

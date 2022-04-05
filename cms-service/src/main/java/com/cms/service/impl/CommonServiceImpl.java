@@ -4,12 +4,11 @@ import com.alibaba.druid.util.StringUtils;
 import com.cms.context.utils.UtilsShiro;
 import com.cms.service.api.CommonService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.Objects;
+
 import static com.cms.context.constant.ConstantsPool.IMAGE_CAPTCHA_SUFFIX;
 
 /**
