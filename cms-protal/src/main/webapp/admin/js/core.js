@@ -192,6 +192,7 @@ LayUtil.dataGridOption = {
     page: true,
     url:'',
     limit: 10,
+    headSearch:"searchSubmit",
     request: {
         pageName: 'pageCurrent', //页码的参数名称，默认：page
         limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -406,6 +407,27 @@ LayUtil.prototype = {
                 layui.use('table',function(){
                     that.table = layui.table;
                     that.table.render(config);
+                    // 渲染
+                    that.renderSearch(config.headSearch);
+                })
+            },
+            //渲染form表头查询
+            renderSearch:function (name){
+                // layui使用
+                layui.use('form', function (){
+                    // 拿到form表格
+                    var form = layui.form,that = this;
+                    // 监听提交
+                    form.on('submit('+name+')', function (data){
+                        // 重新加载数据表格
+                       that.table.reload('dataGrid',{
+                           where:data.field,
+                           page:{
+                               curr:1
+                           }
+                       });
+                       return false;
+                    })
                 })
             }
         };

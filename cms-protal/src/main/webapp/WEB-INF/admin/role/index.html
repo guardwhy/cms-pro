@@ -15,18 +15,6 @@
 
 <script>
 
-    // layui使用
-    layui.use('form', function (){
-        // 拿到form表格
-        var form = layui.form;
-        // 监听提交
-        form.on('submit(searchSubmit)', function (data){
-            layer.msg(JSON.stringify(data.field));
-            console.log(data.field);
-            return false;
-        })
-    })
-
     LayUtil.dataGrid.init({
         url:'${adminPath}/role/page.do'
         ,cellMinWidth: 80
