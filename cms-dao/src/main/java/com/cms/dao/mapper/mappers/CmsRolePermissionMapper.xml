@@ -2,9 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--
-实体类的映射文件: namespace 指定接口的类全名
--->
+<!--实体类的映射文件: namespace 指定接口的类全名-->
 <mapper namespace="com.cms.dao.mapper.CmsRolePermissionMapper">
     <sql id="baseField">
         id,
@@ -17,34 +15,10 @@
         priority
     </sql>
 
+    <!--key-sql-->
     <sql id="key">
         role_id,
         permission_id
-    </sql>
-
-    <sql id="updateField">
-        update_time = #{updateTime},
-        <if test="parentId!=null">
-            parent_id = #{parentId},
-        </if>
-        <if test="menu!=null">
-            is_menu = #{menu},
-        </if>
-        <if test="icon!=null and icon!=''">
-            icon = #{icon},
-        </if>
-        <if test="url!=null and url!=''">
-            url = #{url},
-        </if>
-        <if test="name!=null and name!=''">
-            name = #{name},
-        </if>
-        <if test="action!=null and action!=''">
-            action = #{action},
-        </if>
-        <if test="priority!=null">
-            priority = #{priority},
-        </if>
     </sql>
 
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
@@ -57,6 +31,7 @@
         <result property="menu" column="is_menu"/>
     </resultMap>
 
+    <!--批量添加id-->
     <insert id="batchInsert">
         insert into cms_role_permission (<include refid="key"/>) values
         <foreach collection="permissionList" item="item" separator=",">
@@ -64,27 +39,9 @@
         </foreach>
     </insert>
 
-    <delete id="deleteById">
-        delete from cms_permission where id = #{id}
+    <!--根据permissionId删除角色-->
+    <delete id="deleteByPermissionId">
+        delete from cms_role_permission where permission_id = #{permissionId}
     </delete>
 
-    <update id="update">
-        update cms_permission
-        <trim prefix="set" suffixOverrides=",">
-            <include refid="updateField"/>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <select id="selectAll" resultMap="baseResultMap">
-        select
-        <include refid="baseField"/>
-        from cms_permission order by parent_id asc
-    </select>
-
-    <select id="selectById" resultMap="baseResultMap">
-        select
-        <include refid="baseField"/>
-        from cms_permission where id = #{id}
-    </select>
 </mapper>

@@ -63,7 +63,8 @@ public class RoleController {
     @PostMapping("add.do")
     @ResponseBody
     @DoLog(content = "添加角色")
-    public Result doAdd(CmsRoleDto cmsRoleDto){
+    @DoValid
+    public Result doAdd(@Valid CmsRoleDto cmsRoleDto, BindingResult result){
         cmsRoleService.save(cmsRoleDto);
         return Result.success();
     }

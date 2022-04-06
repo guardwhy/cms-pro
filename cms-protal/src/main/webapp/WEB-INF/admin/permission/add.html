@@ -41,7 +41,6 @@
 <link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree_select_tree.css">
 <link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
 
-
 <script>
   // 下拉树选项
   LayUtil.selectTree.init({
@@ -58,8 +57,6 @@
 
   <#--layutil初始化-->
   LayUtil.form.init(function (form){
-    form.submit(function (data){
-      core.http({url:"add.do", data:data.field})
-    })
+
   })
 </script>

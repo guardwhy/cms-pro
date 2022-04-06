@@ -3,6 +3,7 @@ package com.cms.service.impl;
 import com.cms.core.exception.BusinessException;
 import com.cms.dao.entity.CmsPermissionEntity;
 import com.cms.dao.mapper.CmsPermissionMapper;
+import com.cms.dao.mapper.CmsRolePermissionMapper;
 import com.cms.service.api.CmsPermissionService;
 import com.cms.service.converter.CmsPermissionConverter;
 import com.cms.service.dto.CmsPermissionDto;
@@ -11,6 +12,7 @@ import com.google.common.collect.Maps;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,9 +26,12 @@ import java.util.Objects;
 @Service
 public class CmsPermissionServiceImpl implements CmsPermissionService {
 
-    @Autowired
     // 注入权限cmsPermissionMapper
+    @Autowired
     private CmsPermissionMapper cmsPermissionMapper;
+    // 注入权限cmsRolePermissionMapper
+    @Autowired
+    private CmsRolePermissionMapper cmsRolePermissionMapper;
 
     /***
      * 添加操作
@@ -36,6 +41,25 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
     public void save(CmsPermissionDto dto) {
         cmsPermissionMapper.save(CmsPermissionConverter.CONVERTER.dtoToEntity(dto));
     }
+
+    /***
+     * 根据主键id删除
+     * @param id
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(Integer id) {
+        // 通过id拿到cmsPermissionMapper
+        List<CmsPermissionEntity> cmsPermissionEntities = cmsPermissionMapper.selectByParentId(id);
+        // 条件判断
+        if(!CollectionUtils.isEmpty(cmsPermissionEntities)){
+            throw new BusinessException("不能删除带有子类的权限");
+        }
+        // 删除id
+        cmsRolePermissionMapper.deleteByPermissionId(id);
+        cmsPermissionMapper.deleteById(id);
+    }
+
 
     /***
      * 根据id查询结果
@@ -55,22 +79,6 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
     @Override
     public List<CmsPermissionDto> getList(CmsPermissionDto cmsPermissionDto) {
         return CmsPermissionConverter.CONVERTER.entityToDto(cmsPermissionMapper.selectAll());
-    }
-
-    /***
-     * 根据主键id删除
-     * @param id
-     */
-    @Override
-    public void deleteById(Integer id) {
-        // 通过id拿到cmsPermissionMapper
-        List<CmsPermissionEntity> cmsPermissionEntities = cmsPermissionMapper.selectByParentId(id);
-        // 条件判断
-        if(!CollectionUtils.isEmpty(cmsPermissionEntities)){
-            throw new BusinessException("不能删除带有子类的权限");
-        }
-        // 删除id
-        cmsPermissionMapper.deleteById(id);
     }
 
     /***
