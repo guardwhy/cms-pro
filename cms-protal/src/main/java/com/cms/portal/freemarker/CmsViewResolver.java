@@ -18,7 +18,6 @@ public class CmsViewResolver extends FreeMarkerView {
     //后台路径
     private static final String ADMIN_PATH = "/admin/cms/";
 
-
     @Override
     protected void exposeHelpers(Map<String, Object> model, HttpServletRequest request) throws Exception {
         // getContextPath():获取项目的根路径
@@ -37,6 +36,7 @@ public class CmsViewResolver extends FreeMarkerView {
         includeGoBackList.forEach(x->{
             if(requestURI.contains(x)){
                 model.put("goBack",true);
+                model.put("operationUrl",x);
             }
         });
         model.put("basePath", contextPath);

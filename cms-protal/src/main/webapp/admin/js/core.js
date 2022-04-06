@@ -1,4 +1,17 @@
 let core={
+    //字符串操作
+    String:{
+        //判断字符串是否为空
+        isEmpty:function(content){
+            if(content===undefined){
+                return true;
+            }
+            if($.trim(content).length===0){
+                return true;
+            }
+            return false;
+        }
+    },
     // 设置限流工具类
     throttle:function (method, args, context){
         // 清空tId
@@ -283,30 +296,39 @@ LayUtil.prototype = {
         LayUtil.layer = new Inner();
     })(LayUtil),
     // from表单
-    form:(function (LayUtil){
+    form:(function(LayUtil){
         function Inner(){
-
         }
-        Inner.prototype = {
-            construct: Inner,
-            // 项目初始化自动封装
-            init: function (callback) {
-                let that = this;
-                layui.use('form', function () {
+        Inner.prototype={
+            construct:Inner,
+            // 自动化封装
+            init:function(callback){
+                let that =this;
+                layui.use('form',function(){
                     that.form = layui.form;
-                    // 自动化完成渲染
                     that.form.render();
-                    if (callback instanceof Function) {
-                        callback(that, that.form);
+                    if(callback instanceof Function){
+                        //自动提交 如果返回undefined
+                        let autoOperation = callback(that,that.form);
+                        if(autoOperation === undefined){
+                            (OPERATION_URL!==undefined && !core.String.isEmpty(OPERATION_URL)) && that.submit(function(data){
+                                core.http({url:OPERATION_URL,data:data.field});
+                            })
+                        }
                     }
                 });
                 return this;
             },
             // 提交表单,事件监听
-            submit:function (callback, name, type="submit"){
-                this.form.on(type+"("+(name === undefined? 'go':name) + ")", function (obj){
+            submit:function(callback,name,type="submit"){
+                this.form.on(type+"("+(name===undefined?'go':name)+")",function(obj){
                     if(callback instanceof Function){
-                        callback(obj);
+                        //自动提交 如果返回undefined
+                        let data = callback(obj);
+                        if(data !== undefined){
+                            (OPERATION_URL!==undefined && !core.String.isEmpty(OPERATION_URL)) &&
+                            core.http({url:OPERATION_URL,data:data});
+                        }
                         return false;
                     }
                     return true;

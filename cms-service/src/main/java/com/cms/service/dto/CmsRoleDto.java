@@ -3,6 +3,7 @@ package com.cms.service.dto;
 import com.cms.core.foundation.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CmsRoleDto extends BaseDto<Integer> {
+    // @NotBlank(message = "请输入角色名称")
     private String name; // 权限名称
     private Integer priority; // 排列顺序
     private Boolean all; // 是否所有权限

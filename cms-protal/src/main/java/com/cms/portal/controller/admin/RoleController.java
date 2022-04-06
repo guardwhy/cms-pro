@@ -4,17 +4,20 @@ import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
 import com.cms.context.utils.UtilsTree;
 import com.cms.core.annotation.DoLog;
+import com.cms.core.annotation.DoValid;
 import com.cms.service.api.CmsPermissionService;
 import com.cms.service.api.CmsRoleService;
 import com.cms.service.dto.CmsPermissionDto;
 import com.cms.service.dto.CmsRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +60,14 @@ public class RoleController {
         return UtilsTemplate.adminTemplate("role", "add");
     }
 
+    @PostMapping("add.do")
+    @ResponseBody
+    @DoLog(content = "添加角色")
+    public Result doAdd(CmsRoleDto cmsRoleDto){
+        cmsRoleService.save(cmsRoleDto);
+        return Result.success();
+    }
+
     /***
      * 返回添加角色情况
      * @return
@@ -67,13 +78,5 @@ public class RoleController {
         List<CmsPermissionDto> permissionList =cmsPermissionService.getTree(null);
         UtilsTree.recursion(permissionList);
         return Result.success((ArrayList) permissionList);
-    }
-
-    @PostMapping("add.do")
-    @ResponseBody
-    @DoLog(content = "添加角色")
-    public Result doAdd(CmsRoleDto cmsRoleDto){
-        cmsRoleService.save(cmsRoleDto);
-        return Result.success();
     }
 }

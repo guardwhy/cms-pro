@@ -37,12 +37,14 @@
             if(data.field.all==="0"){
                 dtreeInner.getChecked(data.field,"permission");
             }
-            core.http({url:"add.do",data:data.field})
+            return data.field;
         });
+
         // 对radio进行监听
-        inner.radio("permissionFilter", function (obj){
+        inner.radio("permissionFilter",function(obj){
             (obj.value==="1")?$(".permission").hide():$(".permission").show();
-        })
+        });
+        return true;
     });
 
     let dtreeInner = LayUtil.tree.init({
