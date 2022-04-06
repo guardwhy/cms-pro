@@ -49,3 +49,9 @@
         <input type="radio" name="${name}" title="${item.label}" <#if value=="${item.getOrdinal()}">checked</#if> value="${item.getOrdinal()}">
     </#list>
 </#macro>
+
+<#--封装表头查询-->
+<#macro headSearch>
+    <#nested>
+    <button class="layui-btn" lay-submit lay-filter="searchSubmit">立即提交</button>
+</#macro>
