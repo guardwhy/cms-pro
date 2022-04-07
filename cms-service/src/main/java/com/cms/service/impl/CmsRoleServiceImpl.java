@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.cms.context.utils.UtilsHttp;
 import com.cms.core.foundation.Page;
 import com.cms.dao.entity.CmsRoleEntity;
 import com.cms.dao.mapper.CmsRoleMapper;
@@ -49,15 +50,6 @@ public class CmsRoleServiceImpl implements CmsRoleService {
     }
 
     @Override
-    public Page<CmsRoleDto> getPage(CmsRoleDto dto) {
-        // 拿到分页数据
-        com.github.pagehelper.Page<CmsRoleEntity> page = PageHelper.startPage(1, 1).doSelectPage(() ->
-                cmsRoleMapper.selectByPage(CmsRoleConverter.CONVERTER.dtoToEntity(dto)));
-
-        // 返回最终页数
-        return new Page<>(page.getTotal(), CmsRoleConverter.CONVERTER.entityToDto(page.getResult()));
-    }
-    @Override
     public CmsRoleDto getById(Integer id) {
         return null;
     }
@@ -70,5 +62,21 @@ public class CmsRoleServiceImpl implements CmsRoleService {
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    /***
+     * 分页查询
+     * @param dto
+     * @return
+     */
+    @Override
+    public Page<CmsRoleDto> getPage(CmsRoleDto dto) {
+        // 获取pageInfo
+        UtilsHttp.Page pageInfo = UtilsHttp.getPageInfo();
+        // 拿到分页数据
+        com.github.pagehelper.Page<CmsRoleEntity> page = PageHelper.startPage(pageInfo.getPageCurrent(), pageInfo.getPageSize()).
+                doSelectPage(() -> cmsRoleMapper.selectByPage(CmsRoleConverter.CONVERTER.dtoToEntity(dto)));
+        // 返回最终页数
+        return new Page<>(page.getTotal(),CmsRoleConverter.CONVERTER.entityToDto(page.getResult()));
     }
 }

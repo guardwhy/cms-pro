@@ -2,6 +2,7 @@ package com.cms.context.utils;
 
 import com.cms.context.constant.ConstantsPool;
 import com.cms.context.foundation.Result;
+import com.cms.core.foundation.Page;
 import com.sun.media.jfxmedia.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,12 @@ public class UtilsHttp {
     private static final String COMMA = ",";
     private static final String IP_EMPTY = "0:0:0:0:0:0:0:1";
     private static final String IP_LOOP = "127.0.0.1";
+
+    // 分页信息
+    private static final int DEFAULT_SIZE = 10;
+    private static final String ORDER_BY = "orderBy";
+    private static final String PAGE_SIZE = "pageSize";
+    private static final String PAGE_CURRENT = "pageCurrent";
 
     /**
      * 获取request对象
@@ -108,4 +115,57 @@ public class UtilsHttp {
         }
         return Result.failed(info);
     }
+
+    /***
+     * 获取前端请求的分页信息
+     * @return
+     */
+    public static Page getPageInfo(){
+        HttpServletRequest request = getRequest();
+        String pageSize = request.getParameter(PAGE_SIZE);
+        String pageCurrent = request.getParameter(PAGE_CURRENT);
+        return new Page(StringUtils.isNotBlank(pageCurrent)?Integer.parseInt(pageCurrent):1,
+                StringUtils.isNotBlank(pageSize)?Integer.parseInt(pageSize):DEFAULT_SIZE,request.getParameter(ORDER_BY));
+    }
+
+    /**
+     * 分页信息的内部类
+     */
+    public static final class Page{
+        private int pageCurrent;
+        private String orderBy;
+        private int pageSize;
+
+        public Page(int pageCurrent, int pageSize,String orderBy) {
+            this.pageCurrent = pageCurrent;
+            this.orderBy = orderBy;
+            this.pageSize = pageSize;
+        }
+
+        public int getPageCurrent() {
+            return pageCurrent;
+        }
+
+        public void setPageCurrent(int pageCurrent) {
+            this.pageCurrent = pageCurrent;
+        }
+
+        public String getOrderBy() {
+            return orderBy;
+        }
+
+        public void setOrderBy(String orderBy) {
+            this.orderBy = orderBy;
+        }
+
+        public int getPageSize() {
+            return pageSize;
+        }
+
+        public void setPageSize(int pageSize) {
+            this.pageSize = pageSize;
+        }
+    }
+
+
 }
