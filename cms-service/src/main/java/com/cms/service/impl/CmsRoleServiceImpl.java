@@ -2,6 +2,7 @@ package com.cms.service.impl;
 
 import com.cms.context.utils.UtilsHttp;
 import com.cms.core.foundation.Page;
+import com.cms.core.foundation.SearchProvider;
 import com.cms.dao.entity.CmsRoleEntity;
 import com.cms.dao.mapper.CmsRoleMapper;
 import com.cms.dao.mapper.CmsRolePermissionMapper;
@@ -74,8 +75,9 @@ public class CmsRoleServiceImpl implements CmsRoleService {
         // 获取pageInfo
         UtilsHttp.Page pageInfo = UtilsHttp.getPageInfo();
         // 拿到分页数据
+        SearchProvider of = SearchProvider.of(CmsRoleConverter.CONVERTER.dtoToEntity(dto));
         com.github.pagehelper.Page<CmsRoleEntity> page = PageHelper.startPage(pageInfo.getPageCurrent(), pageInfo.getPageSize()).
-                doSelectPage(() -> cmsRoleMapper.selectByPage(CmsRoleConverter.CONVERTER.dtoToEntity(dto)));
+                doSelectPage(() -> cmsRoleMapper.selectBySearchProvider(of));
         // 返回最终页数
         return new Page<>(page.getTotal(),CmsRoleConverter.CONVERTER.entityToDto(page.getResult()));
     }

@@ -39,4 +39,11 @@ public interface BaseMapper<ENTITY extends BaseEntity<PK>,PK extends Serializabl
      * @param id
      */
     void deleteById(PK id);
+
+    /***
+     * 分页查询
+     * @param searchProvider
+     * @return
+     */
+    List<ENTITY> selectBySearchProvider(SearchProvider searchProvider);
 }

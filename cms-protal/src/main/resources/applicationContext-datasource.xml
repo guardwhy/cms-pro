@@ -30,6 +30,9 @@
                 <property name="lazyLoadTriggerMethods" value=""/>
             </bean>
         </property>
+        
+        <!--配置别名-->
+        <property name="typeAliases" value="com.cms.core.foundation.SearchProvider"/>
 
         <!--mybatis插件-->
         <property name="plugins">

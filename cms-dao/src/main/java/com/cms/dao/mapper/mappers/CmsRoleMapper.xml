@@ -108,9 +108,16 @@
     </select>
 
     <!--分页查询-->
-    <select id="selectByPage" resultMap="baseResultMap">
+    <select id="selectBySearchProvider" parameterType="SearchProvider" resultMap="baseResultMap">
         select
         <include refid="baseField"/>
-        from cms_role where status = 0 order by priority asc
+        from cms_role
+        <where>
+            status = 0
+            <if test="criteria.name!=null and criteria.name!=''">
+                and name like concat ('%',#{criteria.name},'%')
+            </if>
+        </where>
+        order by priority asc
     </select>
 </mapper>
