@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.cms.core.foundation.Page;
 import com.cms.dao.mapper.CmsSiteMapper;
 import com.cms.service.api.CmsSiteService;
 import com.cms.service.converter.CmsSiteConverter;
@@ -35,6 +36,11 @@ public class CmsSiteServiceImpl implements CmsSiteService {
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    @Override
+    public Page<CmsSiteDto> getPage(CmsSiteDto dto) {
+        return null;
     }
 
     @Override

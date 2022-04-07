@@ -31,4 +31,11 @@ public interface BaseService<DTO extends BaseDto<PK>,PK extends Serializable> {
      * @param id
      */
     void deleteById(PK id);
+
+    /***
+     * 分页查询
+     * @param dto
+     * @return
+     */
+    Page<DTO> getPage(DTO dto);
 }

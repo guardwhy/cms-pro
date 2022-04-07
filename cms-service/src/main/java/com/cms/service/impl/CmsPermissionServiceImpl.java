@@ -1,6 +1,7 @@
 package com.cms.service.impl;
 
 import com.cms.core.exception.BusinessException;
+import com.cms.core.foundation.Page;
 import com.cms.dao.entity.CmsPermissionEntity;
 import com.cms.dao.mapper.CmsPermissionMapper;
 import com.cms.dao.mapper.CmsRolePermissionMapper;
@@ -58,6 +59,11 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
         // 删除id
         cmsRolePermissionMapper.deleteByPermissionId(id);
         cmsPermissionMapper.deleteById(id);
+    }
+
+    @Override
+    public Page<CmsPermissionDto> getPage(CmsPermissionDto dto) {
+        return null;
     }
 
 

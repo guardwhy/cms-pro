@@ -34,6 +34,12 @@
         <!--mybatis插件-->
         <property name="plugins">
             <array>
+                <!--分页插件-->
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>dialect=mysql</value>
+                    </property>
+                </bean>
                 <bean id="baseInterceptor" class="com.cms.context.interceptor.BaseInterceptor"/>
             </array>
         </property>

@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.cms.core.foundation.Page;
 import com.cms.dao.mapper.CmsUserPrimaryMapper;
 import com.cms.service.api.CmsUserPrimaryService;
 import com.cms.service.converter.CmsUserPrimaryConverter;
@@ -35,5 +36,10 @@ public class CmsUserPrimaryServiceImpl implements CmsUserPrimaryService {
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    @Override
+    public Page<CmsUserPrimaryDto> getPage(CmsUserPrimaryDto dto) {
+        return null;
     }
 }

@@ -48,7 +48,7 @@ public class RoleController {
     @ResponseBody
     // 请求数据
     public Result doPage(CmsRoleDto cmsRoleDto){
-        return Result.success();
+        return Result.success(cmsRoleService.getPage(cmsRoleDto));
     }
 
     /***

@@ -281,6 +281,12 @@
             <artifactId>commons-collections</artifactId>
             <version>${commonsCollectionsVersion}</version>
         </dependency>
+        <!--pagehelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>${pagehelperVersion}</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
