@@ -101,23 +101,23 @@
         where id = #{id}
     </update>
 
-    <select id="selectById" resultMap="baseResultMap">
-        select
-        <include refid="baseField"/>
-        from cms_permission where id = #{id}
-    </select>
-
     <!--分页查询-->
     <select id="selectBySearchProvider" parameterType="SearchProvider" resultMap="baseResultMap">
         select
         <include refid="baseField"/>
         from cms_role
         <where>
-            status = 0
             <if test="criteria.name!=null and criteria.name!=''">
-                and name like concat ('%',#{criteria.name},'%')
+                name like concat ('%',#{criteria.name},'%')
             </if>
         </where>
-        order by priority asc
+        order by priority asc,create_time desc
+    </select>
+
+    <!--根据角色id查询-->
+    <select id="selectById" resultMap="baseResultMap">
+        select
+        <include refid="baseField"/>
+        from cms_role where id = #{id}
     </select>
 </mapper>

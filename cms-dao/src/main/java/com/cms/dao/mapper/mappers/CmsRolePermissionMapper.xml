@@ -44,4 +44,9 @@
         delete from cms_role_permission where permission_id = #{permissionId}
     </delete>
 
+    <!--根据id查询角色和权限关联-->
+    <select id="selectPermissionIdByRoleId" resultType="java.lang.Integer">
+        select permission_id from cms_role_permission where role_id = #{roleId}
+    </select>
+
 </mapper>

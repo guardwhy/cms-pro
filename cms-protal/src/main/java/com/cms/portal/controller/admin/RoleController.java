@@ -6,20 +6,25 @@ import com.cms.context.utils.UtilsTree;
 import com.cms.core.annotation.DoLog;
 import com.cms.core.annotation.DoValid;
 import com.cms.service.api.CmsPermissionService;
+import com.cms.service.api.CmsRolePermissionService;
 import com.cms.service.api.CmsRoleService;
 import com.cms.service.dto.CmsPermissionDto;
 import com.cms.service.dto.CmsRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author guardwhy
@@ -27,6 +32,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("role")
+@Validated
 public class RoleController {
     // 调用cmsPermissionService
     @Autowired
@@ -34,6 +40,9 @@ public class RoleController {
     // 调用角色cmsRoleService
     @Autowired
     private CmsRoleService cmsRoleService;
+    // 调用角色权限cmsRolePermissionService
+    @Autowired
+    private CmsRolePermissionService cmsRolePermissionService;
 
     /***
      * 拿到角色index
@@ -75,9 +84,27 @@ public class RoleController {
      */
     @PostMapping("permission.do")
     @ResponseBody
-    public Result doPermission(){
+    public Result doPermission(Integer roleId){
         List<CmsPermissionDto> permissionList =cmsPermissionService.getTree(null);
-        UtilsTree.recursion(permissionList);
+        List<Integer> permissionIds = null;
+        // 条件判断
+        if(Objects.nonNull(roleId)){
+            permissionIds = cmsRolePermissionService.getPermissionIdByRoleId(roleId);
+        }
+        UtilsTree.recursion(permissionList, permissionIds);
         return Result.success((ArrayList) permissionList);
+    }
+
+    /***
+     * 修改角色
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("edit.do")
+    public String toEdit(@NotNull(message = "请输入id") Integer id, Model model){
+        // 返回置前端页面
+        model.addAttribute("data", cmsRoleService.getById(id));
+        return UtilsTemplate.adminTemplate("role", "edit");
     }
 }

@@ -51,11 +51,6 @@ public class CmsRoleServiceImpl implements CmsRoleService {
     }
 
     @Override
-    public CmsRoleDto getById(Integer id) {
-        return null;
-    }
-
-    @Override
     public void update(CmsRoleDto dto) {
 
     }
@@ -80,5 +75,15 @@ public class CmsRoleServiceImpl implements CmsRoleService {
                 doSelectPage(() -> cmsRoleMapper.selectBySearchProvider(of));
         // 返回最终页数
         return new Page<>(page.getTotal(),CmsRoleConverter.CONVERTER.entityToDto(page.getResult()));
+    }
+
+    /***
+     * 根据id修改
+     * @param id
+     * @return
+     */
+    @Override
+    public CmsRoleDto getById(Integer id) {
+        return CmsRoleConverter.CONVERTER.entityToDto(cmsRoleMapper.selectById(id));
     }
 }
