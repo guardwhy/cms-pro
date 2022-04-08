@@ -51,11 +51,6 @@ public class CmsRoleServiceImpl implements CmsRoleService {
     }
 
     @Override
-    public void update(CmsRoleDto dto) {
-
-    }
-
-    @Override
     public void deleteById(Integer id) {
 
     }
@@ -85,5 +80,23 @@ public class CmsRoleServiceImpl implements CmsRoleService {
     @Override
     public CmsRoleDto getById(Integer id) {
         return CmsRoleConverter.CONVERTER.entityToDto(cmsRoleMapper.selectById(id));
+    }
+
+    /***
+     * 修改角色dto
+     * @param dto
+     */
+    @Override
+    public void update(CmsRoleDto dto) {
+        // 更新dto
+        cmsRoleMapper.update(CmsRoleConverter.CONVERTER.dtoToEntity(dto));
+        cmsRolePermissionMapper.deleteByRoleId(dto.getId());
+        if(!dto.getAll()){
+            // 拿到permission
+            List<Integer> permission = dto.getPermission();
+            if(CollectionUtils.isNotEmpty(permission)){
+                cmsRolePermissionMapper.batchInsert(permission,dto.getId());
+            }
+        }
     }
 }

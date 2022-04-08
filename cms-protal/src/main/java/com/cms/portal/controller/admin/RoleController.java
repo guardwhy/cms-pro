@@ -107,4 +107,20 @@ public class RoleController {
         model.addAttribute("data", cmsRoleService.getById(id));
         return UtilsTemplate.adminTemplate("role", "edit");
     }
+
+    /***
+     * 修改角色权限
+     * @param cmsRoleDto
+     * @param result
+     * @return
+     */
+    @PostMapping("edit.do")
+    @ResponseBody
+    @DoValid
+    @DoLog(content = "修改角色")
+    public Result<String> doEdit(@Valid CmsRoleDto cmsRoleDto, BindingResult result){
+        cmsRoleService.update(cmsRoleDto);
+        return Result.success();
+    }
+
 }
