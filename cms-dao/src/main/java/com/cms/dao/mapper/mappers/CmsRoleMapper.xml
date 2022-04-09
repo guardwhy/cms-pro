@@ -78,10 +78,6 @@
         insert into cms_role (<include refid="key"/>) values (<include refid="value"/>)
     </insert>
 
-    <!--根据id删除元素-->
-    <delete id="deleteById">
-        delete from cms_permission where id = #{id}
-    </delete>
 
     <!--根据id修改元素-->
     <update id="update">
@@ -111,4 +107,9 @@
         <include refid="baseField"/>
         from cms_role where id = #{id}
     </select>
+
+    <!--根据id删除角色-->
+    <delete id="deleteById">
+        delete from cms_role where id = #{id}
+    </delete>
 </mapper>

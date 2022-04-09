@@ -50,11 +50,6 @@ public class CmsRoleServiceImpl implements CmsRoleService {
         }
     }
 
-    @Override
-    public void deleteById(Integer id) {
-
-    }
-
     /***
      * 分页查询
      * @param dto
@@ -99,4 +94,18 @@ public class CmsRoleServiceImpl implements CmsRoleService {
             }
         }
     }
+
+    /***
+     * 删除角色id
+     * @param id
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(Integer id) {
+        // 删除权限表数据
+        cmsRolePermissionMapper.deleteByPermissionId(id);
+        // 删除角色表数据
+        cmsRoleMapper.deleteById(id);
+    }
+
 }

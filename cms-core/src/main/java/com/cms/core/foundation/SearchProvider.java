@@ -16,8 +16,31 @@ public class SearchProvider<T extends BaseEntity> {
     private String searchOrderBy;
 
     /**
-     * get/set方法
+     * 静态方法  没有排序
+     * @param criteria
+     * @param <W>
+     * @return
      */
+    public static<W extends BaseEntity> SearchProvider of(W criteria){
+        SearchProvider searchProvider = new SearchProvider<>();
+        searchProvider.setCriteria(criteria);
+        return searchProvider;
+    }
+
+    /**
+     * 静态方法 带有排序
+     * @param criteria
+     * @param orderBy
+     * @param <W>
+     * @return
+     */
+    public static<W extends BaseEntity> SearchProvider of(W criteria,String orderBy){
+        SearchProvider searchProvider = new SearchProvider<>();
+        searchProvider.setCriteria(criteria);
+        searchProvider.setSearchOrderBy(orderBy);
+        return searchProvider;
+    }
+
     public T getCriteria() {
         return criteria;
     }
@@ -32,30 +55,5 @@ public class SearchProvider<T extends BaseEntity> {
 
     public void setSearchOrderBy(String searchOrderBy) {
         this.searchOrderBy = searchOrderBy;
-    }
-
-    /***
-     * 静态方法 没有排序
-     * @param criteria
-     * @param <W>
-     * @return
-     */
-    public static <W extends BaseEntity> SearchProvider of(W criteria){
-        SearchProvider searchProvider = new SearchProvider<>();
-        searchProvider.setCriteria(criteria);
-        return searchProvider;
-    }
-
-    /***
-     * 静态方法 自带排序
-     * @param criteria
-     * @param <W>
-     * @return
-     */
-    public static <W extends BaseEntity> SearchProvider of(W criteria, String orderBy){
-        SearchProvider searchProvider = new SearchProvider<>();
-        searchProvider.setCriteria(criteria);
-        searchProvider.setSearchOrderBy(orderBy);
-        return searchProvider;
     }
 }

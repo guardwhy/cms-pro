@@ -123,4 +123,16 @@ public class RoleController {
         return Result.success();
     }
 
+    /***
+     * 删除角色
+     * @param id
+     * @return
+     */
+    @PostMapping("delete.do")
+    @ResponseBody
+    @DoLog(content = "删除角色")
+    public Result<String> doDelete(@NotNull(message = "请输入id") Integer id){
+        cmsRoleService.deleteById(id);
+        return Result.success();
+    }
 }
