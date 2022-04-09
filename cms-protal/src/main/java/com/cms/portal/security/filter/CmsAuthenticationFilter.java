@@ -109,9 +109,6 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         // 调用线程池
         threadPoolTaskExecutor.execute(()->{
             CmsUserDto cmsUserDto = (CmsUserDto) subject.getPrincipal();
-            // 设置IP和Session
-            cmsUserDto.setLastLoginIp(ip);
-            cmsUserDto.setSessionId(UtilsShiro.getSession().getId().toString());
             // 更新操作
             cmsUserService.update(cmsUserDto);
             // 保存操作

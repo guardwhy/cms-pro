@@ -1,10 +1,8 @@
 package com.cms.portal.security.realm;
 
-import com.cms.dao.enums.UserStatusEnum;
-import com.cms.service.api.CmsUserPrimaryService;
 import com.cms.service.api.CmsUserService;
 import com.cms.service.dto.CmsUserDto;
-import com.cms.service.dto.CmsUserPrimaryDto;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -22,8 +20,6 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
 
     @Autowired
     private CmsUserService cmsUserService;
-    @Autowired
-    private CmsUserPrimaryService cmsUserPrimaryService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -40,12 +36,10 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
         //校验用户状态 禁用
-        verifyStatus(null);
+        verifyStatus(cmsUserDto.getStatus());
         //查询用户主表信息
-        CmsUserPrimaryDto cmsUserPrimaryDto = cmsUserPrimaryService.getById(cmsUserDto.getId());
-        // 密码对比
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(cmsUserDto, cmsUserPrimaryDto.getPassword(),
-                ByteSource.Util.bytes(cmsUserPrimaryDto.getSalt()), getName());
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(cmsUserDto, cmsUserDto.getPassword(),
+                ByteSource.Util.bytes(cmsUserDto.getSalt()), getName());
         // 清理认证信息
         super.clearCachedAuthenticationInfo(simpleAuthenticationInfo.getPrincipals());
         // 返回密码校验
@@ -54,17 +48,11 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
 
     /**
      * 校验状态
-     * @param userStatusEnum
+     * @param userStatus
      */
-    private void verifyStatus(UserStatusEnum userStatusEnum){
-        if(UserStatusEnum.DISABLED.equals(userStatusEnum)){
+    private void verifyStatus(Boolean userStatus){
+        if(BooleanUtils.isFalse(userStatus)){
             throw new DisabledAccountException("该账号已被禁用,请联系管理员!");
-        }
-        if(UserStatusEnum.LOCKED.equals(userStatusEnum)){
-            throw new DisabledAccountException("该账号已被锁定,请联系管理员!");
-        }
-        if(UserStatusEnum.UNACTIVATED.equals(userStatusEnum)){
-            throw new DisabledAccountException("该账号未激活,请联系管理员!");
         }
     }
 }

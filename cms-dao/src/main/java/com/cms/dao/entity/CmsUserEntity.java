@@ -14,10 +14,10 @@ import java.io.Serializable;
 @Setter
 public class CmsUserEntity extends BaseEntity<Integer> {
     private String username;
-    private Integer status;
+    private Boolean status;
     private Boolean admin;
-    private String lastLoginIp;
-    private String sessionId;
+    private String password;
+    private String salt;
     /**
      * 超级管理员
      */

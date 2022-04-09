@@ -6,27 +6,27 @@
 实体类的映射文件: namespace 指定接口的类全名
 -->
 <mapper namespace="com.cms.dao.mapper.CmsUserMapper">
+
     <!--数据库查询语句-->
     <sql id="baseColumn">
         id,
         username,
-        status
+        status,
+        password,
+        salt
     </sql>
 
+    <!--用户登录更新时间-->
     <sql id="updateField">
-        update_time = #{updateTime},
-        <if test="sessionId!=null and sessionId!=''">
-            session_id = #{sessionId},
-        </if>
-        <if test="lastLoginIp!=null and lastLoginIp!=''">
-            last_login_ip = #{lastLoginIp},
-        </if>
+        update_time = #{updateTime}
     </sql>
 
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserEntity">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="status" column="status"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
     </resultMap>
 
     <!--根据Id修改操作-->
@@ -40,6 +40,6 @@
 
     <!--根据id查询操作-->
     <select id="getByUsername"  resultMap="baseResultMap">
-        select <include refid="baseColumn"/> from cms_user where username = #{username} and deleted = 1
+        select <include refid="baseColumn"/> from cms_user where username = #{username} and is_delete = 1
     </select>
 </mapper>
