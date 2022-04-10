@@ -14,10 +14,12 @@
         </@form.item>
         <@form.item>
             <@form.inline label="密码" required=true>
-                <input name="password" class="layui-input" type="password" lay-filter="required|password" placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
+                <input name="password" class="layui-input" type="password" lay-filter="required|password"
+                       placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
             </@form.inline>
             <@form.inline label="确认密码" required=true>
-                <input class="layui-input" type="password" lay-filter="required|confirmPassword" placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
+                <input class="layui-input" type="password" lay-filter="required|confirmPassword"
+                       placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
             </@form.inline>
         </@form.item>
         <@form.item>
@@ -27,8 +29,12 @@
             </@form.inline>
         </@form.item>
         <@form.item>
+            <!--判断角色-->
             <@form.inline label="角色" full=true>
-
+                <#if roles?size==0>
+                    <span>当前无角色,请先在角色管理中创建角色</span>
+                </#if>
+                <@form.radio list=roles name="role" itemLabel="name" itemValue="id"  filter=""></@form.radio>
             </@form.inline>
         </@form.item>
         <@form.submit></@form.submit>

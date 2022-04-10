@@ -107,4 +107,14 @@ public class CmsRoleServiceImpl implements CmsRoleService {
         // 删除角色表数据
         cmsRoleMapper.deleteById(id);
     }
+
+    /***
+     * 获取角色列表实现
+     * @return
+     */
+    @Override
+    public List<CmsRoleDto> getList() {
+        SearchProvider of = SearchProvider.of(CmsRoleConverter.CONVERTER.dtoToEntity(new CmsRoleDto()));
+        return CmsRoleConverter.CONVERTER.entityToDto(cmsRoleMapper.selectBySearchProvider(of));
+    }
 }
