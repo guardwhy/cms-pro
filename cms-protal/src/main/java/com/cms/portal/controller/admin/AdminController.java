@@ -13,8 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("admin")
 public class AdminController {
+    /***
+     * 管理员的首页显示
+     * @return
+     */
     @GetMapping("index.do")
     public String toIndex(){
         return UtilsTemplate.adminTemplate("admin", "index");
+    }
+
+    /***
+     * 显示管理员添加页面
+     * @return
+     */
+    @GetMapping("add.do")
+    public String toAdd(){
+        return UtilsTemplate.adminTemplate("admin", "add");
     }
 }

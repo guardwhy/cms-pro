@@ -1,0 +1,42 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree_tree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+<@main.layout>
+    <@form.form>
+        <@form.item>
+            <@form.inline label="用户名" required=true>
+                <input name="username" class="layui-input" type="text" lay-verify="required|username" placeholder="5-10位英文,字母,数字或下划线">
+            </@form.inline>
+            <@form.inline label="邮箱" required=true>
+                <input name="email" class="layui-input" type="text" lay-verify="required|email">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="密码" required=true>
+                <input name="password" class="layui-input" type="password" lay-filter="required|password" placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
+            </@form.inline>
+            <@form.inline label="确认密码" required=true>
+                <input class="layui-input" type="password" lay-filter="required|confirmPassword" placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="状态">
+                <input name="status" class="layui-input" type="radio" value="0"  title="禁用">
+                <input name="status" class="layui-input" type="radio" value="1" checked title="启用">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="角色" full=true>
+
+            </@form.inline>
+        </@form.item>
+        <@form.submit></@form.submit>
+    </@form.form>
+</@main.layout>
+<script>
+    LayUtil.form.init(function(inner){
+
+    });
+
+</script>

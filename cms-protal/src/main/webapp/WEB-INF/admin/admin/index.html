@@ -21,7 +21,7 @@
             ,{field:'email', title: '邮箱'}
             ,{field:'status', width:80, title: '状态', templet:function(data){
                     return !data.status?"禁用":"正常";
-                }}
+             }}
             ,{field:'registerTime', title: '注册时间'}
             ,{templet: '#rightTemplate', align: 'center', title: '操作'}
         ]]
@@ -29,10 +29,10 @@
     })
 </script>
 <script type="text/html" id="rightTemplate">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" href="${adminPath}/role/edit.do?id={{d.id}}">修改</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href="edit.do?id={{d.id}}">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="toolbar">
-    <a class="layui-btn layui-btn-sm layui-bg-blue" href="${adminPath}/role/add.do"><i class="layui-icon layui-icon-add-1"></i>添加</a>
+    <a class="layui-btn layui-btn-sm layui-bg-blue" href="add.do"><i class="layui-icon layui-icon-add-1"></i>添加</a>
     <a class="layui-btn layui-btn-sm" onclick="javascript:window.location.reload()"><i class="layui-icon layui-icon-refresh-3"></i>刷新</a>
 </script>
