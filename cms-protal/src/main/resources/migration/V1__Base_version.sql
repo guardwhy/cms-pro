@@ -100,3 +100,13 @@ CREATE TABLE cms_role_permission
     permission_id int not null comment '权限id'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+-- ----------------------------
+--  Table structure for cms_user_role  用户角色表
+-- ----------------------------
+CREATE TABLE cms_user_role
+(
+    role_id int not null comment '角色id',
+    user_id int not null comment '用户id'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
