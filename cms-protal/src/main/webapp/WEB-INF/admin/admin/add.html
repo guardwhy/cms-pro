@@ -41,8 +41,32 @@
     </@form.form>
 </@main.layout>
 <script>
+    // 初始化
     LayUtil.form.init(function(inner){
+        // 验证操作
+        inner.verify({
+            username:function(val){
+                if(!new RegExp(CONSTANT.REGEXP.USERNAME).test(val)){
+                    return "用户名必须是5-10位英文,字母,数字或下划线";
+                }
+            },
+            password:function(val){
+                if(!new RegExp(CONSTANT.REGEXP.PASSWORD).test(val)){
+                    return "密码必须是7-15位英文,字母,数字或符号,最少其中的两种组合";
+                }
+            },
+            confirmPassword:function(val){
+                let password = $('input[name="password"]').val();
+                if(password!==val){
+                    return "两次输入的密码不一致";
+                }
+            }
+        });
 
+        // 提交操作
+        inner.submit(function (){
+
+        })
     });
 
 </script>

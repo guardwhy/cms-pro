@@ -134,6 +134,13 @@ const CONSTANT = {
     HTTP:{
         SUCCESS:200,
         ERROR:500
+    },
+    // 正则相关
+    REGEXP:{
+        //用户名正则
+        USERNAME: /^(?![_]+$)\w{5,10}$/,
+        //密码正则
+        PASSWORD: /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{7,15}$/
     }
 };
 
