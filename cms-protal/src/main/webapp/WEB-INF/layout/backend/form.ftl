@@ -5,14 +5,14 @@
     </form>
 </#macro>
 
-<#--通用form中的每一项一行item-->
+<#--通用form中的每一项 一行item-->
 <#macro item class="">
     <div class="layui-form-item ${class}">
         <#nested>
     </div>
 </#macro>
 
-<#--item中左右两边的inline-->
+<#--    item中左右两边的inline-->
 <#macro inline required=false label="">
     <div class="layui-inline cms-inline-50">
         <label class="layui-form-label layui-col-md6 <#if required>cms-label-required</#if>" style="width:197px;">${label}</label>
@@ -43,7 +43,7 @@
     </div>
 </#macro>
 
-<#--单选框 -->
+<#--单选框-->
 <#macro radio list name value="">
     <#list list as item>
         <input type="radio" name="${name}" title="${item.label}" <#if value=="${item.getOrdinal()}">checked</#if> value="${item.getOrdinal()}">
@@ -53,5 +53,5 @@
 <#--封装表头查询-->
 <#macro headSearch>
     <#nested>
-    <button class="layui-btn" lay-submit lay-filter="searchSubmit">立即提交</button>
+    <button class="layui-btn" lay-submit lay-filter="searchSubmit">查询</button>
 </#macro>

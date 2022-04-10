@@ -56,6 +56,12 @@
           "target": "_self",
           "child": [
             {
+              "title": "管理员",
+              "href": "/admin/cms/admin/index.do",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },
+            {
               "title": "角色管理",
               "href": "/admin/cms/role/index.do",
               "icon": "fa fa-list-alt",
