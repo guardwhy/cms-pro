@@ -1,12 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--
-实体类的映射文件: namespace 指定接口的类全名
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cms.dao.mapper.CmsUserMapper">
-
     <!--数据库查询语句-->
     <sql id="baseColumn">
         id,
@@ -14,6 +8,57 @@
         status,
         password,
         salt
+    </sql>
+    <!--key-sql值-->
+    <sql id="key">
+        <if test="username!=null and username!=''">
+            username,
+        </if>
+        <if test="password!=null and password!=''">
+            password,
+        </if>
+        <if test="email!=null and email!=''">
+            email,
+        </if>
+        <if test="salt!=null and salt!=''">
+            salt,
+        </if>
+        <if test="status!=null">
+            status,
+        </if>
+        <if test="admin!=null">
+            is_backend,
+        </if>
+        <if test="registerTime!=null">
+            register_time,
+        </if>
+        create_time
+    </sql>
+
+    <!--val-value-->
+    <sql id="val">
+        <if test="username!=null and username!=''">
+            #{username},
+        </if>
+        <if test="password!=null and password!=''">
+            #{password},
+        </if>
+        <if test="email!=null and email!=''">
+            #{email},
+        </if>
+        <if test="salt!=null and salt!=''">
+            #{salt},
+        </if>
+        <if test="status!=null">
+            #{status},
+        </if>
+        <if test="admin!=null">
+            #{admin},
+        </if>
+        <if test="registerTime!=null">
+            #{registerTime},
+        </if>
+        #{createTime}
     </sql>
 
     <!--用户登录更新时间-->
@@ -27,7 +72,9 @@
         <result property="status" column="status"/>
         <result property="password" column="password"/>
         <result property="salt" column="salt"/>
+        <result property="email" column="email"/>
     </resultMap>
+
 
     <!--根据Id修改操作-->
     <update id="update">
@@ -38,8 +85,21 @@
         where id = #{id}
     </update>
 
-    <!--根据id查询操作-->
+    <!--添加操作-->
+    <insert id="save">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into cms_user (<include refid="key"/>) values (<include refid="val"/>)
+    </insert>
+
+    <!--用户名查询操作-->
     <select id="getByUsername"  resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_user where username = #{username} and is_delete = 1
+    </select>
+
+    <!--邮箱查询-->
+    <select id="getByEmail"  resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user where email = #{email} and is_delete = 1
     </select>
 </mapper>

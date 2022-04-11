@@ -7,6 +7,6 @@ import com.cms.dao.entity.CmsSiteEntity;
  * @author guardwhy
  * @date 2022/3/17 13:44
  */
-public interface CmsSiteMapper extends BaseMapper<CmsSiteEntity, Integer> {
+public interface CmsSiteMapper extends BaseMapper<CmsSiteEntity,Integer> {
 
 }

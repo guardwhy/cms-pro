@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Service
 public class CmsRolePermissionServiceImpl implements CmsRolePermissionService {
-
     // 调用角色权限持久层
     @Autowired
     private CmsRolePermissionMapper cmsRolePermissionMapper;

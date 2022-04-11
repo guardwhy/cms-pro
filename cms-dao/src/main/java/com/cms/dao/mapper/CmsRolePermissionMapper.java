@@ -12,18 +12,24 @@ import java.util.List;
  * 角色权限mapper
  */
 public interface CmsRolePermissionMapper extends BaseMapper<CmsRolePermissionEntity,Integer> {
-    /***
+    /**
      * 批量插入
-     * @param permissionList 权限结合
-     * @param roleId 角色id
+     * @param permissionList      权限集合
+     * @param roleId              角色id
      */
-    void batchInsert( @Param("permissionList") List<Integer> permissionList, @Param("roleId") Integer roleId);
+    void batchInsert(@Param("permissionList") List<Integer> permissionList, @Param("roleId")Integer roleId);
 
-    /***
+    /**
      * 根据permissionId 删除
-     * @param permissionId  权限id
+     * @param permissionId      权限id
      */
     void deleteByPermissionId(Integer permissionId);
+
+    /**
+     * 根据角色id删除
+     * @param roleId     角色id
+     */
+    void deleteByRoleId(Integer roleId);
 
     /**
      * 根据角色id查找权限
@@ -31,10 +37,4 @@ public interface CmsRolePermissionMapper extends BaseMapper<CmsRolePermissionEnt
      * @return
      */
     List<Integer> selectPermissionIdByRoleId(Integer roleId);
-
-    /***
-     * 根据角色id 删除
-     * @param roleId 角色id
-     */
-    void deleteByRoleId(Integer roleId);
 }

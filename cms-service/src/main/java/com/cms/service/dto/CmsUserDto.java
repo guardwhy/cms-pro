@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author guardwhy
@@ -19,8 +20,7 @@ public class CmsUserDto extends BaseDto<Integer> {
     private Boolean admin;
     private String password;
     private String salt;
-    /**
-     * 超级管理员
-     */
-    private Boolean administrator;
+    private String email;
+    private Integer roleId;
+    private LocalDateTime registerTime;
 }

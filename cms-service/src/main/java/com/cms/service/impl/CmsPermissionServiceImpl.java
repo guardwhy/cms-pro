@@ -26,7 +26,6 @@ import java.util.Objects;
  */
 @Service
 public class CmsPermissionServiceImpl implements CmsPermissionService {
-
     // 注入权限cmsPermissionMapper
     @Autowired
     private CmsPermissionMapper cmsPermissionMapper;

@@ -12,8 +12,9 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper(uses = EnumConverter.class)
 public interface CmsUserConverter {
+    // 拿到CONVERTER
     CmsUserConverter CONVERTER = Mappers.getMapper(CmsUserConverter.class);
-
+    // dto和entity相互转换
     CmsUserEntity dtoToEntity(CmsUserDto dto);
     CmsUserDto entityToDto(CmsUserEntity entity);
 }
