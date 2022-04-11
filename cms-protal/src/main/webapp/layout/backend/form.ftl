@@ -12,7 +12,7 @@
     </div>
 </#macro>
 
-<#--item中左右两边的inline-->
+<#--    item中左右两边的inline-->
 <#macro inline required=false full=false label="">
     <div class="layui-inline ${full?string("cms-inline-100","cms-inline-50")}">
         <label class="layui-form-label layui-col-md6 <#if required>cms-label-required</#if>" style="width:197px;">${label}</label>
@@ -43,25 +43,24 @@
     </div>
 </#macro>
 
-<#--单选框 -->
+<#--单选框    -->
 <#macro radio list name value="" itemLabel="" itemValue=""  filter="" enum=false>
     <#if list?is_sequence>
         <#if enum==false>
             <#if itemLabel!="" && itemValue!="">
                 <#list list as item>
-                    <input type="radio" name="${name}" title="${item[itemLabel]}" lay-filter="${filter}"
-                           <#if value=="${item[itemValue]}">checked</#if> value="${item[itemValue]}">
+                    <input type="radio" name="${name}" title="${item[itemLabel]}" lay-filter="${filter}" <#if value=="${item[itemValue]}">checked</#if> value="${item[itemValue]}">
                 </#list>
             <#else>
 
             </#if>
         <#else>
             <#list list as item>
-                <input type="radio" name="${name}" title="${item.label}" lay-filter="${filter}"
-                       <#if value=="${item.getOrdinal()}">checked</#if> value="${item.getOrdinal()}">
+                <input type="radio" name="${name}" title="${item.label}" lay-filter="${filter}" <#if value=="${item.getOrdinal()}">checked</#if> value="${item.getOrdinal()}">
             </#list>
         </#if>
     <#else>
+
     </#if>
 </#macro>
 

@@ -17,37 +17,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Objects;
 
 /**
- * @author guardwhy
- * @date 2022/4/10 8:37
- * 用户控制器
+ * 个人微信: 15254124776
+ * 个人qq:  2301887641
  */
 @Controller
 @RequestMapping("admin")
 public class AdminController {
-    // 注入角色业务层
+
     @Autowired
     private CmsRoleService cmsRoleService;
     @Autowired
     private CmsUserService cmsUserService;
 
-    /***
-     * 管理员的首页显示
-     * @return
-     */
     @GetMapping("index.do")
     public String toIndex(){
-        return UtilsTemplate.adminTemplate("admin", "index");
+        return UtilsTemplate.adminTemplate("admin","index");
     }
 
-    /***
-     * 显示管理员添加页面
-     * @return
-     */
     @GetMapping("add.do")
     public String toAdd(Model model){
-        // 执行到前台
-        model.addAttribute("roles", cmsRoleService.getList());
-        return UtilsTemplate.adminTemplate("admin", "add");
+        model.addAttribute("roles",cmsRoleService.getList());
+        return UtilsTemplate.adminTemplate("admin","add");
     }
 
     @PostMapping("add.do")
@@ -65,4 +55,11 @@ public class AdminController {
         cmsUserService.save(cmsUserDto);
         return Result.success();
     }
+
+    @PostMapping("page.do")
+    @ResponseBody
+    public Result doPage(CmsUserDto cmsUserDto){
+        return Result.success(cmsUserService.getPage(cmsUserDto));
+    }
+
 }

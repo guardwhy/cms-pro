@@ -6,6 +6,8 @@ import com.cms.service.dto.CmsUserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author guardwhy
  * @date 2022/3/10 11:20
@@ -17,4 +19,5 @@ public interface CmsUserConverter {
     // dto和entity相互转换
     CmsUserEntity dtoToEntity(CmsUserDto dto);
     CmsUserDto entityToDto(CmsUserEntity entity);
+    List<CmsUserDto> entityToDto(List<CmsUserEntity> entity);
 }

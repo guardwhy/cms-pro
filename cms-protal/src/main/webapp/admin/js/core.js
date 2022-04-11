@@ -12,107 +12,91 @@ let core={
             return false;
         }
     },
-    // 设置限流工具类
-    throttle:function (method, args, context){
-        // 清空tId
+    //限流工具类
+    throttle:function(method,args,context){
         clearTimeout(method.tId);
-        // 设置秒值
-        method.tId =  setTimeout(function (){
-            method.call(context, args);
-        }, 200)
+        method.tId=setTimeout(function(){
+            method.call(context,args);
+        },200);
     },
-
-    /**
-     * http请求方法
-     */
-    http:function(option, callback){
+    //http请求方法
+    http:function(option,callback){
         this.cancel && this.cancel.abort();
-        //load: 加载loading autoComplete：自动完成, goBack自动回退
-        let opt={load:true, autocomplete: true, goBack:true},loadHandler,loadTime,
+        //load: 加载loading autoComplete：自动完成  goBack自动回退
+        let opt={load:true,autoComplete:true,goBack:true},loadHandler,loadTime,
             options ={
-                url:"",
-                method:"post",
-                contentType:"application/x-www-form-urlencoded",
-                dataType:"json",
-                beforeSend:function(){
-                    // 发送请求的当前时间
-                    this.load &&  ((loadTime = new Date().getTime()) && (loadHandler = LayUtil.layer.init(function(inner,layer){
-                        // 遮罩
-                        inner.loading(0,{shade:0.1})
-                    })))
-                },
-                // 自定义操作
-                success:function(res){
-                    // 处理Loading加载
-                    if(this.load && loadHandler){
-                        let time = 0;
-                        // ajax执行的时间
-                        if(new Date().getTime()-loadTime<500){
-                            time = 500;
-                        }
-                        // 定时任务
-                        setTimeout(function(){
-                            loadHandler.closeLoading();
-                        }, time)
+            url:"",
+            method:"post",
+            contentType:"application/x-www-form-urlencoded",
+            dataType:"json",
+            beforeSend:function(){
+                this.load &&  ((loadTime = new Date().getTime()) && (loadHandler = LayUtil.layer.init(function(inner,layer){
+                    inner.loading(0,{shade:0.1})
+                })))
+            },
+            success:function(res){
+                //处理loading 加载
+                if(this.load && loadHandler){
+                    let time = 0;
+                    if(new Date().getTime()-loadTime<500){
+                        time = 500;
                     }
-                    // autoComplete本身
-                    let that = this, handler;
-                    // 延时设置
-                    setTimeout(function () {
-                        // 判断请求接口
-                        switch(res.restCode){
-                            case CONSTANT.HTTP.ERROR:
-                                core.prompt.alert(res.restInfo);
-                                break;
-                            case CONSTANT.HTTP.SUCCESS:
-                                if(that.autocomplete){
-                                    // 执行del操作时候，无需回跳
-                                    if(that.goBack){
-                                        handler=function(){
-                                            // 回退刷新
-                                            window.location.href = document.referrer;
-                                        }
-                                    }
-                                    core.prompt.msg(res.restInfo,{shade:0.3, time: 1200}, handler);
-                                }
-                                break;
-                        }
-                        // 处理自定义的问题
-                        (callback instanceof Function) && callback(res);
-
-                    }, 600)
+                    setTimeout(function(){
+                        loadHandler.closeLoading();
+                    },time)
                 }
-            };
+                let that = this,handler;
+                //延时
+                setTimeout(function(){
+                    //判断请求接口
+                    switch(res.restCode){
+                        case CONSTANT.HTTP.ERROR:
+                            core.prompt.alert(res.restInfo);
+                            break;
+                        case CONSTANT.HTTP.SUCCESS:
+                            if(that.autoComplete){
+                                if(that.goBack){
+                                    handler=function(){
+                                        //后退刷新
+                                        window.location.href = document.referrer;
+                                    };
+                                }
+                                core.prompt.msg(res.restInfo,{shade:0.3,time:1200},handler);
+                            }
+                            break;
+                    }
+                    //处理自定义回调
+                    (callback instanceof Function) && callback(res)
+                },600)
+            }
+        };
         Object.assign(opt,options,option);
-        this.cancel = $.ajax(opt);
+        this.cancel=$.ajax(opt);
     },
-    /**
-     * 提示相关
-     */
+    //提示相关
     prompt:{
-        // 警告弹窗
-        alert:function (content, opt){
-            core.prompt.msg(content, $.extend({},{
-                icon:5,
-                shift:6,
-                shade:0.3,
-                time:1500,
-                area:'auto',
-                shadeClose:true
-            },opt));
+        //警告弹窗
+        alert:function(content,opt){
+            core.prompt.msg(content,$.extend({},
+                {
+                    icon: 5,
+                    shift:6,
+                    shade:0.3,
+                    time:1500,
+                    area:'auto',
+                    shadeClose:true
+                },opt));
         },
-        // 信息框提示
-        msg:function (content, option, callback){
-            LayUtil.layer.init(function (inner){
-                inner.msg(content, option, callback)
+        //信息框提示
+        msg:function(content,option,callback){
+            LayUtil.layer.init(function(inner){
+                inner.msg(content,option,callback);
             })
         },
-        // 询问
-        confirm:function (content, option, callback){
-            LayUtil.layer.init(function (inner){
-                LayUtil.layer.init(function (inner){
-                    inner.confirm(content, option, callback);
-                })
+        //询问
+        confirm:function(content,option,callback){
+            LayUtil.layer.init(function(inner){
+                inner.confirm(content,option,callback);
             })
         }
     },
@@ -120,7 +104,7 @@ let core={
     business:{
         //删除
         delete:function(data,callback){
-            let config = {url:"delete.do",goBack:false, data:{id:data.id}};
+            let config = {url:"delete.do",goBack:false,data:{id:data.id}};
             core.prompt.confirm("确认执行该操作?",{icon:3,title:'提示'},function(){
                 core.http(config,callback);
             })
@@ -128,26 +112,28 @@ let core={
     }
 };
 
-// 定义常量
-const CONSTANT = {
-    // http相关
-    HTTP:{
-        SUCCESS:200,
-        ERROR:500
-    },
-    // 正则相关
-    REGEXP:{
-        //用户名正则
-        USERNAME: /^(?![_]+$)\w{5,10}$/,
-        //密码正则
-        PASSWORD: /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{7,15}$/
-    }
+const  CONSTANT = {
+  //http相关
+  HTTP:{
+      SUCCESS:200,
+      ERROR:500
+  },
+  //正则相关
+  REGEXP:{
+      //用户名正则
+      USERNAME: /^(?![_]+$)\w{5,10}$/,
+      //密码正则
+      PASSWORD: /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{7,15}$/
+  }
+
+
+
 };
 
-// layui工具类
-function LayUtil(){
 
-}
+
+// layui工具类
+function LayUtil(){}
 
 //树形表格属性
 LayUtil.treeTableOption={
@@ -159,10 +145,10 @@ LayUtil.treeTableOption={
     page: false
 }
 
-// 下拉树选项
+//下拉树选项
 LayUtil.selectTreeOption = {
     elem: "#selectTree",
-    url: "${adminPath}/permission/selectTree.do",
+    url: "",
     dataType: "json",
     async: false,
     method: 'post',
@@ -192,12 +178,13 @@ LayUtil.selectTreeOption = {
 };
 
 //layui的表格固定配置
+//headSearch  头部查询
 LayUtil.dataGridOption = {
     id: "dataGrid",
     elem: '#dataGrid',
     method: 'post',
     page: true,
-    url:'',
+    url:'page.do',
     limit: 10,
     headSearch:"searchSubmit",
     request: {
@@ -220,7 +207,6 @@ LayUtil.dataGridOption = {
         }
     }
 };
-
 //树形配置
 LayUtil.treeOption = {
     elem: "#tree",
@@ -258,16 +244,17 @@ LayUtil.treeOption = {
 
 LayUtil.prototype = {
     construct:LayUtil,
-    // 弹窗
-    layer:(function (LayUtil){
+    //弹窗
+    layer:(function(LayUtil){
         function Inner(){
+
         }
+
         Inner.prototype={
             construct:Inner,
-            // 项目初始化自动封装
-            init:function (callback){
+            init:function(callback){
                 let that = this;
-                layui.use('layer', function (){
+                layui.use('layer',function(){
                     that.layer = layui.layer;
                     if(callback instanceof Function){
                         callback(that,that.layer);
@@ -275,59 +262,55 @@ LayUtil.prototype = {
                 })
                 return this;
             },
-            // 显示loading加载
-            loading:function (config={}){
+            //显示loading加载
+            loading:function(config={}){
                 this.layer.load(config);
             },
-            // 关闭loading
-            closeLoading:function (){
+            //关闭loading
+            closeLoading:function(){
                 this.layer.closeAll('loading');
             },
-            // 登录成功后响应
-            msg:function (content, option, callback){
-                // console.log(layer.msg(content, option, callback));
-                return layer.msg(content, option, callback);
+            //信息框
+            msg:function(content,option,callback){
+                return layer.msg(content,option,callback);
             },
-            // 询问框: 内容，配置，回调函数
-            confirm:function (content, option, callback){
+            //询问框
+            confirm:function(content,option,callback){
                 let that = this;
-                this.layer.confirm(content,option,function (index){
+                this.layer.confirm(content,option,function(index){
                     that.layer.close(index);
-                    // 条件判断
                     if(callback instanceof Function){
-                        // 调用回调函数
                         callback();
                     }
                 })
             }
-        }
+        };
         LayUtil.layer = new Inner();
     })(LayUtil),
-    // from表单
+    //form表单
     form:(function(LayUtil){
         function Inner(){
         }
         Inner.prototype={
             construct:Inner,
-            // 自动化封装
             init:function(callback){
                 let that =this;
                 layui.use('form',function(){
-                    that.form = layui.form;
-                    that.form.render();
-                    if(callback instanceof Function){
-                        //自动提交 如果返回undefined
-                        let autoOperation = callback(that,that.form);
-                        if(autoOperation === undefined){
-                            (OPERATION_URL!==undefined && !core.String.isEmpty(OPERATION_URL)) && that.submit(function(data){
-                                core.http({url:OPERATION_URL,data:data.field});
-                            })
+                        that.form = layui.form;
+                        that.form.render();
+                        if(callback instanceof Function){
+                            //自动提交 如果返回undefined
+                            let autoOperation = callback(that,that.form);
+                            if(autoOperation === undefined){
+                                (OPERATION_URL!==undefined && !core.String.isEmpty(OPERATION_URL)) && that.submit(function(data){
+                                    core.http({url:OPERATION_URL,data:data.field});
+                                })
+                            }
                         }
-                    }
                 });
                 return this;
             },
-            // 提交表单,事件监听
+            //表单 事件监听
             submit:function(callback,name,type="submit"){
                 this.form.on(type+"("+(name===undefined?'go':name)+")",function(obj){
                     if(callback instanceof Function){
@@ -342,40 +325,31 @@ LayUtil.prototype = {
                     return true;
                 })
             },
-            // 自定义验证
-            verify:function (validator){
+            //验证
+            verify:function(validator){
                 this.form.verify(validator);
             },
-            // radio 事件监听
-            radio:function (name, callback){
-                this.submit(callback, name, "radio");
+            //radio 事件监听
+            radio:function(name,callback){
+                this.submit(callback,name,"radio");
             }
-        }
-        // 绑定到静态方法
+        };
         LayUtil.form = new Inner();
     })(LayUtil),
-
     //树形表格
     treeTable:(function(LayUtil){
         function Inner(){}
         Inner.prototype={
             construct:Inner,
             init:function(config,callback){
-                // 直接覆盖
                 let that = this, option = $.extend({},LayUtil.treeTableOption,config);
-                // 插件引入
                 layui.extend({
                     treetable:'{/}'+ BASE_PATH +'/admin/layui/lay/modules/treetable'
-                    // treetable引入进来
                 }).use(['treetable','table'],function(){
                     that.treetable = layui.treetable;
-                    // 开始渲染
                     that.treetable.render(option);
-                    // 拿到table
                     that.table = layui.table;
-                    // 调用工具栏右侧进行监听
                     that.rightTool(function(obj){
-                        // 拿到表单数据进行判断
                         if(obj.event!==undefined && obj.event==="del"){
                             that.delete(obj.data,$.extend({},LayUtil.treeTableOption,config))
                         }
@@ -386,18 +360,14 @@ LayUtil.prototype = {
             },
             //右侧工具栏
             rightTool:function(callback,filter='treeTable'){
-                // 监听右侧
                 this.table.on('tool('+filter+')',function(obj){
-                    // 执行回调
                     (callback instanceof Function) && callback(obj)
                 });
             },
             //表格单条删除操作
             delete:function(data,option){
                 let that = this;
-                // 调用ajax,重新加载
                 core.business.delete(data,function(){
-                    // 重新加载option参数
                     that.treetable.render(option);
                 });
             }
@@ -413,7 +383,6 @@ LayUtil.prototype = {
                 let config = $.extend({},LayUtil.dataGridOption,option),that = this;
                 layui.use('table',function(){
                     that.table = layui.table;
-                    // 渲染
                     that.table.render(config);
                     that.rightTool(function(obj){
                         if(obj.event!==undefined && obj.event==="del"){
@@ -424,78 +393,65 @@ LayUtil.prototype = {
                 })
             },
             //渲染form表头查询
-            renderSearch:function (name){
-                // layui使用
-                layui.use('form', function (){
-                    // 拿到form表格
-                    var form = layui.form,that = this;
-                    // 监听提交
-                    form.on('submit('+name+')', function (data){
-                        // 重新加载数据表格
-                       that.table.reload('dataGrid',{
-                           where:data.field,
-                           page:{
-                               curr:1
-                           }
-                       });
-                       return false;
-                    })
+            renderSearch:function(name){
+                layui.use('form',function(){
+                    let form = layui.form,that = this;
+                    //监听提交
+                    form.on('submit('+name+')', function(data){
+                        that.table.reload('dataGrid',{
+                            where:data.field,
+                            page:{
+                                curr:1
+                            }
+                        });
+                        return false;
+                    });
                 })
             },
             //右侧工具栏
             rightTool:function(callback,filter='dataGrid'){
-                // 监听右侧
                 this.table.on('tool('+filter+')',function(obj){
-                    // 执行回调
                     (callback instanceof Function) && callback(obj)
                 });
             },
             //表格单条删除操作
             delete:function(data,option){
                 let that = this;
-                // 调用ajax,重新加载
                 core.business.delete(data,function(){
-                    // 重新加载option参数
-                    that.treetable.render(option);
+                    that.table.render(option);
                 });
             }
         };
         LayUtil.dataGrid = new Inner();
     })(LayUtil),
-    // 下拉树形
-    selectTree:(function (LayUtil){
+    //下拉树形
+    selectTree:(function(LayUtil){
         function Inner(){}
         Inner.prototype={
-            construct:Inner,
+            construct: Inner,
             init:function(config,callback){
-                // 直接覆盖
-                let that = this,option = $.extend({},LayUtil.selectTreeOption,config);
+                let that = this,option=$.extend({},LayUtil.selectTreeOption,config);
                 // {/}的意思即代表采用自有路径，即不跟随 base 路径 你还得把第三方js改成layui.denfine()那种格式
-                // 插件引入
                 layui.extend({
                     dtree:'{/}' + BASE_PATH + "/admin/layui/lay/modules/selectTree"
                 }).use('dtree',function(){
                     that.dtree = layui.dtree;
-                    // 开始渲染
                     that.dtree.renderSelect(option);
                     (callback instanceof Function) && callback(that,that.dtree);
                 });
                 return this;
             }
         };
-        // 绑定静态方法
         LayUtil.selectTree = new Inner();
     })(LayUtil),
-    // 树形结构
-    tree:(function (LayUtil){
+    //树形结构
+    tree:(function(LayUtil){
         function Inner(){}
         Inner.prototype={
             construct:Inner,
-            init:function(config){
-                // 获取到作用域，合并属性
+            init:function (config) {
                 let that = this,option = $.extend({},LayUtil.treeOption,config);
                 this.id = option.elem;
-                // 复选框的配置
                 if (option.checkbar!==undefined && option.checkbar) {
                     // 自定扩展的二级非最后一级图标，从1开始
                     option.nodeIconArray = {
@@ -506,25 +462,23 @@ LayUtil.prototype = {
                     };
                     option.icon = ["1", "8"];
                 }
-                // 插件引入
                 layui.extend({
                     dtree: '{/}' + BASE_PATH + '/admin/layui/lay/modules/dtree'
-                }).use('dtree',function(){
+                }).use('dtree', function () {
                     that.dtree = layui.dtree;
-                    // 开始渲染
                     that.dtree.render(option);
                 });
                 return this;
             },
-            // 获取选中的
-            getChecked:function (obj,name){
-                // 显示结果
-                let arr = this.dtree.getCheckbarNodesParam(this.id.replace("#", ""));
+            //获取选中的
+            //obj.field["permission[0]"]="abc"
+            //obj.field["permission[1]"]="abc"
+            getChecked:function(obj,name){
+                let arr = this.dtree.getCheckbarNodesParam(this.id.replace("#",""));
                 if(arr instanceof Array){
-                    // 判断obj是否为数组，然后在进行遍历
-                    if(obj!== undefined && name!== undefined){
-                        for(let i=0,length=arr.length; i<length; i++){
-                            obj[name+ "[" +i+ "]" ] = arr[i].nodeId;
+                    if(obj!==undefined && name!==undefined){
+                        for(let i=0,length=arr.length;i<length;i++){
+                            obj[name+"["+i+"]"]=arr[i].nodeId;
                         }
                         return obj;
                     }
@@ -532,7 +486,6 @@ LayUtil.prototype = {
                 console.log(arr);
             }
         };
-        // 绑定静态方法
         LayUtil.tree = new Inner();
     })(LayUtil)
 }

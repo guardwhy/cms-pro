@@ -1,8 +1,10 @@
 package com.cms.service.impl;
 
+import com.cms.context.utils.UtilsHttp;
 import com.cms.context.utils.UtilsProperties;
 import com.cms.context.utils.UtilsShiro;
 import com.cms.core.foundation.Page;
+import com.cms.core.foundation.SearchProvider;
 import com.cms.dao.entity.CmsUserEntity;
 import com.cms.dao.mapper.CmsUserMapper;
 import com.cms.service.api.CmsUserRoleService;
@@ -10,6 +12,7 @@ import com.cms.service.api.CmsUserService;
 import com.cms.service.converter.CmsUserConverter;
 import com.cms.service.dto.CmsUserDto;
 import com.cms.service.dto.CmsUserRoleDto;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +81,21 @@ public class CmsUserServiceImpl implements CmsUserService {
         }
     }
 
+    /***
+     * 分页查询
+     * @param dto
+     * @return
+     */
+    @Override
+    public Page<CmsUserDto> getPage(CmsUserDto dto) {
+        UtilsHttp.Page pageInfo = UtilsHttp.getPageInfo();
+        SearchProvider of = SearchProvider.of(CmsUserConverter.CONVERTER.dtoToEntity(dto));
+        com.github.pagehelper.Page<CmsUserEntity> page = PageHelper.startPage(pageInfo.getPageCurrent(),
+                pageInfo.getPageSize()).
+                doSelectPage(() -> cmsUserMapper.selectBySearchProvider(of));
+        return new Page<>(page.getTotal(),CmsUserConverter.CONVERTER.entityToDto(page.getResult()));
+    }
+
     @Override
     public void deleteById(Integer id) {
 
@@ -90,11 +108,6 @@ public class CmsUserServiceImpl implements CmsUserService {
 
     @Override
     public CmsUserDto getById(Integer id) {
-        return null;
-    }
-
-    @Override
-    public Page<CmsUserDto> getPage(CmsUserDto dto) {
         return null;
     }
 }

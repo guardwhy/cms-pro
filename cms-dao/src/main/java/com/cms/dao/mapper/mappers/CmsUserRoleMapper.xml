@@ -3,24 +3,12 @@
 <mapper namespace="com.cms.dao.mapper.CmsUserRoleMapper">
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
+    <!--数据库查询语句-->
     <sql id="baseColumn">
         id,
         site_name,
         keywords,
         description
-    </sql>
-
-    <sql id="updateField">
-        update_time = #{updateTime},
-        <if test="siteName!=null and siteName!=''">
-            site_name = #{siteName},
-        </if>
-        <if test="keywords!=null and keywords!=''">
-            keywords = #{keywords},
-        </if>
-        <if test="description!=null and description!=''">
-            description = #{description},
-        </if>
     </sql>
 
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
@@ -30,15 +18,13 @@
         <result property="description" column="description"/>
     </resultMap>
 
-    <update id="update">
-        update cms_site
-        <trim prefix="set" suffixOverrides=",">
-            <include refid="updateField"/>
-        </trim>
-        where id = #{id}
-    </update>
-
+    <!--查询角色-->
     <select id="selectById" resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_site where id = #{id}
     </select>
+
+    <!--保存角色-->
+    <insert id="save">
+        insert into cms_user_role (role_id,user_id) values (#{roleId},#{userId})
+    </insert>
 </mapper>
