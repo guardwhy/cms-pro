@@ -65,6 +65,24 @@
 
     <!--用户登录更新时间-->
     <sql id="updateField">
+        <if test="username!=null and username!=''">
+            username = #{username},
+        </if>
+        <if test="password!=null and password!=''">
+            password = #{password},
+        </if>
+        <if test="email!=null and email!=''">
+            email = #{email},
+        </if>
+        <if test="salt!=null and salt!=''">
+            salt = #{salt},
+        </if>
+        <if test="status!=null">
+            status = #{status},
+        </if>
+        <if test="admin!=null">
+            is_backend = #{admin},
+        </if>
         update_time = #{updateTime}
     </sql>
 
@@ -79,6 +97,14 @@
         <result property="registerTime" column="register_time"/>
     </resultMap>
 
+    <!--添加操作-->
+    <insert id="save">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into cms_user (<include refid="key"/>) values (<include refid="val"/>)
+    </insert>
+
     <!--根据Id修改操作-->
     <update id="update">
         update cms_user
@@ -87,14 +113,6 @@
         </trim>
         where id = #{id}
     </update>
-
-    <!--添加操作-->
-    <insert id="save">
-        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
-            select last_insert_id()
-        </selectKey>
-        insert into cms_user (<include refid="key"/>) values (<include refid="val"/>)
-    </insert>
 
     <!--用户名查询操作-->
     <select id="getByUsername"  resultMap="baseResultMap">

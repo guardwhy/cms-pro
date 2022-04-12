@@ -83,7 +83,7 @@ public class AdminController {
     }
 
     /***
-     * 修改管理员
+     * 修改管理员页面
      * @param id
      * @param model
      * @return
@@ -94,5 +94,27 @@ public class AdminController {
         model.addAttribute("roles",cmsRoleService.getList());
         // 返回给前端页面
         return UtilsTemplate.adminTemplate("admin", "edit");
+    }
+
+    /***
+     * 修改管理员信息
+     * @param cmsUserDto
+     * @return
+     */
+    @PostMapping("edit.do")
+    @ResponseBody
+    public Result<String> doEdit(CmsUserDto cmsUserDto){
+        CmsUserDto cmsUserByUsername = cmsUserService.selectByUsername(cmsUserDto.getUsername());
+        // 判断用户是否存在
+        if(Objects.nonNull(cmsUserByUsername) && Integer.compare(cmsUserByUsername.getId(), cmsUserDto.getId()) != 0){
+            return Result.failed("当前用户已经存在！！！");
+        }
+        CmsUserDto cmsUserByEmail = cmsUserService.selectByEmail(cmsUserDto.getEmail());
+        if(Objects.nonNull(cmsUserByEmail) && Integer.compare(cmsUserByEmail.getId(),cmsUserDto.getId())!=0){
+            return Result.failed("当前邮箱已经存在");
+        }
+        // 保存操作
+        cmsUserService.update(cmsUserDto);
+        return Result.success();
     }
 }
