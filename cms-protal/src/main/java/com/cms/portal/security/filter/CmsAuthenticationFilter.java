@@ -109,10 +109,8 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
         // 调用线程池
         threadPoolTaskExecutor.execute(()->{
             CmsUserDto cmsUserDto = (CmsUserDto) subject.getPrincipal();
-            // 更新操作
-            cmsUserService.update(cmsUserDto);
-            // 保存操作
-            cmsLogService.save(CmsLogDto.of(cmsUserDto.getId(), cmsUserDto.getUsername(), ip, url, "用户后台系统登录！！！"));
+            cmsUserService.updateLoginCount(cmsUserDto.getId());
+            cmsLogService.save(CmsLogDto.of(cmsUserDto.getId(),cmsUserDto.getUsername(),ip,url,"用户后台系统登录"));
         });
         return false;
     }

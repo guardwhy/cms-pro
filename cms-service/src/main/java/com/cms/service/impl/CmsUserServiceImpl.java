@@ -117,13 +117,50 @@ public class CmsUserServiceImpl implements CmsUserService {
         return cmsUserDto;
     }
 
+    /***
+     * 更新管理员的登录次数
+     * @param id
+     */
     @Override
-    public void deleteById(Integer id) {
+    public void updateLoginCount(Integer id) {
+        cmsUserMapper.updateLoginCount(id);
 
     }
 
+    /***
+     * 更新Userdto
+     * @param dto
+     */
     @Override
     public void update(CmsUserDto dto) {
+        // 拿到用户密码
+        String password = dto.getPassword();
+        // 判断密码
+        if(Objects.nonNull(password)){
+            String salt = UtilsShiro.generateSalt();
+            dto.setSalt(salt);
+            dto.setPassword(UtilsShiro.sha256(password,salt,Integer.
+                    parseInt(utilsProperties.getPropertiesValue("shiro.hash.iterations"))));
+        }
+
+        //难道用户Id
+        Integer userId = dto.getId();
+        // 先更新
         cmsUserMapper.update(CmsUserConverter.CONVERTER.dtoToEntity(dto));
+        cmsUserRoleService.deleteById(userId);
+        // 拿到角色Id
+        Integer roleId = dto.getRoleId();
+        // 判断用户角色id
+        if(Objects.nonNull(roleId)){
+            CmsUserRoleDto cmsUserRoleDto = new CmsUserRoleDto();
+            cmsUserRoleDto.setRoleId(roleId);
+            cmsUserRoleDto.setUserId(userId);
+            cmsUserRoleService.save(cmsUserRoleDto);
+        }
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
     }
 }

@@ -21,4 +21,10 @@ public interface CmsUserMapper extends BaseMapper<CmsUserEntity,Integer> {
      * @return        用户
      */
     CmsUserEntity getByEmail(String email);
+
+    /***
+     * 修改登录次数
+     * @param id 用户id
+     */
+    void updateLoginCount(Integer id);
 }
