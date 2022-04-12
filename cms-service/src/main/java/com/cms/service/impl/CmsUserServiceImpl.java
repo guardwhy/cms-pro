@@ -7,6 +7,7 @@ import com.cms.core.foundation.Page;
 import com.cms.core.foundation.SearchProvider;
 import com.cms.dao.entity.CmsUserEntity;
 import com.cms.dao.mapper.CmsUserMapper;
+import com.cms.dao.mapper.CmsUserRoleMapper;
 import com.cms.service.api.CmsUserRoleService;
 import com.cms.service.api.CmsUserService;
 import com.cms.service.converter.CmsUserConverter;
@@ -31,6 +32,9 @@ public class CmsUserServiceImpl implements CmsUserService {
     private CmsUserMapper cmsUserMapper;
     @Autowired
     private UtilsProperties utilsProperties;
+    @Autowired
+    private CmsUserRoleMapper cmsUserRoleMapper;
+
     // 注入角色业务层
     @Autowired
     private CmsUserRoleService cmsUserRoleService;
@@ -96,6 +100,23 @@ public class CmsUserServiceImpl implements CmsUserService {
         return new Page<>(page.getTotal(),CmsUserConverter.CONVERTER.entityToDto(page.getResult()));
     }
 
+    /***
+     * 拿到用户Id
+     * @param id
+     * @return
+     */
+    @Override
+    public CmsUserDto getById(Integer id) {
+        CmsUserDto cmsUserDto = CmsUserConverter.CONVERTER.entityToDto(cmsUserMapper.selectById(id));
+        // 拿到角色id
+        Integer roleId = cmsUserRoleMapper.selectByUserId(id);
+        // 判断角色id
+        if(Objects.nonNull(roleId)){
+            cmsUserDto.setRoleId(roleId);
+        }
+        return cmsUserDto;
+    }
+
     @Override
     public void deleteById(Integer id) {
 
@@ -104,10 +125,5 @@ public class CmsUserServiceImpl implements CmsUserService {
     @Override
     public void update(CmsUserDto dto) {
         cmsUserMapper.update(CmsUserConverter.CONVERTER.dtoToEntity(dto));
-    }
-
-    @Override
-    public CmsUserDto getById(Integer id) {
-        return null;
     }
 }

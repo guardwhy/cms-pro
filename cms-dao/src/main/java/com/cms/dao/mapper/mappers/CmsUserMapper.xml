@@ -8,6 +8,7 @@
         a.status,
         a.password,
         a.email,
+        a.register_time,
         a.salt
     </sql>
     <!--key-sql值-->
@@ -75,6 +76,7 @@
         <result property="salt" column="salt"/>
         <result property="email" column="email"/>
         <result property="roleName" column="roleName"/>
+        <result property="registerTime" column="register_time"/>
     </resultMap>
 
     <!--根据Id修改操作-->
@@ -116,5 +118,10 @@
             </if>
         </where>
         order by id desc
+    </select>
+
+    <!--根据id查询记录-->
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user a where id = #{id} and is_delete = 1
     </select>
 </mapper>

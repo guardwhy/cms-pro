@@ -1,0 +1,70 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree_tree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+<@main.layout>
+    <@form.form>
+        <input type="hidden" name="id" value="${data.id!}">
+        <@form.item>
+            <@form.inline label="用户名" required=true>
+                <input name="username" class="layui-input" type="text" lay-verify="required|username" value="${data.username!}" placeholder="5-10位英文,字母,数字或下划线">
+            </@form.inline>
+            <@form.inline label="邮箱" required=true>
+                <input name="email" class="layui-input" type="text" lay-verify="required|email" value="${data.email!}">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="密码" required=true>
+                <input name="password" class="layui-input" type="password" lay-filter="password" placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
+            </@form.inline>
+            <@form.inline label="确认密码" required=true>
+                <input class="layui-input" type="password" lay-filter="confirmPassword" placeholder="7-15位英文,字母,数字或符号,最少其中的两种组合">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="状态">
+                <#if data.status?string("1","0")=="0">
+                    <input name="status" class="layui-input" type="radio" value="0" checked title="禁用">
+                    <input name="status" class="layui-input" type="radio" value="1"  title="启用">
+                <#else>
+                    <input name="status" class="layui-input" type="radio" value="0"  title="禁用">
+                    <input name="status" class="layui-input" type="radio" value="1" checked title="启用">
+                </#if>
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="角色" full=true>
+                <#if roles?size==0>
+                    <span>当前无角色,请先在角色管理中创建角色</span>
+                </#if>
+                <@form.radio list=roles name="roleId" itemLabel="name" itemValue="id" value="${data.roleId!}"></@form.radio>
+            </@form.inline>
+        </@form.item>
+        <@form.submit></@form.submit>
+    </@form.form>
+</@main.layout>
+<script>
+    LayUtil.form.init(function(inner){
+        inner.verify({
+            username:function(val){
+                if(!new RegExp(CONSTANT.REGEXP.USERNAME).test(val)){
+                    return "用户名必须是5-10位英文,字母,数字或下划线";
+                }
+            },
+            password:function(val){
+                if(!new RegExp(CONSTANT.REGEXP.PASSWORD).test(val)){
+                    return "密码必须是7-15位英文,字母,数字或符号,最少其中的两种组合";
+                }
+            },
+            confirmPassword:function(val){
+                let password = $('input[name="password"]').val();
+                if(password!==val){
+                    return "两次输入的密码不一致";
+                }
+            }
+        });
+        inner.submit(function(){
+
+        })
+    });
+</script>

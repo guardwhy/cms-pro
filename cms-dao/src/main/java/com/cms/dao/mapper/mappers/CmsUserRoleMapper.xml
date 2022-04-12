@@ -18,13 +18,13 @@
         <result property="description" column="description"/>
     </resultMap>
 
-    <!--查询角色-->
-    <select id="selectById" resultMap="baseResultMap">
-        select <include refid="baseColumn"/> from cms_site where id = #{id}
-    </select>
-
     <!--保存角色-->
     <insert id="save">
         insert into cms_user_role (role_id,user_id) values (#{roleId},#{userId})
     </insert>
+
+    <!--过用户id查询角色id-->
+    <select id="selectByUserId" resultType="integer">
+        select role_id from cms_user_role where user_id = #{userId}
+    </select>
 </mapper>

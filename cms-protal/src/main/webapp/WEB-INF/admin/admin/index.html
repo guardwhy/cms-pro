@@ -18,10 +18,11 @@
         ,cols: [[
             {field:'id', width:80, title: 'ID', sort: true}
             ,{field:'username', title: '用户名'}
+            ,{field:'roleName',title:'角色名'}
             ,{field:'email', title: '邮箱'}
             ,{field:'status', width:80, title: '状态', templet:function(data){
                     return !data.status?"禁用":"正常";
-             }}
+                }}
             ,{field:'registerTime', title: '注册时间'}
             ,{templet: '#rightTemplate', align: 'center', title: '操作'}
         ]]
