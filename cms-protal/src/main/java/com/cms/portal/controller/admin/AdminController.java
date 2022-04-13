@@ -47,6 +47,7 @@ public class AdminController {
      * 显示管理员添加页面
      * @return
      */
+    @RequiresPermissions("admin:add")
     @GetMapping("add.do")
     public String toAdd(Model model){
         // 执行到前台
@@ -55,6 +56,7 @@ public class AdminController {
     }
 
     @PostMapping("add.do")
+    @RequiresPermissions("admin:add")
     @ResponseBody
     @DoLog(content = "添加管理员")
     public Result<String> doAdd(CmsUserDto cmsUserDto){

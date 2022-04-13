@@ -16,4 +16,12 @@
     <select id="deleteById" resultType="integer">
         select role_id from cms_user_role where user_id = #{userId}
     </select>
+
+    <!--根据用户id查找权限-->
+    <select id="selectPermissionsByUserId" resultType="java.lang.String">
+        select c.action from cms_user_role
+            a left join cms_role_permission
+            b on a.role_id = b.role_id
+        left join cms_permission c on b.permission_id = c.id where a.user_id = #{userId}
+    </select>
 </mapper>
