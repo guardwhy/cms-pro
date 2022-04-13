@@ -114,6 +114,18 @@
         where id = #{id}
     </update>
 
+    <!--用户账号登录次数-->
+    <update id="updateLoginCount">
+        update cms_user set login_count = login_count + 1 where id = #{id}
+    </update>
+
+    <!--删除登录次数-->
+    <update id="deleteById">
+        update cms_user
+        set is_delete = 0
+        where id = #{id}
+    </update>
+
     <!--用户名查询操作-->
     <select id="getByUsername"  resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_user a where username = #{username} and is_delete = 1
@@ -131,6 +143,7 @@
         from cms_user a left join cms_user_role b on a.id = b.user_id left join cms_role c
         on b.role_id = c.id
         <where>
+            is_delete = 1
             <if test="criteria.username!=null and criteria.username!=''">
                 name like concat ('%',#{criteria.username},'%')
             </if>
@@ -142,20 +155,4 @@
     <select id="selectById" resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_user a where id = #{id} and is_delete = 1
     </select>
-
-    <!--用户账号登录次数-->
-    <update id="updateLoginCount">
-        update cms_user set login_count = login_count + 1 where id = #{id}
-    </update>
-
-    <!--删除登录次数-->
-    <!--<update id="deleteById">
-        update cms_user set is_delete = 0 where id =#{id}
-    </update>-->
-
-    <update id="deleteById">
-        update cms_user
-        set is_delete = 0
-        where id = #{id}
-    </update>
 </mapper>
