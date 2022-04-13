@@ -117,4 +117,16 @@ public class AdminController {
         cmsUserService.update(cmsUserDto);
         return Result.success();
     }
+
+    /***
+     * 根据id删除管理员
+     * @param id
+     * @return
+     */
+    @PostMapping("delete.do")
+    @ResponseBody
+    public Result<String> doDelete(Integer id){
+        cmsUserService.deleteById(id);
+        return Result.success();
+    }
 }

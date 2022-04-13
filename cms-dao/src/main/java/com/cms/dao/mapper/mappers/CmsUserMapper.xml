@@ -147,4 +147,15 @@
     <update id="updateLoginCount">
         update cms_user set login_count = login_count + 1 where id = #{id}
     </update>
+
+    <!--删除登录次数-->
+    <!--<update id="deleteById">
+        update cms_user set is_delete = 0 where id =#{id}
+    </update>-->
+
+    <update id="deleteById">
+        update cms_user
+        set is_delete = 0
+        where id = #{id}
+    </update>
 </mapper>

@@ -14,7 +14,7 @@
     <@form.item>
       <@form.inline label="权限类型" required=true>
         <#--默认值-->
-        <@form.radio list=permissionType name="menu" value="1"></@form.radio>
+        <@form.radio list=permissionType name="menu" value="1" enum=true></@form.radio>
       </@form.inline>
       <@form.inline label="菜单url">
         <input name="url" class="layui-input" type="text">
