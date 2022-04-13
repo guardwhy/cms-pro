@@ -8,6 +8,7 @@ import com.cms.core.annotation.DoLog;
 import com.cms.service.api.CmsRoleService;
 import com.cms.service.api.CmsUserService;
 import com.cms.service.dto.CmsUserDto;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ public class AdminController {
      * 管理员的首页显示
      * @return
      */
+    @RequiresPermissions("admin:index")
     @GetMapping("index.do")
     public String toIndex(){
         return UtilsTemplate.adminTemplate("admin", "index");
