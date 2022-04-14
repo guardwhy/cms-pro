@@ -77,7 +77,15 @@
                 <prop key="default_encoding">UTF-8</prop>
             </props>
         </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="shiro" value-ref="shiroTags"/>
+            </map>
+        </property>
     </bean>
+
+    <!-- shiro标签和freemarker结合的bean-->
+    <bean id="shiroTags" class="com.jagregory.shiro.freemarker.ShiroTags"/>
 
     <!--使用AspectJ提供的注解方式实现aop-->
     <!--如果项目用了spring MVC,一定要把AOP相关配置移动到springMVC的配置文件-->
