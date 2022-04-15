@@ -110,3 +110,17 @@ CREATE TABLE cms_user_role
     user_id int not null comment '用户id'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+-- ----------------------------
+-- Table structure for cms_friend_link  友情链接表
+-- ----------------------------
+create table cms_friend_link
+(
+    create_time timestamp    not null default CURRENT_TIMESTAMP,
+    update_time timestamp    not null default '0000-00-00 00:00:00',
+    id          int          not null auto_increment primary key,
+    name        varchar(150) not null comment '名称',
+    url         varchar(255) not null comment '网站地址',
+    priority    int(11)               default '1' not null comment '排列顺序'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

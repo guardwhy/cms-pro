@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--实体类的映射文件: namespace 指定接口的类全名-->
+<mapper namespace="com.cms.dao.mapper.CmsFriendLinkMapper">
+    <!--数据库查询语句-->
+    <sql id="baseColumn">
+        a.id,
+        a.username,
+        a.status,
+        a.password,
+        a.email,
+        a.register_time,
+        a.is_super,
+        a.salt
+    </sql>
+    <!--key-sql值-->
+    <sql id="key">
+        <if test="username!=null and username!=''">
+            username,
+        </if>
+        <if test="password!=null and password!=''">
+            password,
+        </if>
+        <if test="email!=null and email!=''">
+            email,
+        </if>
+        <if test="salt!=null and salt!=''">
+            salt,
+        </if>
+        <if test="status!=null">
+            status,
+        </if>
+        <if test="admin!=null">
+            is_backend,
+        </if>
+        <if test="registerTime!=null">
+            register_time,
+        </if>
+        create_time
+    </sql>
+
+    <!--val-value-->
+    <sql id="val">
+        <if test="username!=null and username!=''">
+            #{username},
+        </if>
+        <if test="password!=null and password!=''">
+            #{password},
+        </if>
+        <if test="email!=null and email!=''">
+            #{email},
+        </if>
+        <if test="salt!=null and salt!=''">
+            #{salt},
+        </if>
+        <if test="status!=null">
+            #{status},
+        </if>
+        <if test="admin!=null">
+            #{admin},
+        </if>
+        <if test="registerTime!=null">
+            #{registerTime},
+        </if>
+        #{createTime}
+    </sql>
+
+    <!--用户登录更新时间-->
+    <sql id="updateField">
+        <if test="username!=null and username!=''">
+            username = #{username},
+        </if>
+        <if test="password!=null and password!=''">
+            password = #{password},
+        </if>
+        <if test="email!=null and email!=''">
+            email = #{email},
+        </if>
+        <if test="salt!=null and salt!=''">
+            salt = #{salt},
+        </if>
+        <if test="status!=null">
+            status = #{status},
+        </if>
+        <if test="admin!=null">
+            is_backend = #{admin},
+        </if>
+        update_time = #{updateTime}
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserEntity">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="status" column="status"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="email" column="email"/>
+        <result property="roleName" column="roleName"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="administrator" column="is_super"/>
+    </resultMap>
+
+    <!--添加操作-->
+    <insert id="save">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into cms_user (<include refid="key"/>) values (<include refid="val"/>)
+    </insert>
+
+    <!--根据Id修改操作-->
+    <update id="update">
+        update cms_user
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"/>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!--用户账号登录次数-->
+    <update id="updateLoginCount">
+        update cms_user set login_count = login_count + 1 where id = #{id}
+    </update>
+
+    <!--删除登录次数-->
+    <update id="deleteById">
+        update cms_user
+        set is_delete = 0
+        where id = #{id}
+    </update>
+
+    <!--用户名查询操作-->
+    <select id="getByUsername"  resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user a where username = #{username} and is_delete = 1
+    </select>
+
+    <!--邮箱查询-->
+    <select id="getByEmail"  resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user a where email = #{email} and is_delete = 1
+    </select>
+
+    <!--分页查询-->
+    <select id="selectBySearchProvider" parameterType="SearchProvider" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>,c.name as roleName
+        from cms_user a left join cms_user_role b on a.id = b.user_id left join cms_role c
+        on b.role_id = c.id
+        <where>
+            is_delete = 1
+            <if test="criteria.username!=null and criteria.username!=''">
+                name like concat ('%',#{criteria.username},'%')
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--根据id查询记录-->
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user a where id = #{id} and is_delete = 1
+    </select>
+</mapper>

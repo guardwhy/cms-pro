@@ -13,6 +13,7 @@ import org.mapstruct.factory.Mappers;
 public interface CmsLogConverter {
     // 拿到CONVERTER
     CmsLogConverter CONVERTER = Mappers.getMapper(CmsLogConverter.class);
+    // dto和entity相互转换
     CmsLogEntity dtoToEntity(CmsLogDto dto);
     CmsLogDto entityToDto(CmsLogEntity entity);
 }
