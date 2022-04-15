@@ -21,4 +21,6 @@ public class CmsUserEntity extends BaseEntity<Integer> {
     private String email;
     private String roleName;
     private LocalDateTime registerTime;
+    // 超级管理员
+    private Boolean administrator;
 }

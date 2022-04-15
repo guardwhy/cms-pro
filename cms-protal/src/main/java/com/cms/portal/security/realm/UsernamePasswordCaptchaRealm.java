@@ -59,4 +59,21 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
             throw new DisabledAccountException("该账号已被禁用,请联系管理员!");
         }
     }
+
+    /***
+     * 超级管理员验证
+     * @param principals 当前用户
+     * @param permission 登录信息
+     * @return
+     */
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, String permission) {
+        // 拿到用户
+        CmsUserDto cmsUserDto = (CmsUserDto) principals.getPrimaryPrincipal();
+        //如果是超管的话 不再检查权限
+        if(BooleanUtils.isTrue(cmsUserDto.getAdministrator())){
+            return true;
+        }
+        return false;
+    }
 }

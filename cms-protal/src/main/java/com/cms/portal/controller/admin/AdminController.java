@@ -55,8 +55,8 @@ public class AdminController {
         return UtilsTemplate.adminTemplate("admin", "add");
     }
 
-    @PostMapping("add.do")
     @RequiresPermissions("admin:add")
+    @PostMapping("add.do")
     @ResponseBody
     @DoLog(content = "添加管理员")
     public Result<String> doAdd(CmsUserDto cmsUserDto){
