@@ -28,4 +28,13 @@ public class UtilsTemplate {
     public static String adminTemplate(String dir, String template){
         return "admin/" + dir + "/" + template;
     }
+
+    /***
+     * 前台模板方法
+     * @param template  模板名称
+     * @return  String
+     */
+    public static String frontTemplate(String template){
+        return "front/default/"+template;
+    }
 }

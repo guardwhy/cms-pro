@@ -88,4 +88,9 @@
         <servlet-name>adminServlet</servlet-name>
         <url-pattern>/admin/cms/*</url-pattern>
     </servlet-mapping>
+
+    <!--自动跳转欢迎页面-->
+    <welcome-file-list>
+        <welcome-file>index.shtml</welcome-file>
+    </welcome-file-list>
 </web-app>

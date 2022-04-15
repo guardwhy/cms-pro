@@ -1,5 +1,6 @@
 package com.cms.portal.controller.front;
 
+import com.cms.context.utils.UtilsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,6 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DynamicPageController {
     @GetMapping("index.shtml")
     public String index(){
-        return "/front/default/index";
+        return UtilsTemplate.frontTemplate("index");
     }
 }
