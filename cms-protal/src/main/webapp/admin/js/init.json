@@ -82,14 +82,14 @@
           ]
         },
         {
-          "title": "表单示例",
+          "title": "运营",
           "href": "",
           "icon": "fa fa-calendar",
           "target": "_self",
           "child": [
             {
-              "title": "普通表单",
-              "href": "page/form.html",
+              "title": "友情链接",
+              "href": "/admin/cms/friendLink/index.do",
               "icon": "fa fa-list-alt",
               "target": "_self"
             },

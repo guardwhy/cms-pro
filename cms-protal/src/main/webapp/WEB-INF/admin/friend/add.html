@@ -1,0 +1,28 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+  <@form.form>
+    <@form.item>
+      <@form.inline label="名称" required=true>
+        <input name="name" class="layui-input" type="text" lay-verify="required">
+      </@form.inline>
+      <@form.inline label="链接" required=true>
+        <input name="url" class="layui-input" type="text" lay-verify="required">
+      </@form.inline>
+    </@form.item>
+    <@form.item>
+      <@form.inline label="排序">
+        <input name="priority" class="layui-input" type="number" lay-verify="required" value="1">
+      </@form.inline>
+    </@form.item>
+    <@form.submit></@form.submit>
+  </@form.form>
+</@main.layout>
+<script>
+  LayUtil.form.init(function(inner){
+    inner.submit(function(){
+
+    })
+  });
+
+</script>
