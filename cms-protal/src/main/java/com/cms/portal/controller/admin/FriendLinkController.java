@@ -6,10 +6,12 @@ import com.cms.service.api.CmsFriendLinkService;
 import com.cms.service.dto.CmsFriendLinkDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 /**
  * @author guardwhy
@@ -64,5 +66,17 @@ public class FriendLinkController {
     @ResponseBody
     public Result doPage(CmsFriendLinkDto cmsFriendLinkDto){
         return Result.success(cmsFriendLinkService.getPage(cmsFriendLinkDto));
+    }
+
+    /***
+     * 修改友情链接页面
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("edit.do")
+    public String toEdit(Integer id, Model model){
+        model.addAttribute("data", cmsFriendLinkService.getById(id));
+        return UtilsTemplate.adminTemplate("friend", "edit");
     }
 }

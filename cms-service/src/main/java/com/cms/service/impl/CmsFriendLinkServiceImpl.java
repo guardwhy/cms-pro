@@ -28,19 +28,14 @@ public class CmsFriendLinkServiceImpl implements CmsFriendLinkService {
         cmsFriendLinkMapper.save(CmsFriendLinkConverter.CONVERTER.dtoToEntity(dto));
     }
 
+    /***
+     * 根据id值修改dto的数据
+     * @param id
+     * @return
+     */
     @Override
     public CmsFriendLinkDto getById(Integer id) {
-        return null;
-    }
-
-    @Override
-    public void update(CmsFriendLinkDto dto) {
-
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-
+        return CmsFriendLinkConverter.CONVERTER.entityToDto(cmsFriendLinkMapper.selectById(id));
     }
 
     /***
@@ -57,5 +52,15 @@ public class CmsFriendLinkServiceImpl implements CmsFriendLinkService {
                 pageInfo.getPageSize()).
                 doSelectPage(() -> cmsFriendLinkMapper.selectBySearchProvider(of));
         return new Page<>(page.getTotal(),CmsFriendLinkConverter.CONVERTER.entityToDto(page.getResult()));
+    }
+
+    @Override
+    public void update(CmsFriendLinkDto dto) {
+
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
     }
 }
