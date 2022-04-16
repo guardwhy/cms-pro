@@ -54,13 +54,21 @@ public class CmsFriendLinkServiceImpl implements CmsFriendLinkService {
         return new Page<>(page.getTotal(),CmsFriendLinkConverter.CONVERTER.entityToDto(page.getResult()));
     }
 
+    /***
+     * 修改dto的数据
+     * @param dto
+     */
     @Override
     public void update(CmsFriendLinkDto dto) {
-
+        cmsFriendLinkMapper.update(CmsFriendLinkConverter.CONVERTER.dtoToEntity(dto));
     }
 
+    /**
+     * 删除dto数据
+     * @param id
+     */
     @Override
     public void deleteById(Integer id) {
-
+        cmsFriendLinkMapper.deleteById(id);
     }
 }

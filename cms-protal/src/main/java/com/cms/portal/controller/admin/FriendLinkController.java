@@ -79,4 +79,29 @@ public class FriendLinkController {
         model.addAttribute("data", cmsFriendLinkService.getById(id));
         return UtilsTemplate.adminTemplate("friend", "edit");
     }
+
+    /***
+     * 修改友情链接页面数据
+     * @param cmsFriendLinkDto
+     * @return
+     */
+    @PostMapping("edit.do")
+    @ResponseBody
+    public Result<String> doEdit(CmsFriendLinkDto cmsFriendLinkDto){
+        cmsFriendLinkService.update(cmsFriendLinkDto);
+        return Result.success();
+    }
+
+    /***
+     * 删除友情链接页面数据
+     * @param id
+     * @return
+     */
+    @PostMapping("delete.do")
+    @ResponseBody
+    public Result<String> doDelete(Integer id){
+        // 删除id
+        cmsFriendLinkService.deleteById(id);
+        return Result.success();
+    }
 }

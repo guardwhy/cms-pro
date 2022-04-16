@@ -41,6 +41,20 @@
         #{createTime}
     </sql>
 
+    <!--更新sql-->
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="priority!=null">
+            priority = #{priority},
+        </if>
+        <if test="url!=null and url!=''">
+            url = #{url},
+        </if>
+    </sql>
+
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsFriendLinkEntity">
         <id property="id" column="id"/>
         <result property="priority" column="priority"/>
@@ -75,4 +89,18 @@
         <include refid="baseField"/>
         from cms_friend_link where id = #{id}
     </select>
+
+    <!--修改链接-->
+    <update id="update">
+        update cms_friend_link
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"/>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!--删除链接-->
+    <delete id="deleteById">
+        delete from cms_friend_link where id = #{id}
+    </delete>
 </mapper>
