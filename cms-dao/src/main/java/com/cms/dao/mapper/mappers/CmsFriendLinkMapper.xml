@@ -6,14 +6,66 @@
 <!--实体类的映射文件: namespace 指定接口的类全名-->
 <mapper namespace="com.cms.dao.mapper.CmsFriendLinkMapper">
     <!--数据库查询语句-->
-    <sql id="baseColumn">
-        a.id,
-        a.username,
-        a.status,
-        a.password,
-        a.email,
-        a.register_time,
-        a.is_super,
-        a.salt
+    <sql id="baseField">
+        id,
+        name,
+        url,
+        priority
     </sql>
+
+    <!--key-sql-->
+    <sql id="key">
+        <if test="name!=null and name!=''">
+            name,
+        </if>
+        <if test="priority!=null">
+            priority,
+        </if>
+        <if test="url!=null and url!=''">
+            url,
+        </if>
+        create_time
+    </sql>
+
+    <!--sql-value-->
+    <sql id="value">
+        <if test="name!=null and name!=''">
+            #{name},
+        </if>
+        <if test="priority!=null">
+            #{priority},
+        </if>
+        <if test="url!=null and url!=''">
+            #{url},
+        </if>
+        #{createTime}
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsFriendLinkEntity">
+        <id property="id" column="id"/>
+        <result property="priority" column="priority"/>
+        <result property="url" column="url"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <!--根据id添加友情链接-->
+    <insert id="save">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into cms_friend_link (<include refid="key"/>) values (<include refid="value"/>)
+    </insert>
+
+    <!--根据id查询友情链接【分页查询】-->
+    <select id="selectBySearchProvider" parameterType="SearchProvider" resultMap="baseResultMap">
+        select
+        <include refid="baseField"/>
+        from cms_friend_link
+        <where>
+            <if test="criteria.name!=null and criteria.name!=''">
+                name like concat ('%',#{criteria.name},'%')
+            </if>
+        </where>
+        order by priority asc,create_time desc
+    </select>
 </mapper>

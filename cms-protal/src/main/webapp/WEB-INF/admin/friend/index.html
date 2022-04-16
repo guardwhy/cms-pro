@@ -14,18 +14,12 @@
 
 <script>
     LayUtil.dataGrid.init({
-        url:'${adminPath}/role/page.do'
-        ,cellMinWidth: 80
+        cellMinWidth: 80
         ,cols: [[
             {field:'id', width:80, title: 'ID', sort: true}
-            ,{field:'name', title: '角色名'}
-            ,{field:'status', width:80, title: '状态', templet:function(data){
-                    return !data.status?"正常":"禁用";
-                }}
+            ,{field:'name', title: '名称'}
             ,{field:'priority', title: '排序'}
-            ,{field:'all', title: '是否所有权限', templet:function(data){
-                    return data.all?"是":"否"
-                }}
+            ,{field:'url', title: '链接地址'}
             ,{templet: '#rightTemplate', align: 'center', title: '操作'}
         ]]
         ,toolbar:"#toolbar"
@@ -37,5 +31,6 @@
 </script>
 <script type="text/html" id="toolbar">
     <a class="layui-btn layui-btn-sm layui-bg-blue" href="add.do"><i class="layui-icon layui-icon-add-1"></i>添加</a>
-    <a class="layui-btn layui-btn-sm" onclick="javascript:window.location.reload()"><i class="layui-icon layui-icon-refresh-3"></i>刷新</a>
+    <a class="layui-btn layui-btn-sm" onclick="javascript:window.location.reload()">
+        <i class="layui-icon layui-icon-refresh-3"></i>刷新</a>
 </script>

@@ -5,6 +5,8 @@ import com.cms.service.dto.CmsFriendLinkDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author guardwhy
  * @date 2022/4/15 15:42
@@ -17,4 +19,5 @@ public interface CmsFriendLinkConverter {
     // dto和entity相互转换
     CmsFriendLinkEntity dtoToEntity(CmsFriendLinkDto dto);
     CmsFriendLinkDto entityToDto(CmsFriendLinkEntity entity);
+    List<CmsFriendLinkDto> entityToDto(List<CmsFriendLinkEntity> entity);
 }
