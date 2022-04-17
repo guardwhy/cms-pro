@@ -71,6 +71,10 @@
         <!--一些其他设置-->
         <property name="freemarkerSettings">
             <props>
+                <!--设置自动检测 根据第一出现标签的样式来决定哪一种标签的写法是合法的。
+                比如说第一行使用标签的地方使用的是[]的话，那么在接下来的使用中，
+                都必须保持一致否则就会出错-->
+                <prop key="tag_syntax">auto_detect</prop>
                 <!--  本地化设置 -->
                 <prop key="locale">zh_CN</prop>
                 <!--解决freemarker渲染页面乱码-->
@@ -80,6 +84,8 @@
         <property name="freemarkerVariables">
             <map>
                 <entry key="shiro" value-ref="shiroTags"/>
+                <!--配置在这里-->
+                <entry key="cms_friend_link_directive" value-ref="cmsFriendLinkDirective"/>
             </map>
         </property>
     </bean>

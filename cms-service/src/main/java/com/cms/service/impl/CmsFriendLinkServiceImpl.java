@@ -12,6 +12,8 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author guardwhy
  * @date 2022/4/15 15:48
@@ -70,5 +72,13 @@ public class CmsFriendLinkServiceImpl implements CmsFriendLinkService {
     @Override
     public void deleteById(Integer id) {
         cmsFriendLinkMapper.deleteById(id);
+    }
+
+    @Override
+    public List<CmsFriendLinkDto> getList(CmsFriendLinkDto cmsFriendLinkDto) {
+        // 拿到of
+        SearchProvider of = SearchProvider.of(CmsFriendLinkConverter.CONVERTER.dtoToEntity(cmsFriendLinkDto));
+        // 返回数据
+        return CmsFriendLinkConverter.CONVERTER.entityToDto(cmsFriendLinkMapper.selectBySearchProvider(of));
     }
 }

@@ -38,4 +38,7 @@
             <bean class="java.util.concurrent.ThreadPoolExecutor$DiscardPolicy"/>
         </property>
     </bean>
+
+    <!--引入指令-->
+    <bean id="cmsFriendLinkDirective" class="com.cms.portal.freemarker.directive.CmsFriendLinkDirective"/>
 </beans>

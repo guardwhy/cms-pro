@@ -130,22 +130,12 @@
         <div class="pro_label">
             <a href="xxxxxxx" target="_blank">友情链接：</a></div>
         <ul>
-            <li><a href="" rel="nofollow" target="_blank">xxx官网</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxx网站</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxx</a></li>
-
-            <li><a href="" rel="nofollow" target="_blank">xxxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
-
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
-            <li><a href="" target="_blank">xxxxxxx</a></li>
-            <li><a href="" rel="nofollow" target="_blank">xxxxxxx</a></li>
+            [#--指定返回值--]
+            [@cms_friend_link_directive;result]
+                [#list  result as item]
+                    <li><a href="" rel="nofollow" target="_blank">${item.name!}</a></li>
+                [/#list]
+            [/@cms_friend_link_directive]
         </ul>
     </div>
     <div class="license_desc" style="text-align:center;">
