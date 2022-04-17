@@ -131,9 +131,9 @@
             <a href="xxxxxxx" target="_blank">友情链接：</a></div>
         <ul>
             [#--指定返回值--]
-            [@cms_friend_link_directive;result]
+            [@cms_friend_link_directive]
                 [#list  result as item]
-                    <li><a href="" rel="nofollow" target="_blank">${item.name!}</a></li>
+                    <li><a href="${item.url!}" rel="nofollow" target="_blank">${item.name!}</a></li>
                 [/#list]
             [/@cms_friend_link_directive]
         </ul>

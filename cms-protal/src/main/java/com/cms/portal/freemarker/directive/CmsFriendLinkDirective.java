@@ -27,7 +27,9 @@ public class CmsFriendLinkDirective implements TemplateDirectiveModel {
         System.out.println(templateModels.length);
         // 查询数据
         List<CmsFriendLinkDto> list = cmsFriendLinkService.getList(new CmsFriendLinkDto());
-        templateModels[0] = new SimpleSequence(list, null);
+        DefaultObjectWrapper defaultObjectWrapper = new DefaultObjectWrapper(Configuration.VERSION_2_3_23);
+        // 设置命名空间变量
+        environment.setVariable("result",defaultObjectWrapper.wrap(list));
         // 将环境变量写出去
         templateDirectiveBody.render(environment.getOut());
     }
