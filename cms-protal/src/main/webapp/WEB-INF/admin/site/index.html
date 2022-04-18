@@ -12,8 +12,14 @@
             </@form.inline>
         </@form.item>
         <@form.item>
-            <@form.inline label="站点描述">
-                <textarea type="text" class="layui-input layui-textarea" lay-verify="required" name="description">${data.description!""}</textarea>
+            <@form.inline label="站点描述" full=true>
+                <textarea type="text" class="layui-input layui-textarea"
+                          lay-verify="required" name="description">${data.description!""}</textarea>
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="静态页后缀">
+                <@form.select list=staticWebSuffix name="staticWebSuffix" enum=true></@form.select>
             </@form.inline>
         </@form.item>
         <@form.submit></@form.submit>

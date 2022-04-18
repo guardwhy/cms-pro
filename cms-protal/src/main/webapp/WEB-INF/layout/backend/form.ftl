@@ -69,3 +69,24 @@
     <#nested>
     <button class="layui-btn" lay-submit lay-filter="searchSubmit">查询</button>
 </#macro>
+
+<#--
+select下拉  支持list和枚举
+name select标签的name属性
+list 数据
+-->
+<#macro select name list enum=false showDefaultOption=false defaultOptionLabel="">
+    <select name="${name}">
+        <#if showDefaultOption==true>
+            <option value><#if defaultOptionLabel!="">${defaultOptionLabel}<#else>请选择</#if></option>
+        </#if>
+        <#if enum==false>
+
+        <#else>
+            <#list list as item>
+                <option value="${item.getOrdinal()}">${item.label}</option>
+            </#list>
+        </#if>
+    </select>
+</#macro>
+

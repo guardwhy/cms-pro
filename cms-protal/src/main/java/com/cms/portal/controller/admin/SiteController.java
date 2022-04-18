@@ -4,6 +4,7 @@ import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
 import com.cms.core.annotation.DoLog;
 import com.cms.core.annotation.DoValid;
+import com.cms.dao.enums.StaticWebSuffixEnum;
 import com.cms.service.api.CmsSiteService;
 import com.cms.service.dto.CmsSiteDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class SiteController {
     public String toIndex(Model model){
         // 发送到前端页面
         model.addAttribute("data", cmsSiteService.get());
+        model.addAttribute("staticWebSuffix", StaticWebSuffixEnum.values());
         return UtilsTemplate.adminTemplate("site", "index");
     }
 
