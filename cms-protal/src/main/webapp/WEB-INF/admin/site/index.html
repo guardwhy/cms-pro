@@ -13,13 +13,21 @@
         </@form.item>
         <@form.item>
             <@form.inline label="站点描述" full=true>
-                <textarea type="text" class="layui-input layui-textarea"
-                          lay-verify="required" name="description">${data.description!""}</textarea>
+                <textarea type="text" class="layui-input layui-textarea" lay-verify="required" name="description">${data.description!""}</textarea>
             </@form.inline>
         </@form.item>
         <@form.item>
+            <@form.inline label="静态页目录">
+                <input type="text" class="layui-input" name="staticDir"  value="${data.staticDir!""}">
+            </@form.inline>
             <@form.inline label="静态页后缀">
-                <@form.select list=staticWebSuffix name="staticWebSuffix" enum=true></@form.select>
+                <@form.select list=staticWebSuffix name="staticSuffix" enum=true></@form.select>
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="首页静态化">
+                <input type="radio" name="staticIndex" value="0" title="否">
+                <input type="radio" name="staticIndex" value="1" title="是" checked>
             </@form.inline>
         </@form.item>
         <@form.submit></@form.submit>
@@ -30,7 +38,8 @@
         inner.submit(function(data){
             core.http({
                 url:"${adminPath}/site/edit.do",
-                data:data.field
+                data:data.field,
+                goBack:false
             })
         })
     })

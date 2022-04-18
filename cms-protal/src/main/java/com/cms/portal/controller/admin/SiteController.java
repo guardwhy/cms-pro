@@ -41,7 +41,7 @@ public class SiteController {
     @ResponseBody
     @DoValid
     @DoLog(content = "修改站点配置")
-    public Result doEdit(@Valid CmsSiteDto cmsSiteDto, BindingResult result){
+    public Result<String> doEdit(@Valid CmsSiteDto cmsSiteDto, BindingResult result){
         /**
          * 调用业务层
          */

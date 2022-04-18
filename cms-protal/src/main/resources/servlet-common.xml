@@ -5,13 +5,21 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 配置映射器与适配器 -->
-    <mvc:annotation-driven validator="validator">
+    <mvc:annotation-driven validator="validator" conversion-service="conversionService">
         <!-- 配置json转换器-->
         <mvc:message-converters>
             <ref bean="fastJsonHttpMessageConverter"/>
             <ref bean="stringHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
+    <!-- 枚举转换spring类型转换体系的核心接口,可以利用ConversionServiceFactoryBean在spring工厂容器中定义一个conversionService-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="com.cms.context.converter.StringToEnumConverterFactory"/>
+            </list>
+        </property>
+    </bean>
 
     <!--FastJsonConfig转换 和localDateTime转换-->
     <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
@@ -72,8 +80,7 @@
         <property name="freemarkerSettings">
             <props>
                 <!--设置自动检测 根据第一出现标签的样式来决定哪一种标签的写法是合法的。
-                比如说第一行使用标签的地方使用的是[]的话，那么在接下来的使用中，
-                都必须保持一致否则就会出错-->
+                比如说第一行使用标签的地方使用的是[]的话，那么在接下来的使用中，都必须保持一致否则就会出错-->
                 <prop key="tag_syntax">auto_detect</prop>
                 <!--  本地化设置 -->
                 <prop key="locale">zh_CN</prop>
@@ -84,13 +91,12 @@
         <property name="freemarkerVariables">
             <map>
                 <entry key="shiro" value-ref="shiroTags"/>
-                <!--配置在这里-->
                 <entry key="cms_friend_link_directive" value-ref="cmsFriendLinkDirective"/>
             </map>
         </property>
     </bean>
 
-    <!-- shiro标签和freemarker结合的bean-->
+    <!--    shiro标签和freemarker结合的bean-->
     <bean id="shiroTags" class="com.jagregory.shiro.freemarker.ShiroTags"/>
 
     <!--使用AspectJ提供的注解方式实现aop-->
