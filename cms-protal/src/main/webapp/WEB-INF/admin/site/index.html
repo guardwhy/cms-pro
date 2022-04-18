@@ -21,13 +21,18 @@
                 <input type="text" class="layui-input" name="staticDir"  value="${data.staticDir!""}">
             </@form.inline>
             <@form.inline label="静态页后缀">
-                <@form.select list=staticWebSuffix name="staticSuffix" enum=true></@form.select>
+                <@form.select list=staticWebSuffix name="staticSuffix" enum=true value="${data.staticSuffix.getOrdinal()}"></@form.select>
             </@form.inline>
         </@form.item>
         <@form.item>
             <@form.inline label="首页静态化">
-                <input type="radio" name="staticIndex" value="0" title="否">
-                <input type="radio" name="staticIndex" value="1" title="是" checked>
+                <#if data.staticIndex?string("1","0")=="1">
+                    <input type="radio" name="staticIndex" value="0" title="否" >
+                    <input type="radio" name="staticIndex" value="1" title="是" checked>
+                <#else>
+                    <input type="radio" name="staticIndex" value="0" title="否" checked>
+                    <input type="radio" name="staticIndex" value="1" title="是" >
+                </#if>
             </@form.inline>
         </@form.item>
         <@form.submit></@form.submit>

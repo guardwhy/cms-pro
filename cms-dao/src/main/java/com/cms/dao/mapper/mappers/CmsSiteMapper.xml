@@ -37,7 +37,7 @@
         <if test="staticSuffix!=null">
             static_suffix = #{staticSuffix},
         </if>
-        <if test="staticIndex!=null and staticIndex!=''">
+        <if test="staticIndex!=null">
             is_static_index = #{staticIndex},
         </if>
     </sql>
