@@ -1,0 +1,28 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+
+<@main.layout>
+    <@form.form>
+        <@form.item>
+            <@form.inline>
+                <button class="layui-btn" lay-submit lay-filter="buildHtml">生成首页HTML</button>
+                <button class="layui-btn layui-btn-danger" lay-submit lay-filter="deleteHtml">删除首页HTML</button>
+            </@form.inline>
+        </@form.item>
+    </@form.form>
+</@main.layout>
+
+<script>
+    LayUtil.form.init(function(inner){
+        inner.submit(function(data){
+            // 向index页面发送ajax【生成页面】
+            core.http({url:"index.do",goBack:false});
+            return false;
+        },"buildHtml")
+        // 向index页面发送ajax【删除页面】
+        inner.submit(function(data){
+            core.http({url:"index2.do",goBack:false});
+            return false;
+        },"deleteHtml")
+    })
+</script>

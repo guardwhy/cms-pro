@@ -94,10 +94,17 @@
               "target": "_self"
             },
             {
-              "title": "分步表单",
-              "href": "page/form-step.html",
+              "title": "页面静态化",
               "icon": "fa fa-navicon",
-              "target": "_self"
+              "target": "_self",
+              "child": [
+                {
+                  "title": "首页静态化",
+                  "href": "/admin/cms/static/index.do",
+                  "icon": "fa fa-list-alt",
+                  "target": "_self"
+                }
+              ]
             }
           ]
         },
