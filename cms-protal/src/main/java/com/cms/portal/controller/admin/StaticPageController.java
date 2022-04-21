@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * @author guardwhy
@@ -55,5 +54,20 @@ public class StaticPageController {
         // 调用静态页面业务层
         cmsStaticPageService.staticIndex();
         return Result.success();
+    }
+
+    /***
+     * 删除静态化页面
+     * @return
+     */
+    @PostMapping("deleteIndex.do")
+    @ResponseBody
+    public Result<String> doDeleteIndex(){
+        boolean result = cmsStaticPageService.deleteIndex();
+        // 条件判断
+        if(BooleanUtils.isTrue(result)){
+            return Result.success();
+        }
+        return Result.failed("删除失败!!!");
     }
 }

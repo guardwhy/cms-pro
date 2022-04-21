@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -70,10 +71,13 @@ public class CmsStaticPageServiceImpl implements CmsStaticPageService {
         if(!parentDir.exists()){
             parentDir.mkdirs();
         }
+        // 获取虚拟目录
+        HttpServletRequest request =  UtilsHttp.getRequest();
         // 拿到数据
         HashMap<String, Object> data = Maps.newHashMap();
         // 添加到暂存信息
         data.put("site", cmsSite);
+        data.put("basePath", request.getContextPath());
         // 将文件转换成流并且输出出去
         try(Writer writer = new OutputStreamWriter(new FileOutputStream(realOutPutPathFile), StandardCharsets.UTF_8)){
             WebApplicationContext webApplicationContext = UtilsHttp.getWebApplicationContext(UtilsHttp.getRequest());
@@ -90,5 +94,23 @@ public class CmsStaticPageServiceImpl implements CmsStaticPageService {
             log.error("staticIndex生成首页模板失败=[{}]",e.getMessage());
             throw new BusinessException("生成首页模板失败！！！");
         }
+    }
+
+    /***
+     * 删除静态页面
+     * @return
+     */
+    @Override
+    public boolean deleteIndex() {
+        // 拿到站点
+        CmsSiteDto cmsSite = cmsSiteService.get();
+        // 拿到静态目录
+        String staticDir = cmsSite.getStaticDir();
+        HttpServletRequest request = UtilsHttp.getRequest();
+        // 拿到虚拟化路径
+        String contextPath = request.getContextPath();
+        File file = new File(utilsServletContext.getRealPath(contextPath + "/" + staticDir + "/index" +
+                StaticWebSuffixEnum.HTML.getLabel()));
+        return file.delete();
     }
 }

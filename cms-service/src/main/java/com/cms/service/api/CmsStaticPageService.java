@@ -10,4 +10,10 @@ public interface CmsStaticPageService {
      * 静态化首页
      */
     void staticIndex();
+
+    /***
+     * 删除静态化首页
+     * @return
+     */
+    boolean deleteIndex();
 }
