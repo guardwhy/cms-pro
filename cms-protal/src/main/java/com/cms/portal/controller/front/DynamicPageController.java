@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author guardwhy
@@ -38,6 +39,7 @@ public class DynamicPageController {
      */
     @GetMapping("index.shtml")
     public String index(HttpServletRequest request, HttpServletResponse response, Model model){
+        List<String> tplRelativePath = utilsServletContext.getTplRelativePath("index", "index");
         // 获取站点的信息
         CmsSiteDto cmsSite = cmsSiteService.get();
         if(BooleanUtils.isTrue(existStaticIndexPage(cmsSite))){

@@ -303,6 +303,12 @@
             <artifactId>pagehelper</artifactId>
             <version>${pagehelperVersion}</version>
         </dependency>
+        <!--commons-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commonsIoVersion}</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
