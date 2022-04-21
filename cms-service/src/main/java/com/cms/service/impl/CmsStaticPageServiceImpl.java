@@ -1,18 +1,26 @@
 package com.cms.service.impl;
 
+import com.cms.context.utils.UtilsHttp;
 import com.cms.context.utils.UtilsServletContext;
 import com.cms.core.exception.BusinessException;
 import com.cms.dao.enums.StaticWebSuffixEnum;
 import com.cms.service.api.CmsSiteService;
 import com.cms.service.api.CmsStaticPageService;
 import com.cms.service.dto.CmsSiteDto;
+import com.google.common.collect.Maps;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 /**
  * @author guardwhy
@@ -61,6 +69,26 @@ public class CmsStaticPageServiceImpl implements CmsStaticPageService {
         // 条件判断
         if(!parentDir.exists()){
             parentDir.mkdirs();
+        }
+        // 拿到数据
+        HashMap<String, Object> data = Maps.newHashMap();
+        // 添加到暂存信息
+        data.put("site", cmsSite);
+        // 将文件转换成流并且输出出去
+        try(Writer writer = new OutputStreamWriter(new FileOutputStream(realOutPutPathFile), StandardCharsets.UTF_8)){
+            WebApplicationContext webApplicationContext = UtilsHttp.getWebApplicationContext(UtilsHttp.getRequest());
+            // 获取freeMarker
+            FreeMarkerConfigurer freeMarkerConfigurer = webApplicationContext.getBean(FreeMarkerConfigurer.class);
+            // 获取到配置文件
+            Configuration configuration = freeMarkerConfigurer.getConfiguration();
+            // 设置编码
+            configuration.setDefaultEncoding(StandardCharsets.UTF_8.name());
+            // 获取首页模板路径
+            Template template = configuration.getTemplate(templatePath);
+            template.process(data,writer);
+        }catch (Exception e){
+            log.error("staticIndex生成首页模板失败=[{}]",e.getMessage());
+            throw new BusinessException("生成首页模板失败！！！");
         }
     }
 }

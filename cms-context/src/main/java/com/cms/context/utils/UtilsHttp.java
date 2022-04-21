@@ -6,9 +6,12 @@ import com.cms.core.foundation.Page;
 import com.sun.media.jfxmedia.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -167,5 +170,13 @@ public class UtilsHttp {
         }
     }
 
+    /**
+     * 获取SpringMVC
+     * @param request
+     * @return
+     */
+    public static WebApplicationContext getWebApplicationContext(ServletRequest request){
+        return  (WebApplicationContext)request.getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+    }
 
 }
