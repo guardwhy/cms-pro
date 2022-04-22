@@ -55,7 +55,7 @@ public class DynamicPageController {
             }
         }
         model.addAttribute("site", cmsSite);
-        return UtilsTemplate.frontTemplate("index");
+        return UtilsTemplate.frontTemplate("index", "index");
     }
 
     /***

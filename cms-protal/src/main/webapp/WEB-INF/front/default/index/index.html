@@ -8,112 +8,11 @@
     <title>首页 - ${site.siteName!} - 某某某官网</title>
     <meta http-equiv="keywords" content="${site.keywords!}"/>
     <meta http-equiv="description" content="${site.description!}"/>
+    <link rel="stylesheet" href="${basePath}/common/css/common.css">
+    <link rel="stylesheet" href="${basePath}/front/index.css">
     <script src="${basePath}/common/js/jq.js"></script>
-    <style>
-        *, html, body {
-            padding: 0;
-            margin: 0;
-            font-family: "microsoft yahei","宋体",Arial;
-        }
-        a {
-            text-decoration: none;
-            color: #333333;
-        }
-        ul{
-            list-style-type: none;
-            margin-bottom: 0px;
-        }
-        #footer .footer_cont_box {
-            width: 100%;
-            margin: 0 auto;
-            background: #ff7f58;
-            height: 40px;
-        }
-        #footer .footer_cont_box .nav_qr_box {
-            width: 1200px;
-            color: #fff;
-            margin: 0 auto;
-            position: relative;
-        }
-        #footer .footer_cont_box .nav_qr_box .fun_nav_list {
-            width: 1100px;
-            display: inline-block;
-        }
-        #footer .footer_cont_box .nav_qr_box .fun_nav_list > ul {
-            height: 40px;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-        #footer .footer_cont_box .nav_qr_box .fun_nav_list > ul li:first-child {
-            padding: 0 22px 0 0;
-        }
-        #footer .footer_cont_box .nav_qr_box .fun_nav_list > ul li {
-            line-height: 40px;
-            float: left;
-            padding: 0 22px;
-            position: relative;
-            box-sizing: border-box;
-        }
-        #footer .footer_cont_box .nav_qr_box .fun_nav_list > ul li a {
-            color: #fff;
-            font-size: 15px;
-        }
-        /*---------------------------------------------*/
-        .pro_nav_list {
-            width: 1200px;
-            margin: 0 auto;
-            min-height: 60px;
-            position: relative;
-            color: #565555;
-            font-size: 13px;
-            border-bottom: 1px solid #dbdbdb;
-            overflow: hidden;
-        }
-        .pro_nav_list .pro_label {
-            min-width: 78px;
-            height: 60px;
-            line-height: 60px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .pro_nav_list > ul {
-            width: 100%;
-            overflow: hidden;
-            padding-left: 92px;
-            padding-top: 22px;
-            box-sizing: border-box;
-        }
-        .pro_nav_list > ul li {
-            float: left;
-            margin-right: 20px;
-            padding-bottom: 13px;
-            box-sizing: border-box;
-        }
-        .pro_nav_list > ul li a {
-            color: #666;
-            font-size: 13px;
-        }
-        /*--------------------------------------------------*/
-        #footer .license_desc {
-            width: 100%;
-        }
-        #footer .license_desc .desc_cont {
-            width: 1200px;
-            height: 38px;
-            line-height: 38px;
-            margin: 0 auto;
-            color: #969696;
-            font-size: 12px;
-            overflow: hidden;
-        }
-    </style>
 </head>
 <body>
-
-
 
 <div id="footer">
     <div class="footer_cont_box">
@@ -138,7 +37,7 @@
         <ul>
             [@cms_friend_link_directive]
                 [#list  result as item]
-                   <li><a href="${item.url!}" rel="nofollow" target="_blank">${item.name!}</a></li>
+                    <li><a href="${item.url!}" rel="nofollow" target="_blank">${item.name!}</a></li>
                 [/#list]
             [/@cms_friend_link_directive]
         </ul>

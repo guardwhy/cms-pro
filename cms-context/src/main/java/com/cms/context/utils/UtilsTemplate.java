@@ -37,4 +37,14 @@ public class UtilsTemplate {
     public static String frontTemplate(String template){
         return "front/default/"+template;
     }
+
+    /***
+     * 前台模板方法
+     * @param dir  目录
+     * @param template  模板名称
+     * @return  String
+     */
+    public static String frontTemplate(String dir, String template){
+        return "front/default/"+dir+"/"+template;
+    }
 }

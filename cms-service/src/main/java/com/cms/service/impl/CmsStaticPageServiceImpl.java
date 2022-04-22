@@ -57,11 +57,9 @@ public class CmsStaticPageServiceImpl implements CmsStaticPageService {
         // 获取静态后缀
         StaticWebSuffixEnum staticSuffix = cmsSite.getStaticSuffix();
         // 首页模板路径
-        String templatePath = "/front/default/index"+staticSuffix.getLabel();
+        String templatePath = cmsSite.getTplIndex();
         //输出路径
         String outPutPath = staticDir +"/index"+StaticWebSuffixEnum.HTML.getLabel();
-        // 获取基于项目的完整路径
-        String realPath = utilsServletContext.getRealPath(outPutPath);
         // 获取基于项目的完整路径
         String realOutPutPath = utilsServletContext.getRealPath(outPutPath);
         log.info("realOutPutPath=[{}]",realOutPutPath);
