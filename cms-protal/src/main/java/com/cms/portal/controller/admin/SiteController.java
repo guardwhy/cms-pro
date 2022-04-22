@@ -1,6 +1,7 @@
 package com.cms.portal.controller.admin;
 
 import com.cms.context.foundation.Result;
+import com.cms.context.utils.UtilsServletContext;
 import com.cms.context.utils.UtilsTemplate;
 import com.cms.core.annotation.DoLog;
 import com.cms.core.annotation.DoValid;
@@ -25,15 +26,20 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("site")
 public class SiteController {
+
     // 注入CmsSiteService
     @Autowired
     private CmsSiteService cmsSiteService;
+    @Autowired
+    private UtilsServletContext utilsServletContext;
 
     @GetMapping("index.do")
     public String toIndex(Model model){
         // 发送到前端页面
         model.addAttribute("data", cmsSiteService.get());
         model.addAttribute("staticWebSuffix", StaticWebSuffixEnum.values());
+        // 模板路径
+        model.addAttribute("tplIndex",utilsServletContext.getTplRelativePath("index","index"));
         return UtilsTemplate.adminTemplate("site", "index");
     }
 

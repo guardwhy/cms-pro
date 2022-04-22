@@ -22,5 +22,6 @@ public class CmsSiteDto extends BaseDto<Integer> {
     private String description; // 站点描述
     private StaticWebSuffixEnum staticSuffix;  // 静态页后缀
     private String staticDir;   // 静态页存放目录
+    private String tplIndex; // 首页模板路径
     private Boolean staticIndex; // 是否静态化首页
 }

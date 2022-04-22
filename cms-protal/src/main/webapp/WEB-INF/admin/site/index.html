@@ -21,7 +21,8 @@
                 <input type="text" class="layui-input" name="staticDir"  value="${data.staticDir!""}">
             </@form.inline>
             <@form.inline label="静态页后缀">
-                <@form.select list=staticWebSuffix name="staticSuffix" enum=true value="${data.staticSuffix.getOrdinal()}"></@form.select>
+                <@form.select list=staticWebSuffix name="staticSuffix" enum=true
+                value="${data.staticSuffix.getOrdinal()}"></@form.select>
             </@form.inline>
         </@form.item>
         <@form.item>
@@ -33,6 +34,9 @@
                     <input type="radio" name="staticIndex" value="0" title="否" checked>
                     <input type="radio" name="staticIndex" value="1" title="是" >
                 </#if>
+            </@form.inline>
+            <@form.inline label="首页模板">
+                <@form.select list=tplIndex name="tplIndex" value="${data.tplIndex!}"></@form.select>
             </@form.inline>
         </@form.item>
         <@form.submit></@form.submit>

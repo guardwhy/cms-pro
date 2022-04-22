@@ -54,6 +54,7 @@ CREATE TABLE cms_site
     keywords        varchar(255) not null default '' comment '站点关键字',
     static_dir      varchar(50)  not null default '' comment '静态页存放目录',
     static_suffix   tinyint               default 0 not null comment '静态页后缀',
+    tpl_index          varchar(255)                not null default '' comment '首页模板路径',
     is_static_index char                  default 0 not null comment '是否静态化首页 0:否 1:是',
     description     varchar(255) not null default '' comment '站点描述'
 ) ENGINE = InnoDB
