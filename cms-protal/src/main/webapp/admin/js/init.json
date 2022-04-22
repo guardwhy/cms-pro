@@ -109,14 +109,14 @@
           ]
         },
         {
-          "title": "登录模板",
+          "title": "辅助",
           "href": "",
           "icon": "fa fa-flag-o",
           "target": "_self",
           "child": [
             {
-              "title": "登录-1",
-              "href": "page/login-1.html",
+              "title": "定时任务",
+              "href": "task/index.do",
               "icon": "fa fa-stumbleupon-circle",
               "target": "_blank"
             },

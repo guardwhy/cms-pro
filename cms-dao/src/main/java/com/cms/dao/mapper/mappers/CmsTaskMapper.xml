@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+实体类的映射文件: namespace 指定接口的类全名
+-->
+<mapper namespace="com.cms.dao.mapper.CmsTaskMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <!--SQL-->
+    <sql id="baseColumn">
+        id,
+        site_name,
+        keywords,
+        description,
+        static_dir,
+        static_suffix,
+        tpl_index,
+        is_static_index
+    </sql>
+
+    <!--更新sql-->
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="siteName!=null and siteName!=''">
+            site_name = #{siteName},
+        </if>
+        <if test="keywords!=null and keywords!=''">
+            keywords = #{keywords},
+        </if>
+        <if test="description!=null and description!=''">
+            description = #{description},
+        </if>
+        <if test="staticDir!=null and staticDir!=''">
+            static_dir = #{staticDir},
+        </if>
+        <if test="staticSuffix!=null">
+            static_suffix = #{staticSuffix},
+        </if>
+        <if test="staticIndex!=null">
+            is_static_index = #{staticIndex},
+        </if>
+        <if test="tplIndex!=null and tplIndex!=''">
+            tpl_index = #{tplIndex},
+        </if>
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
+        <id property="id" column="id"/>
+        <result property="siteName" column="siteName"/>
+        <result property="keywords" column="keywords"/>
+        <result property="description" column="description"/>
+        <result property="staticDir" column="static_dir"/>
+        <result property="staticSuffix" column="static_suffix"/>
+        <result property="staticIndex" column="is_static_index"/>
+        <result property="tplIndex" column="tpl_index"/>
+    </resultMap>
+
+    <!--修改站点信息-->
+    <update id="update">
+        update cms_site
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"/>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!--根据id查询站点信息-->
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_site where id = #{id}
+    </select>
+</mapper>
