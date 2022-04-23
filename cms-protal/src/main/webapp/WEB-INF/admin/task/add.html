@@ -1,0 +1,180 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <@form.item>
+            <@form.inline label="任务类型" required=true>
+                <@form.select list=taskType name="type" enum=true showDefaultOption=false></@form.select>
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="任务名称" required=true>
+                <input type="text" name="name" class="layui-input" lay-verify="required">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="执行方式" required=true>
+                <@form.radio list=taskExecutionType name="executionCycle" enum=true value="0" filter="executeTypeFilter"></@form.radio>
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline full=true className="cmsTaskInline cmsTaskInlineExecutionCycle" label="执行周期">
+                <@form.select list=taskExecutionCycle name="intervalUnit" enum=true showDefaultOption=false filter="executionCycleFilter"></@form.select>
+                <div id="cmsTaskExecutionCycleWrapper">
+                    <div class="cmsTaskCycle cmsTaskCycleIntervalMinute">
+                        <div class="cms-task-input-inline">
+                            <span class="cms-task-unit-left">每隔</span>
+                            <input type="number" name="intervalMinute" class="layui-input" style="width: 100px;">
+                            <span class="cms-task-unit">分钟</span>
+                        </div>
+                    </div>
+                </div>
+            </@form.inline>
+            <@form.inline full=true className="cmsTaskInline cmsTaskInlinecronExpression" label="cron表达式" inlineStyle="display:none;">
+                <input type="text" name="cronExpression" class="layui-input">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="状态" required=true>
+                <input name="enable" type="radio" class="layui-input" title="启用" value="1" checked>
+                <input name="enable" type="radio" class="layui-input" title="禁用" value="0">
+            </@form.inline>
+        </@form.item>
+        <@form.item>
+            <@form.inline label="备注">
+                <textarea name="remark" class="layui-textarea"></textarea>
+            </@form.inline>
+        </@form.item>
+        <@form.submit></@form.submit>
+    </@form.form>
+</@main.layout>
+<style>
+    /*输入框外包裹的div样式*/
+    .cms-task-input-inline{
+        display:flex;flex-direction: inherit;
+        float:left;
+        margin-left:5px;
+    }
+    /*单位span样式*/
+    .cms-task-unit-left{
+        color:#878787;
+        background: #f0f0f0;
+        height: 38px;
+        display: inline-block;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        line-height: 38px;
+        text-align:center;
+        width:40px;
+        align-self:center;
+    }
+    .cms-task-unit{
+        color:#878787;
+        background: #f0f0f0;
+        height: 38px;
+        display: inline-block;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        line-height: 38px;
+        text-align:center;
+        width:40px;
+        align-self:center;
+    }
+    .layui-form-select{
+        width:120px;
+        float:left;
+    }
+</style>
+<script>
+    //间隔分钟
+    let cmsTaskCycleIntervalMinute ='<div class="cmsTaskCycle cmsTaskCycleIntervalMinute">\n' +
+        ' <div class="cms-task-input-inline">\n' +
+        '   <span class="cms-task-unit-left">每隔</span>\n' +
+        '       <input type="number" name="intervalMinute" class="layui-input" style="width: 100px;">\n' +
+        '       <span class="cms-task-unit">分钟</span>\n' +
+        '</div>\n' +
+        '</div>';
+    //间隔小时
+    let cmsTaskCycleIntervalHour = '<div class="cmsTaskCycle cmsTaskCycleIntervalHour">\n' +
+        '<div class="cms-task-input-inline">\n' +
+        '<span class="cms-task-unit-left">每隔</span>\n' +
+        '<input type="number" name="intervalHour" class="layui-input" style="width: 100px;">\n' +
+        '<span class="cms-task-unit">小时</span>\n' +
+        '</div>\n' +
+        '</div>';
+    //每天 小时 分钟
+    let cmsTaskCycleDay='<div class="cmsTaskCycle cmsTaskCycleDay">\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <input type="number" name="hour" class="layui-input" style="width: 100px;">\n' +
+        '                        <span class="cms-task-unit">点</span>\n' +
+        '                    </div>\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <input type="number" name="minute" class="layui-input" style="width: 100px;">\n' +
+        '                        <span class="cms-task-unit">分</span>\n' +
+        '                    </div>\n' +
+        '                </div>';
+    //每周 星期几 几点 几分
+    let cmsTaskCycleWeek='<div class="cmsTaskCycle cmsTaskCycleWeek">\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <span class="cms-task-unit-left">星期</span>\n' +
+        '                        <input type="number" name="dayOfWeek" class="layui-input" style="width: 60px;">\n' +
+        '                    </div>\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <input type="number" name="hour" class="layui-input" style="width: 60px;">\n' +
+        '                        <span class="cms-task-unit">点</span>\n' +
+        '                    </div>\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <input type="number" name="minute" class="layui-input" style="width: 60px;">\n' +
+        '                        <span class="cms-task-unit">分</span>\n' +
+        '                    </div>\n' +
+        '                </div>';
+    //每月 几号 几点 几分
+    let cmsTaskCycleMonth='<div class="cmsTaskCycle cmsTaskCycleMonth">\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <input type="number" name="dayOfMonth" class="layui-input" style="width: 60px;">\n' +
+        '                        <span class="cms-task-unit">号</span>\n' +
+        '                    </div>\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <input type="number" name="hour" class="layui-input" style="width: 60px;">\n' +
+        '                        <span class="cms-task-unit">点</span>\n' +
+        '                    </div>\n' +
+        '                    <div class="cms-task-input-inline">\n' +
+        '                        <input type="number" name="minute" class="layui-input" style="width: 60px;">\n' +
+        '                        <span class="cms-task-unit">分</span>\n' +
+        '                    </div>\n' +
+        '                </div>';
+    LayUtil.form.init(function(inner){
+        //执行周期切换
+        inner.select("executionCycleFilter",function(data){
+            let val = data.value;
+            let cmsTaskExecutionCycleWrapper = $("#cmsTaskExecutionCycleWrapper");
+            //分
+            if(val==="0"){
+                cmsTaskExecutionCycleWrapper.html(cmsTaskCycleIntervalMinute);
+                //时
+            }else if(val==="1"){
+                cmsTaskExecutionCycleWrapper.html(cmsTaskCycleIntervalHour);
+                //每天
+            }else if(val==="2"){
+                cmsTaskExecutionCycleWrapper.html(cmsTaskCycleDay);
+                //每周
+            }else if(val==="3"){
+                cmsTaskExecutionCycleWrapper.html(cmsTaskCycleWeek);
+                //每月
+            }else if(val==="4"){
+                cmsTaskExecutionCycleWrapper.html(cmsTaskCycleMonth);
+            }
+        });
+        //执行方式切换
+        inner.radio("executeTypeFilter",function(data){
+            let val = data.value;
+            $(".cmsTaskInline").hide();
+            if(val==="0"){
+                $(".cmsTaskInlineExecutionCycle").show();
+            }else{
+                $(".cmsTaskInlinecronExpression").show();
+            }
+        });
+        inner.submit()
+    });
+</script>

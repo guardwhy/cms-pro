@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--调度器-->
+    <bean id="cmsQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!--容器-->
+        <property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+        <!--线程池-->
+        <property name="taskExecutor" ref="threadPoolTaskExecutor"/>
+        <!--触发器-->
+        <property name="triggers" ref="cmsQuartzDayJobTrigger"/>
+    </bean>
+
+    <!--触发器-->
+    <bean id="cmsQuartzDayJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="cronExpression" value="0 0/1 * * * ?"/>
+        <property name="jobDetail" ref="cmsJobDetailFactoryBean"/>
+    </bean>
+    <!--job任务-->
+    <bean id="dayJobDetailTask" class="com.cms.portal.task.DayJobDetailTask"/>
+    <bean id="cmsJobDetailFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--目标对象，指的是作业任务的实现类-->
+        <property name="targetObject" ref="dayJobDetailTask"/>
+        <!-- 目标方法，指的是指定实现类中的哪个方法作为调度时的执行方法 -->
+        <property name="targetMethod" value="execute"/>
+        <!-- 是否并发 -->
+        <property name="concurrent" value="false"/>
+    </bean>
+</beans>

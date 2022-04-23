@@ -125,13 +125,7 @@ const  CONSTANT = {
       //密码正则
       PASSWORD: /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{7,15}$/
   }
-
-
-
 };
-
-
-
 // layui工具类
 function LayUtil(){}
 
@@ -241,7 +235,6 @@ LayUtil.treeOption = {
     },
 };
 
-
 LayUtil.prototype = {
     construct:LayUtil,
     //弹窗
@@ -249,7 +242,6 @@ LayUtil.prototype = {
         function Inner(){
 
         }
-
         Inner.prototype={
             construct:Inner,
             init:function(callback){
@@ -332,6 +324,10 @@ LayUtil.prototype = {
             //radio 事件监听
             radio:function(name,callback){
                 this.submit(callback,name,"radio");
+            },
+            // select 事件监听
+            select:function (name, callback){
+                this.submit(callback, name, "select");
             }
         };
         LayUtil.form = new Inner();
