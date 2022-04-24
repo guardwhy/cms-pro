@@ -71,34 +71,6 @@
         <property name="contentType" value="text/html; charset=utf-8"/>
         <property name="viewClass" value="com.cms.portal.freemarker.CmsViewResolver"/>
     </bean>
-
-    <!--freemarker的配置-->
-    <bean id="freeMarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <!--freemarker模板路径位置-->
-        <property name="templateLoaderPath" value="/WEB-INF/"/>
-        <!--一些其他设置-->
-        <property name="freemarkerSettings">
-            <props>
-                <!--设置自动检测 根据第一出现标签的样式来决定哪一种标签的写法是合法的。
-                比如说第一行使用标签的地方使用的是[]的话，那么在接下来的使用中，都必须保持一致否则就会出错-->
-                <prop key="tag_syntax">auto_detect</prop>
-                <!--  本地化设置 -->
-                <prop key="locale">zh_CN</prop>
-                <!--解决freemarker渲染页面乱码-->
-                <prop key="default_encoding">UTF-8</prop>
-            </props>
-        </property>
-        <property name="freemarkerVariables">
-            <map>
-                <entry key="shiro" value-ref="shiroTags"/>
-                <entry key="cms_friend_link_directive" value-ref="cmsFriendLinkDirective"/>
-            </map>
-        </property>
-    </bean>
-
-    <!--    shiro标签和freemarker结合的bean-->
-    <bean id="shiroTags" class="com.jagregory.shiro.freemarker.ShiroTags"/>
-
     <!--使用AspectJ提供的注解方式实现aop-->
     <!--如果项目用了spring MVC,一定要把AOP相关配置移动到springMVC的配置文件-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>

@@ -55,4 +55,12 @@ public class UtilsServletContext implements ServletContextAware {
                 File.separator,"/"),webInfoFile.getAbsolutePath().length())
         ).collect(Collectors.toList());
     }
+
+    /***
+     * 获取项目的虚拟路径
+     * @return
+     */
+    public String getContextPath(){
+        return servletContext.getContextPath();
+    }
 }

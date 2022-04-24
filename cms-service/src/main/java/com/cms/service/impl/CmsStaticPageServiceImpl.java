@@ -15,11 +15,13 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
@@ -37,6 +39,9 @@ public class CmsStaticPageServiceImpl implements CmsStaticPageService {
     // 注入获取项目路径
     @Autowired
     private UtilsServletContext utilsServletContext;
+    // 注入freeMarkerConfig;
+    @Autowired
+    private FreeMarkerConfig freeMarkerConfig;
 
     @Override
     public void staticIndex() {
@@ -54,8 +59,7 @@ public class CmsStaticPageServiceImpl implements CmsStaticPageService {
         if(StringUtils.isEmpty(staticDir)){
             throw new BusinessException("请先在站点设置中填写静态页目录");
         }
-        // 获取静态后缀
-        StaticWebSuffixEnum staticSuffix = cmsSite.getStaticSuffix();
+
         // 首页模板路径
         String templatePath = cmsSite.getTplIndex();
         //输出路径
@@ -69,20 +73,16 @@ public class CmsStaticPageServiceImpl implements CmsStaticPageService {
         if(!parentDir.exists()){
             parentDir.mkdirs();
         }
-        // 获取虚拟目录
-        HttpServletRequest request =  UtilsHttp.getRequest();
         // 拿到数据
         HashMap<String, Object> data = Maps.newHashMap();
         // 添加到暂存信息
         data.put("site", cmsSite);
-        data.put("basePath", request.getContextPath());
+        // 拿到虚拟路径
+        data.put("basePath", utilsServletContext.getContextPath());
         // 将文件转换成流并且输出出去
         try(Writer writer = new OutputStreamWriter(new FileOutputStream(realOutPutPathFile), StandardCharsets.UTF_8)){
-            WebApplicationContext webApplicationContext = UtilsHttp.getWebApplicationContext(UtilsHttp.getRequest());
-            // 获取freeMarker
-            FreeMarkerConfigurer freeMarkerConfigurer = webApplicationContext.getBean(FreeMarkerConfigurer.class);
             // 获取到配置文件
-            Configuration configuration = freeMarkerConfigurer.getConfiguration();
+            Configuration configuration = freeMarkerConfig.getConfiguration();
             // 设置编码
             configuration.setDefaultEncoding(StandardCharsets.UTF_8.name());
             // 获取首页模板路径

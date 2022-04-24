@@ -22,7 +22,7 @@
         <property name="jobDetail" ref="cmsJobDetailFactoryBean"/>
     </bean>
     <!--job任务-->
-    <bean id="dayJobDetailTask" class="com.cms.portal.task.DayJobDetailTask"/>
+    <bean id="dayJobDetailTask" class="com.cms.service.task.DayJobDetailTask"/>
     <bean id="cmsJobDetailFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!--目标对象，指的是作业任务的实现类-->
         <property name="targetObject" ref="dayJobDetailTask"/>
