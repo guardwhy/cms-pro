@@ -1,12 +1,18 @@
 package com.cms.portal.controller.admin;
 
+import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
 import com.cms.dao.enums.TaskExecutionCycleUnitEnum;
 import com.cms.dao.enums.TaskExecutionTypeEnum;
+import com.cms.service.api.CmsTaskService;
+import com.cms.service.dto.CmsTaskDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author guardwhy
@@ -16,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("task")
 public class TaskController {
+    // 注入定时任务业务层
+    @Autowired
+    private CmsTaskService cmsTaskService;
     /***
      * 跳转到task页面
      * @return
@@ -39,5 +48,17 @@ public class TaskController {
         // 单位
         model.addAttribute("taskExecutionCycle", TaskExecutionCycleUnitEnum.values());
         return UtilsTemplate.adminTemplate("task","add");
+    }
+
+    /***
+     * 添加定时任务策略类
+     * @param cmsTaskDto
+     * @return
+     */
+    @PostMapping("add.do")
+    @ResponseBody
+    public Result doAdd(CmsTaskDto cmsTaskDto){
+        cmsTaskService.save(cmsTaskDto);
+        return Result.success();
     }
 }

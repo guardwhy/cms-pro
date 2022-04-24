@@ -118,7 +118,7 @@
               "title": "定时任务",
               "href": "task/index.do",
               "icon": "fa fa-stumbleupon-circle",
-              "target": "_blank"
+              "target": "_self"
             },
             {
               "title": "登录-2",
