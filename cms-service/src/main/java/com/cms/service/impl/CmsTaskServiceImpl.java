@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.cms.context.utils.UtilsString;
 import com.cms.core.foundation.Page;
 import com.cms.dao.entity.CmsTaskEntity;
 import com.cms.dao.mapper.CmsTaskMapper;
@@ -23,6 +24,8 @@ public class CmsTaskServiceImpl implements CmsTaskService {
 
     @Override
     public void save(CmsTaskDto dto) {
+        // uuid密码
+        dto.setCode(UtilsString.uuid());
         CmsTaskEntity cmsTaskEntity = CmsTaskConverter.CONVERTER.dtoToEntity(dto);
         // 存储
         cmsTaskMapper.save(cmsTaskEntity);

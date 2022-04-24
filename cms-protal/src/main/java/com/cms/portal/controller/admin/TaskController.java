@@ -4,6 +4,7 @@ import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
 import com.cms.dao.enums.TaskExecutionCycleUnitEnum;
 import com.cms.dao.enums.TaskExecutionTypeEnum;
+import com.cms.dao.enums.TaskStaticTypeEnum;
 import com.cms.service.api.CmsTaskService;
 import com.cms.service.dto.CmsTaskDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +43,10 @@ public class TaskController {
     @GetMapping("add.do")
     public String toAdd(Model model){
         // 类型
-        model.addAttribute("taskType", TaskExecutionTypeEnum.values());
+        model.addAttribute("taskType", TaskStaticTypeEnum.values());
         // 方式
         model.addAttribute("taskExecutionType", TaskExecutionTypeEnum.values());
-        // 单位
+        // 任务执行周期单位
         model.addAttribute("taskExecutionCycle", TaskExecutionCycleUnitEnum.values());
         return UtilsTemplate.adminTemplate("task","add");
     }

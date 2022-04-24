@@ -20,30 +20,82 @@
         is_static_index
     </sql>
 
-    <!--更新sql-->
-    <sql id="updateField">
-        update_time = #{updateTime},
-        <if test="siteName!=null and siteName!=''">
-            site_name = #{siteName},
+    <!--key-SQL-->
+    <sql id="key">
+        name,
+        type,
+        code,
+        execution_cycle,
+        <if test="dayOfMonth!=null and dayOfMonth!=''">
+            day_of_month,
         </if>
-        <if test="keywords!=null and keywords!=''">
-            keywords = #{keywords},
+        <if test="dayOfWeek!=null and dayOfWeek!=''">
+            day_of_week,
         </if>
-        <if test="description!=null and description!=''">
-            description = #{description},
+        <if test="hour!=null and hour!=''">
+            hour,
         </if>
-        <if test="staticDir!=null and staticDir!=''">
-            static_dir = #{staticDir},
+        <if test="minute!=null and minute!=''">
+            minute,
         </if>
-        <if test="staticSuffix!=null">
-            static_suffix = #{staticSuffix},
+        <if test="intervalHour!=null and intervalHour!=''">
+            interval_hour,
         </if>
-        <if test="staticIndex!=null">
-            is_static_index = #{staticIndex},
+        <if test="intervalMinute!=null and intervalMinute!=''">
+            interval_minute,
         </if>
-        <if test="tplIndex!=null and tplIndex!=''">
-            tpl_index = #{tplIndex},
+        <if test="cronExpression!=null and cronExpression!=''">
+            cron_expression,
         </if>
+        <if test="enable!=null">
+            is_enable,
+        </if>
+        <if test="intervalUnit!=null and intervalUnit!=''">
+            interval_unit,
+        </if>
+        <if test="remark!=null and remark!=''">
+            remark,
+        </if>
+        create_time
+    </sql>
+
+    <!--Value-SQL-->
+    <sql id="val">
+        #{name},
+        #{type},
+        #{code},
+        #{taskExecutionType},
+        <if test="dayOfMonth!=null and dayOfMonth!=''">
+            #{dayOfMonth},
+        </if>
+        <if test="dayOfWeek!=null and dayOfWeek!=''">
+            #{dayOfWeek},
+        </if>
+        <if test="hour!=null and hour!=''">
+            #{hour},
+        </if>
+        <if test="minute!=null and minute!=''">
+            #{minute},
+        </if>
+        <if test="intervalHour!=null and intervalHour!=''">
+            #{intervalHour},
+        </if>
+        <if test="intervalMinute!=null and intervalMinute!=''">
+            #{intervalMinute},
+        </if>
+        <if test="cronExpression!=null and cronExpression!=''">
+            #{cronExpression},
+        </if>
+        <if test="enable!=null">
+            #{enable},
+        </if>
+        <if test="intervalUnit!=null and intervalUnit!=''">
+            #{intervalUnit},
+        </if>
+        <if test="remark!=null and remark!=''">
+            #{remark},
+        </if>
+        #{createTime}
     </sql>
 
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
@@ -57,17 +109,11 @@
         <result property="tplIndex" column="tpl_index"/>
     </resultMap>
 
-    <!--修改站点信息-->
-    <update id="update">
-        update cms_site
-        <trim prefix="set" suffixOverrides=",">
-            <include refid="updateField"/>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <!--根据id查询站点信息-->
-    <select id="selectById" resultMap="baseResultMap">
-        select <include refid="baseColumn"/> from cms_site where id = #{id}
-    </select>
+    <!--存储定时任务信息-->
+    <insert id="save">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into cms_task(<include refid="key"/>) values (<include refid="val"/>)
+    </insert>
 </mapper>

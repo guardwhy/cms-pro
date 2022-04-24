@@ -14,7 +14,7 @@
         </@form.item>
         <@form.item>
             <@form.inline label="执行方式" required=true>
-                <@form.radio list=taskExecutionType name="executionCycle" enum=true value="0" filter="executeTypeFilter"></@form.radio>
+                <@form.radio list=taskExecutionType name="taskExecutionType" enum=true value="0" filter="executeTypeFilter"></@form.radio>
             </@form.inline>
         </@form.item>
         <@form.item>
@@ -177,4 +177,5 @@
         });
         inner.submit()
     });
+
 </script>
