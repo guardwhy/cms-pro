@@ -24,6 +24,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -63,10 +64,27 @@ public class CmsTaskServiceImpl implements CmsTaskService {
     }};
 
     /***
+     * 添加定时任务
+     * @param dto
+     */
+    @Override
+    public void save(CmsTaskDto dto) {
+        // uuid密码
+        dto.setCode(UtilsString.uuid());
+        CmsTaskEntity cmsTaskEntity = CmsTaskConverter.CONVERTER.dtoToEntity(dto);
+        // 存储
+        cmsTaskMapper.save(cmsTaskEntity);
+        // 判断状态是否启用
+        if(BooleanUtils.isTrue(dto.getEnable())){
+            startTask(dto);
+        }
+    }
+
+    /***
      * 执行周期和执行方式方法
      * @param cmsTaskDto
      */
-    public void startTask(CmsTaskDto cmsTaskDto){
+    /*public void startTask(CmsTaskDto cmsTaskDto){
         TaskExecutionTypeEnum taskExecutionType = cmsTaskDto.getTaskExecutionType();
         // 获取到cron表达式
         String cronExpression = Objects.equals(taskExecutionType, TaskExecutionTypeEnum.EXECUTION_MODE) ? cmsTaskDto.getCronExpression() : TASK_CRON_EXPRESSION.get(cmsTaskDto.getIntervalUnit()).buildCronExpress(cmsTaskDto);
@@ -91,23 +109,37 @@ public class CmsTaskServiceImpl implements CmsTaskService {
             log.error("执行定时任务失败,message=[{}]",e.getMessage());
             throw new BusinessException(e.getMessage());
         }
+    }*/
+
+    public void startTask(CmsTaskDto cmsTaskDto){
+        TaskExecutionTypeEnum taskExecutionType = cmsTaskDto.getTaskExecutionType();
+        String cronExpression = Objects.equals(taskExecutionType, TaskExecutionTypeEnum.EXECUTION_MODE) ?
+                cmsTaskDto.getCronExpression() : TASK_CRON_EXPRESSION.get(cmsTaskDto.getIntervalUnit())
+                .buildCronExpress(cmsTaskDto);
+        log.info("cronExpression表达式=[{}]",cronExpression);
+        if(StringUtils.contains(cronExpression,"null")){
+            return;
+        }
+        JobDetailFactoryBean jobDetailFactoryBean = new JobDetailFactoryBean();
+        jobDetailFactoryBean.setName(cmsTaskDto.getCode());
+        jobDetailFactoryBean.setJobClass(TASK_JOB_CLASS_MAP.get(cmsTaskDto.getType()));
+        jobDetailFactoryBean.afterPropertiesSet();
+
+        CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
+        cronTriggerFactoryBean.setCronExpression(cronExpression);
+        cronTriggerFactoryBean.setName(cmsTaskDto.getName()+cmsTaskDto.getCode());
+        try {
+            cronTriggerFactoryBean.afterPropertiesSet();
+            scheduler.scheduleJob(jobDetailFactoryBean.getObject(),cronTriggerFactoryBean.getObject());
+        } catch (Exception e) {
+            log.error("执行定时任务失败,message=[{}]",e.getMessage());
+            throw new BusinessException(e.getMessage());
+        }
     }
 
-    /***
-     * 添加定时任务
-     * @param dto
-     */
     @Override
-    public void save(CmsTaskDto dto) {
-        // uuid密码
-        dto.setCode(UtilsString.uuid());
-        CmsTaskEntity cmsTaskEntity = CmsTaskConverter.CONVERTER.dtoToEntity(dto);
-        // 存储
-        cmsTaskMapper.save(cmsTaskEntity);
-        // 判断状态是否启用
-        if(BooleanUtils.isTrue(dto.getEnable())){
-            startTask(dto);
-        }
+    public List<CmsTaskDto> getList() {
+        return CmsTaskConverter.CONVERTER.entityToDto(cmsTaskMapper.selectAll());
     }
 
     @Override

@@ -1,26 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--
-实体类的映射文件: namespace 指定接口的类全名
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cms.dao.mapper.CmsTaskMapper">
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
-    <!--SQL-->
     <sql id="baseColumn">
+        create_time,
         id,
-        site_name,
-        keywords,
-        description,
-        static_dir,
-        static_suffix,
-        tpl_index,
-        is_static_index
+        name,
+        code,
+        type,
+        execution_cycle,
+        day_of_month,
+        day_of_week,
+        hour,
+        minute,
+        interval_hour,
+        interval_minute,
+        cron_expression,
+        is_enable,
+        interval_unit,
+        remark
     </sql>
 
-    <!--key-SQL-->
     <sql id="key">
         name,
         type,
@@ -59,7 +60,6 @@
         create_time
     </sql>
 
-    <!--Value-SQL-->
     <sql id="val">
         #{name},
         #{type},
@@ -98,22 +98,33 @@
         #{createTime}
     </sql>
 
-    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsTaskEntity">
         <id property="id" column="id"/>
-        <result property="siteName" column="siteName"/>
-        <result property="keywords" column="keywords"/>
-        <result property="description" column="description"/>
-        <result property="staticDir" column="static_dir"/>
-        <result property="staticSuffix" column="static_suffix"/>
-        <result property="staticIndex" column="is_static_index"/>
-        <result property="tplIndex" column="tpl_index"/>
+        <result property="createTime" column="create_time"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="taskExecutionType" column="execution_cycle"/>
+        <result property="dayOfMonth" column="day_of_month"/>
+        <result property="dayOfWeek" column="day_of_week"/>
+        <result property="hour" column="hour"/>
+        <result property="intervalHour" column="interval_hour"/>
+        <result property="intervalMinute" column="interval_minute"/>
+        <result property="cronExpression" column="cron_expression"/>
+        <result property="enable" column="is_enable"/>
+        <result property="intervalUnit" column="interval_unit"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
-    <!--存储定时任务信息-->
     <insert id="save">
         <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
             select last_insert_id()
         </selectKey>
         insert into cms_task(<include refid="key"/>) values (<include refid="val"/>)
     </insert>
+
+    <select id="selectAll" resultMap="baseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from cms_task where is_enable = 1
+    </select>
 </mapper>

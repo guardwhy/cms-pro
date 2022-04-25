@@ -31,4 +31,7 @@
         <!-- 是否并发 -->
         <property name="concurrent" value="false"/>
     </bean>
+
+    <!--项目启动后执行定时任务-->
+    <bean class="com.cms.service.task.LoadTask"/>
 </beans>
