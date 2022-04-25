@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cms.dao.mapper.CmsTaskMapper">
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
-
+    <!--SQL-->
     <sql id="baseColumn">
         create_time,
         id,
@@ -22,6 +22,7 @@
         remark
     </sql>
 
+    <!--key-SQL-->
     <sql id="key">
         name,
         type,
@@ -60,6 +61,7 @@
         create_time
     </sql>
 
+    <!--Value-SQL-->
     <sql id="val">
         #{name},
         #{type},
@@ -115,6 +117,7 @@
         <result property="remark" column="remark"/>
     </resultMap>
 
+    <!--存储定时任务-->
     <insert id="save">
         <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
             select last_insert_id()
@@ -122,9 +125,16 @@
         insert into cms_task(<include refid="key"/>) values (<include refid="val"/>)
     </insert>
 
+    <!--获取所有定时任务-->
     <select id="selectAll" resultMap="baseResultMap">
         select
         <include refid="baseColumn"/>
         from cms_task where is_enable = 1
+    </select>
+
+    <!--分页显示首页定时任务数据-->
+    <select id="selectBySearchProvider" parameterType="SearchProvider" resultMap="baseResultMap">
+        select <include refid="baseColumn"/>
+        from cms_task order by create_time desc
     </select>
 </mapper>

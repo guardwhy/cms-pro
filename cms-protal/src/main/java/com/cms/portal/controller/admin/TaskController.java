@@ -62,4 +62,15 @@ public class TaskController {
         cmsTaskService.save(cmsTaskDto);
         return Result.success();
     }
+
+    /***
+     * 显示首页定时任务数据
+     * @param cmsTaskDto
+     * @return
+     */
+    @PostMapping("page.do")
+    @ResponseBody
+    public Result doPage(CmsTaskDto cmsTaskDto){
+        return Result.success(cmsTaskService.getPage(cmsTaskDto));
+    }
 }

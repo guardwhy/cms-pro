@@ -18,7 +18,7 @@
         <property name="locations">
             <list>
                 <value>classpath:db/datasource.properties</value>
-                <value>classpath:cms.properties</value>
+                <value>classpath:db/cms.properties</value>
             </list>
         </property>
         <property name="fileEncoding" value="utf-8"/>
@@ -29,7 +29,7 @@
     <import resource="classpath:applicationContext-redis.xml"/>
     <import resource="classpath:applicationContext-configuration.xml"/>
     <!--引入shiro配置文件-->
-    <import resource="applicationContext-shiro.xml"/>
+    <import resource="classpath:applicationContext-shiro.xml"/>
     <!--定时调度-->
     <import resource="classpath:applicationContext-quartz.xml"/>
 </beans>

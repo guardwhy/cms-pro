@@ -1,8 +1,10 @@
 package com.cms.service.impl;
 
+import com.cms.context.utils.UtilsHttp;
 import com.cms.context.utils.UtilsString;
 import com.cms.core.exception.BusinessException;
 import com.cms.core.foundation.Page;
+import com.cms.core.foundation.SearchProvider;
 import com.cms.dao.entity.CmsTaskEntity;
 import com.cms.dao.enums.TaskExecutionCycleUnitEnum;
 import com.cms.dao.enums.TaskExecutionTypeEnum;
@@ -13,6 +15,7 @@ import com.cms.service.converter.CmsTaskConverter;
 import com.cms.service.dto.CmsTaskDto;
 import com.cms.service.strategy.*;
 import com.cms.service.task.job.IndexStaticJob;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -84,7 +87,7 @@ public class CmsTaskServiceImpl implements CmsTaskService {
      * 执行周期和执行方式方法
      * @param cmsTaskDto
      */
-    /*public void startTask(CmsTaskDto cmsTaskDto){
+    public void startTask(CmsTaskDto cmsTaskDto){
         TaskExecutionTypeEnum taskExecutionType = cmsTaskDto.getTaskExecutionType();
         // 获取到cron表达式
         String cronExpression = Objects.equals(taskExecutionType, TaskExecutionTypeEnum.EXECUTION_MODE) ? cmsTaskDto.getCronExpression() : TASK_CRON_EXPRESSION.get(cmsTaskDto.getIntervalUnit()).buildCronExpress(cmsTaskDto);
@@ -109,37 +112,29 @@ public class CmsTaskServiceImpl implements CmsTaskService {
             log.error("执行定时任务失败,message=[{}]",e.getMessage());
             throw new BusinessException(e.getMessage());
         }
-    }*/
-
-    public void startTask(CmsTaskDto cmsTaskDto){
-        TaskExecutionTypeEnum taskExecutionType = cmsTaskDto.getTaskExecutionType();
-        String cronExpression = Objects.equals(taskExecutionType, TaskExecutionTypeEnum.EXECUTION_MODE) ?
-                cmsTaskDto.getCronExpression() : TASK_CRON_EXPRESSION.get(cmsTaskDto.getIntervalUnit())
-                .buildCronExpress(cmsTaskDto);
-        log.info("cronExpression表达式=[{}]",cronExpression);
-        if(StringUtils.contains(cronExpression,"null")){
-            return;
-        }
-        JobDetailFactoryBean jobDetailFactoryBean = new JobDetailFactoryBean();
-        jobDetailFactoryBean.setName(cmsTaskDto.getCode());
-        jobDetailFactoryBean.setJobClass(TASK_JOB_CLASS_MAP.get(cmsTaskDto.getType()));
-        jobDetailFactoryBean.afterPropertiesSet();
-
-        CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
-        cronTriggerFactoryBean.setCronExpression(cronExpression);
-        cronTriggerFactoryBean.setName(cmsTaskDto.getName()+cmsTaskDto.getCode());
-        try {
-            cronTriggerFactoryBean.afterPropertiesSet();
-            scheduler.scheduleJob(jobDetailFactoryBean.getObject(),cronTriggerFactoryBean.getObject());
-        } catch (Exception e) {
-            log.error("执行定时任务失败,message=[{}]",e.getMessage());
-            throw new BusinessException(e.getMessage());
-        }
     }
 
+    /***
+     * 获取所有定时任务
+     * @return
+     */
     @Override
     public List<CmsTaskDto> getList() {
         return CmsTaskConverter.CONVERTER.entityToDto(cmsTaskMapper.selectAll());
+    }
+
+    /***
+     * 显示首页定时任务数据
+     * @param dto
+     * @return
+     */
+    @Override
+    public Page<CmsTaskDto> getPage(CmsTaskDto dto) {
+        UtilsHttp.Page pageInfo = UtilsHttp.getPageInfo();
+        SearchProvider of = SearchProvider.of(CmsTaskConverter.CONVERTER.dtoToEntity(dto));
+        com.github.pagehelper.Page<CmsTaskEntity> page = PageHelper.startPage(pageInfo.getPageCurrent(), pageInfo.getPageSize()).
+                doSelectPage(() -> cmsTaskMapper.selectBySearchProvider(of));
+        return new Page<>(page.getTotal(),CmsTaskConverter.CONVERTER.entityToDto(page.getResult()));
     }
 
     @Override
@@ -157,8 +152,5 @@ public class CmsTaskServiceImpl implements CmsTaskService {
 
     }
 
-    @Override
-    public Page<CmsTaskDto> getPage(CmsTaskDto dto) {
-        return null;
-    }
+
 }

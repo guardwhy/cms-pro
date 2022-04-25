@@ -17,22 +17,19 @@
     cellMinWidth: 80
     ,cols: [[
       {field:'id', width:80, title: 'ID', sort: true}
-      ,{field:'username', title: '用户名'}
-      ,{field:'roleName',title:'角色名'}
-      ,{field:'email', title: '邮箱'}
+      ,{field:'type', title: '任务类型'}
+      ,{field:'name',title:'任务名称'}
+      ,{field:'createTime', title: '创建时间'}
       ,{field:'status', width:80, title: '状态', templet:function(data){
-          return !data.status?"禁用":"正常";
+          return !data.enable?"禁用":"启用";
         }}
-      ,{field:'registerTime', title: '注册时间'}
       ,{templet: '#rightTemplate', align: 'center', title: '操作'}
     ]]
     ,toolbar:"#toolbar"
   })
 </script>
 <script type="text/html" id="rightTemplate">
-  <@shiro.hasPermission name="admin:edit">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" href="edit.do?id={{d.id}}">修改</a>
-  </@shiro.hasPermission>
+  <a class="layui-btn layui-btn-primary layui-btn-xs" href="edit.do?id={{d.id}}">修改</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="toolbar">

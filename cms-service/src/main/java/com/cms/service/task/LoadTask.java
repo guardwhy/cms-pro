@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-
+/**
+ * @author guardwhy
+ * @date 2022/4/22 21:45
+ * 任务TaskLoadTask加载
+ */
 @Slf4j
 public class LoadTask {
-
+    // 注入cmsTaskService
     @Autowired
     private CmsTaskService cmsTaskService;
 
